@@ -15,7 +15,7 @@
                         <p>{{landscape.description}}</p>
                     </div>
                     <button type="button" class="btn btn-primary" ng-click="go('/deploy')"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
-                    <button type="button" class="btn" ng-click="go('/landscapes/1')"><span class="glyphicon glyphicon-check"></span> Details</button>
+                    <button type="button" class="btn" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-check"></span> Details</button>
                 </div>
             </div>
         </div>
@@ -23,6 +23,6 @@
 </div>
 
 <div class="footer">
-    <div class="pull-left"><p>Version 0.0.0</p></div>
+    <div class="pull-left"><p>Version 0.0.0 <span>see awsbox</span></p></div>
     <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
 </div>

@@ -15,7 +15,7 @@ angular.module('landscapesApp')
 
             var json = {};
 
-            $http.get('/api/awsDeploy')
+            $http.get('/api/aws-deploy')
                 .success(function(err, deployResultMsg) {
                     if(err){
                         console.log('err: ' + JSON.stringify(err));
