@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('MainCtrl', function ($scope, $http, $location) {
+    .controller('LandscapesCtrl', function ($scope, $http, $location, $routeParams) {
 
-        $http.get('/api/landscapes')
+        console.log($routeParams.landscapeId)
+
+        $http.get('/api/landscapes/' + $routeParams.landscapeId)
             .success(function(data, status) {
-                $scope.landscapes = data;
+                $scope.landscape = data;
                 console.log(data)
                 console.log(status)
             })

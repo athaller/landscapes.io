@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seahawkApp')
+angular.module('landscapesApp')
   .controller('SignupCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};

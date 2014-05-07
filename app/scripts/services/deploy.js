@@ -2,12 +2,12 @@
 
 
 
-angular.module('seahawkApp')
+angular.module('landscapesApp')
   .factory('Deploy', function Deploy($location, $rootScope, Session, User, $cookieStore) {
 
     return {
 
-        deployTemplate: function(templateJson, callback) {
+        deployLandscape: function(templateJson, callback) {
             var cb = callback || angular.noop;
 
 //            var cloudformation = new AWS.CloudFormation({apiVersion: '2010-05-15'});

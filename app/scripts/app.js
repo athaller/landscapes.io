@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seahawkApp', [
+angular.module('landscapesApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
@@ -28,6 +28,11 @@ angular.module('seahawkApp', [
         .when('/deploy', {
             templateUrl: 'partials/deploy',
             controller: 'DeployCtrl',
+            authenticate: true
+        })
+        .when('/landscapes/:landscapeId', {
+            templateUrl: 'partials/landscapes',
+            controller: 'LandscapesCtrl',
             authenticate: true
         })
       .otherwise({

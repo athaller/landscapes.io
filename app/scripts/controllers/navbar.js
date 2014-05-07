@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seahawkApp')
+angular.module('landscapesApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
       'title': 'Home',

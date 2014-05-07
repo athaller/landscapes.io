@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seahawkApp')
+angular.module('landscapesApp')
   .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
     
     // Get currentUser from cookie
