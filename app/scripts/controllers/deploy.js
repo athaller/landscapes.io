@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('seahawkApp')
+angular.module('landscapesApp')
     .controller('DeployCtrl', function ($scope, $http, $location) {
 
         $scope.deployment = {type:"Cyber Warfare Test Range", location:1};

@@ -1,22 +1,21 @@
 <div ng-include="'partials/navbar'"></div>
 
 <div class="row">
-    <div ng-repeat="thing in awesomeThings">
+    <div ng-repeat="landscape in landscapes">
         <div class="col-md-6">
             <div class="well">
                 <div class="media">
                     <a class="pull-left" href="#">
-                        <img class="media-object" src="{{thing.imageUrl}}" alt="...">
+                        <img class="media-object" src="{{landscape.imageUrl}}" alt="...">
                     </a>
 
                     <div class="media-body">
-                        <h4 class="media-heading">{{thing.name}}</h4>
+                        <h4 class="media-heading">{{landscape.name}}</h4>
 
-                        <p>{{thing.description}}</p>
+                        <p>{{landscape.description}}</p>
                     </div>
-                    <button type="button" class="btn-sm btn-primary" ng-click="go('/deploy')">Deploy</button>
-                    <button type="button" class="btn-sm">Edit</button>
-                    <button type="button" class="btn-sm">Details</button>
+                    <button type="button" class="btn btn-primary" ng-click="go('/deploy')"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+                    <button type="button" class="btn" ng-click="go('/landscapes/1')"><span class="glyphicon glyphicon-check"></span> Details</button>
                 </div>
             </div>
         </div>
