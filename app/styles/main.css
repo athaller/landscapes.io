@@ -1,16 +1,16 @@
 /* Space out content a bit */
 body {
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
 }
+
 
 /* Custom page header */
 .header {
@@ -21,12 +21,12 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
-  padding-bottom: 19px;
+  padding-bottom: 10px;
 }
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
+  padding-top: 15px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
@@ -35,14 +35,8 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+.header {
+    margin-bottom: 20px;
 }
 
 /* Responsive: Portrait tablets and up */
@@ -51,20 +45,23 @@ body {
   .header,
   .marketing,
   .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 
-div.panel-heading {
-    min-height: 55px;
+.footer {
+    margin-top: 10px;
 }
 
+
+
+h2.panel-title {
+    font-size: 20px;
+}
+
+div.title-heading {
+    min-height: 50px;
+}
+
+.table > tbody > tr > td { line-height: 30px }

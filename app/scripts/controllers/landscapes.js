@@ -3,9 +3,9 @@
 angular.module('landscapesApp')
     .controller('LandscapesCtrl', function ($scope, $http, $location, $routeParams) {
 
-        console.log($routeParams.landscapeId)
+        console.log($routeParams.id)
 
-        $http.get('/api/landscapes/' + $routeParams.landscapeId)
+        $http.get('/api/landscapes/' + $routeParams.id)
             .success(function(data, status) {
                 $scope.landscape = data;
                 console.log(data)
@@ -15,7 +15,7 @@ angular.module('landscapesApp')
                 console.log(data)
             });
 
-        $http.get('/api/landscapes/' + $routeParams.landscapeId + '/deployments')
+        $http.get('/api/landscapes/' + $routeParams.id + '/deployments')
             .success(function(data, status) {
 
                 $scope.deployments = data;
@@ -31,3 +31,36 @@ angular.module('landscapesApp')
             $location.path( path );
         }
   });
+
+function AccordionDemoCtrl($scope) {
+    $scope.oneAtATime = true;
+
+    $scope.groups = [
+        {
+            title: 'DEV',
+            content: 'Development'
+        },
+        {
+            title: 'PROD',
+            content: 'Production'
+        }
+    ];
+
+    $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
+
+    $scope.addItem = function() {
+        var newItemNo = $scope.items.length + 1;
+        $scope.items.push({key:'Date', value:'Four billion'});
+    };
+
+    $scope.status = {
+        isFirstOpen: false,
+        isFirstDisabled: false
+    };
+
+    $scope.status1 = {}
+
+    $scope.status2 = {}
+
+    $scope.status3 = {}
+}
