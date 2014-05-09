@@ -1,0 +1,44 @@
+<div ng-include="'partials/navbar'"></div>
+<div id="titleRow" class="row">
+    <h2 class="pull-left col-md-9">New Landscape</h2>
+    <div class="col-md-3"></div>
+</div>
+</div>
+<div class="row">
+    <div ng-data="landscape">
+        <div class="col-md-6">
+            <div class="well">
+                <div class="media">
+                    <a class="pull-left" href="{{ '/landscapes/' + landscape._id + '/history'}}">
+                        <img class="media-object" src="{{landscape.imageUri}}" alt="...">
+                    </a>
+                    <div class="media-body">
+                        <p><span><strong>Description: </strong></span>{{landscape.description}}.</p>
+                        <p><span><strong>Version: </strong></span> 1.4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h4>Select Image</h4>
+                <p>https://github.com/danialfarid/angular-file-upload</p>
+                <p>https://github.com/jackrabbitsgroup/angular-image-upload</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="templateRow" class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <h4>Cloud Formation Template</h4>
+            <textarea class="form-control" rows="15"></textarea>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="pull-left"><p>landscapes.io v0.0.0</p></div>
+    <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
+</div>

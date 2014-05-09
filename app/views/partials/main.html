@@ -1,28 +1,50 @@
 <div ng-include="'partials/navbar'"></div>
+<div id="titleRow" class="row">
+    <h2 class="pull-left col-md-9">Landscapes</h2>
+    <div class="col-md-3">
 
+        <div class="pull-right">
+            <button type="button" class="btn btn-default" ng-click="go('/landscape/new')">
+                <span class="glyphicon glyphicon-plus"></span> New</button>
+
+        </div>
+    </div>
+</div>
 <div class="row">
     <div ng-repeat="landscape in landscapes">
         <div class="col-md-6">
-            <div class="well">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="{{landscape.imageUrl}}" alt="...">
-                    </a>
 
-                    <div class="media-body">
-                        <h4 class="media-heading">{{landscape.name}}</h4>
-
-                        <p>{{landscape.description}}</p>
-                    </div>
-                    <button type="button" class="btn btn-primary" ng-click="go('/deploy')"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
-                    <button type="button" class="btn" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-check"></span> Details</button>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{landscape.name}}</h3>
                 </div>
+                <div class="panel-body">
+
+                    <div class="media">
+                        <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}">
+                            <img class="media-object" src="{{landscape.imageUri}}" alt="...">
+                        </a>
+
+                        <div class="media-body">
+                            <p>{{landscape.description}}</p>
+                        </div>
+
+                    </div>
+                    <div style="position: relative">
+                        <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
+                            <button type="button" class="btn" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-share-alt"></span> View</button>
+                            <button type="button" class="btn btn-primary" ng-click="go('/deploy/' + landscape._id)"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="panel-footer"></div>-->
             </div>
+
         </div>
     </div>
 </div>
 
 <div class="footer">
-    <div class="pull-left"><p>Version 0.0.0 <span>see awsbox</span></p></div>
+    <div class="pull-left"><p>Version 0.0.0</p></div>
     <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
 </div>

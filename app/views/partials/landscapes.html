@@ -1,10 +1,10 @@
 <div ng-include="'partials/navbar'"></div>
-<div class="row">
-    <h2 style="margin-top: 0" class="pull-left col-md-9">{{landscape.name}}</h2>
+<div id="titleRow" class="row">
+    <h2 class="pull-left col-md-9">{{landscape.name}}</h2>
     <div class="col-md-3">
         <!--<button type="button" class="btn-sm pull-right" ng-click="go('/')">All Landscapes</button>-->
         <div class="pull-right">
-            <button type="button" class="btn" ng-click="go('/landscapes')">
+            <button type="button" class="btn btn-default" ng-click="go('/landscapes')">
                 <span class="glyphicon glyphicon-edit"></span> Edit</button>
             <button type="button" class="btn btn-primary" ng-click="go('/deploy')">
                 <span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
@@ -13,316 +13,192 @@
     </div>
 </div>
 <div class="row">
-<div ng-data="landscape">
-<div class="col-md-6">
-    <div class="well" style="min-height: 200px">
-        <div class="pull-right" style="margin-left: 30px" >
-            <img src="{{landscape.imageUrl}}" alt="...">
-            <div>name_of_image_file</div>
-        </div>
-        <div class="">
-            <p><span><strong>Description: </strong></span>
-                {{landscape.description}}. Having a consistent, repeatable, code-described infrastructure across
-                multiple environments saves a lot of time and leaves less room for errors..</p>
-        </div>
-        <div>
-            <p><span><strong>Version: </strong></span> 1.4</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <!--<button type="button" class="btn-sm btn-primary" ng-click="go('/deploy')">Deploy</button>-->
-            <!--<button type="button" class="btn-sm" ng-click="go('/landscapes')">Edit</button>-->
-            <br>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div ng-data="landscape">
+        <div class="col-md-6">
             <div class="well">
-                <h4 style="margin-top: 0; border-bottom: 1px solid lightgray; padding-bottom: 10px">Deployments</h4>
-
-                <div ng-repeat="deployment in deployments">
-
-                    <div class="alert-success" style=" padding: 10px; margin-bottom: 7px">
-                        <span class="glyphicon glyphicon-ok-sign"></span> {{deployment.createdAt}} &nbsp; {{deployment.name}} &nbsp;1.3
+                <div class="media">
+                    <a class="pull-left" href="{{ '/landscapes/' + landscape._id + '/history'}}">
+                        <img class="media-object" src="{{landscape.imageUri}}" alt="...">
+                    </a>
+                    <div class="media-body">
+                        <p><span><strong>Description: </strong></span>{{landscape.description}}.</p>
+                        <p><span><strong>Version: </strong></span> 1.4</p>
                     </div>
                 </div>
+                <div style="position: relative;">
+                    <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
+                        <button type="button" class="btn btn-default" ng-click="go('/landscapes/'+ deployment._id + '/history')"><span class="glyphicon glyphicon-time"></span> History</button>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <!--empty-->
+                    <br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading title-heading">
+                            <h2 class="panel-title pull-left">Flavors</h2>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-sm btn-default" ng-click="go('/deploy')">
+                                    <span class="glyphicon glyphicon-plus"></span> Add</button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div ng-controller="AccordionDemoCtrl">
+
+                                <accordion>
+
+                                    <accordion-group is-open="status1.open" ng-class="{'panel-primary': status1.open}">
+                                        <accordion-heading>
+                                            DEV<i class="pull-right glyphicon" ng-class="{'glyphicon-collapse-down panel-primary': status1.open, 'glyphicon-expand': !status1.open}"></i>
+                                        </accordion-heading>
+
+                                        <form role="form">
+                                            <table style="margin-bottom: 0; border-bottom: 1px solid lightgray" class="table table-striped table-condensed">
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="key" placeholder="Key">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="value" placeholder="Value">
+                                                    </td>
+                                                    <td><button type="submit" class="btn btn-sm pull-right" ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span> Add</button></td>
+                                                </tr>
+                                                <tr ng-repeat="item in items">
+                                                    <td>{{item.key}}</td>
+                                                    <td>{{item.value}}</td>
+                                                    <td>
+                                                        <div class="pull-right">
+                                                            <button class="btn btn-default btn-sm" ng-click="editItem()"><span class="glyphicon glyphicon-pencil"></span></button>
+                                                            <button class="btn btn-default btn-sm" ng-click="deleteItem()"><span class="glyphicon glyphicon-remove"></span></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+
+                                    </accordion-group>
+
+                                    <accordion-group is-open="status.open" ng-class="{'panel-primary': status.open}">
+                                        <accordion-heading>
+                                            PROD<i class="pull-right glyphicon" ng-class="{'glyphicon-collapse-down panel-primary': status.open, 'glyphicon-expand': !status.open}"></i>
+                                        </accordion-heading>
+
+                                        <form role="form">
+                                            <table style="margin-bottom: 0; border-bottom: 1px solid lightgray" class="table table-striped table-condensed">
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="key" placeholder="Key">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="value" placeholder="Value">
+                                                    </td>
+                                                    <td><button type="submit" class="btn btn-sm pull-right" ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span> Add</button></td>
+                                                </tr>
+                                                <tr ng-repeat="item in items">
+                                                    <td>{{item.key}}</td>
+                                                    <td>{{item.value}}</td>
+                                                    <td>
+                                                        <div class="pull-right">
+                                                            <button class="btn btn-default btn-sm" ng-click="editItem()"><span class="glyphicon glyphicon-pencil"></span></button>
+                                                            <button class="btn btn-default btn-sm" ng-click="deleteItem()"><span class="glyphicon glyphicon-remove"></span></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+
+                                    </accordion-group>
+
+                                </accordion>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading title-heading">
+                            <h2 class="panel-title">Deployments</h2>
+                        </div>
+                        <div class="panel-body">
+
+                            <div ng-controller="AccordionDemoCtrl">
+                                <accordion>
+                                    <accordion-group ng-repeat="deployment in deployments" is-open="deployment.open" ng-class="{'panel-primary': deployment.open}">
+                                        <accordion-heading>
+                                            DEV - {{deployment.name}} at {{deployment.createdAt}}
+                                        </accordion-heading>
+
+                                        <div style="min-height: 50px">
+                                            <span><strong>Landscape:</strong> {{landscape.name}} v1.4</span>
+                                            <button type="button" class="btn btn-sm pull-right" ng-click="go('/deployments/' + deployment._id + '/template' )">
+                                                <span class="glyphicon glyphicon-share-alt"></span> View Template</button>
+                                        </div>
+                                        <p><i>List of deployment configuration options...</i></p>
+                                        <div ng-repeat="item in items"><p>{{item}}</p></div>
+
+                                        <p><strong>Location:</strong> US East</p>
+                                        <p><strong>Billing Code:</strong> 123456</p>
+                                        <p><strong>Description:</strong> My awesome description</p>
+                                        <div class="well well-sm">
+                                            <p style="margin-bottom:0"><strong>mfincher at 2014-05-11 04:34:55</strong></p>
+                                            <p>I wrote an awesome note about what I learned from this deployment and how to update the DEV flavor with new parameters.</p>
+                                            <p style="margin-bottom:0"><strong>dvernon at 2014-05-11 14:04:31</strong></p>
+                                            <p>I know how to to update the DEV flavor with new parameters.</p>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-default" ng-click="go('/deployments/' + deployment._id + '/template' )">
+                                            <span class="glyphicon glyphicon-pencil"></span> Add Note</button>
+
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="col-md-6">
-<div class="well">
-<h4 style="margin-top: 0">Cloud Formation Template</h4>
-<textarea class="form-control" rows="15">{
-"AWSTemplateFormatVersion":"2010-09-09",
-"Description":"VPC DevOps Group",
-"Parameters":{
-"VpcId":{
-"Description":"Id of VPC",
-"Type":"String",
-"Default":"vpc-e983468c"
-},
-"subnetId1":{
-"Description":"Id of the subnet for these boxes",
-"Type":"String",
-"Default":"subnet-9ce9d0da"
-},
-"subnetId2":{
-"Description":"2nd Id of the subnet for these boxes",
-"Type":"String",
-"Default":"subnet-3fabf217"
-},
-"BackendSubnetSGId":{
-"Description":"Id of security group for these boxes",
-"Type":"String",
-"Default":"sg-4558e920"
-},
-"HostedZoneId":{
-"Description":"Id of the hosted zone for route 53 records",
-"Type":"String",
-"Default":"Z358LNG0XOCW3B"
-},
-"Environment":{
-"Description":"Name of the environment for deployment",
-"Type":"String",
-"Default":"dev"
-},
-"InstanceType":{
-"Description":"Default type of EC2 instance to launch.",
-"Type":"String",
-"Default":"m1.medium",
-"AllowedValues":[
-"t1.micro",
-"m1.small",
-"m1.medium",
-"m1.large",
-"m1.xlarge",
-"m2.xlarge",
-"m2.2xlarge",
-"m2.4xlarge",
-"m3.large",
-"m3.xlarge",
-"m3.2xlarge",
-"c1.xlarge",
-"cc2.8xlarge",
-"cg1.4xlarge",
-"cr1.8xlarge",
-"hi1.4xlarge",
-"hs1.8xlarge"
-],
-"ConstraintDescription":"must be a valid EC2 instance type."
-}
-},
-"Mappings":{
-"IPMap":{
-"dev":{
-"ipSpace":"10.22"
-},
-"sit":{
-"ipSpace":"10.21"
-}
-},
-"EnvMap":{
-"dev":{
-"ChefBucketName":"openwhere-devdevops",
-"imageId":"ami-2f726546",
-"KeyName":"OpenWhereRoot"
-},
-"sit":{
-"ChefBucketName":"openwhere-sit-devops",
-"imageId":"ami-2f726546",
-"KeyName":"OpenWhereRoot"
-}
-}
-},
-"Resources":{
-"VPNRole":{
-"Type":"AWS::IAM::Role",
-"Properties":{
-"AssumeRolePolicyDocument":{
-"Statement":[
-{
-"Effect":"Allow",
-"Principal":{
-"Service":[
-"ec2.amazonaws.com"
-]
-},
-"Action":[
-"sts:AssumeRole"
-]
-}
-]
-},
-"Path":"/",
-"Policies":[
-{
-"PolicyName":"cloudwatch-basic",
-"PolicyDocument":{
-"Version":"2012-10-17",
-"Statement":[
-{
-"Sid":"Stmt1395950054000",
-"Effect":"Allow",
-"Action":[
-"cloudwatch:EnableAlarmActions",
-"cloudwatch:PutMetricData",
-"cloudwatch:PutMetricAlarm"
-],
-"Resource":[
-"*"
-]
-}
-]
-}
-}
-]
-}
-},
-"VPNInstanceProfile":{
-"Type":"AWS::IAM::InstanceProfile",
-"Properties":{
-"Path":"/",
-"Roles":[
-{
-"Ref":"VPNRole"
-}
-]
-}
-},
-"bAS01":{
-"Type":"AWS::EC2::Instance",
-"Properties":{
-"KeyName":{
-"Fn::FindInMap":[
-"EnvMap",
-{
-"Ref":"Environment"
-},
-"KeyName"
-]
-},
-"InstanceType":{
-"Ref":"InstanceType"
-},
-"ImageId":{
-"Fn::FindInMap":[
-"EnvMap",
-{
-"Ref":"Environment"
-},
-"imageId"
-]
-},
-"IamInstanceProfile":{
-"Ref":"VPNInstanceProfile"
-},
-"NetworkInterfaces":[
-{
-"GroupSet":[
-{
-"Ref":"BackendSubnetSGId"
-}
-],
-"PrivateIpAddress":{
-"Fn::Join":[
-".",
-[
-{
-"Fn::FindInMap":[
-"IPMap",
-{
-"Ref":"Environment"
-},
-"ipSpace"
-]
-},
-"1.145"
-]
-]
-},
-"AssociatePublicIpAddress":"true",
-"DeviceIndex":"0",
-"DeleteOnTermination":"true",
-"SubnetId":{
-"Ref":"subnetId1"
-}
-}
-],
-"BlockDeviceMappings":[
-{
-"DeviceName":"/dev/sda1",
-"Ebs":{
-"VolumeSize":"8"
-}
-}
-],
-"Tags":[
-{
-"Key":"Name",
-"Value":"VPNServer"
-},
-{
-"Key":"Owner",
-"Value":"CloudFormated"
-}
-]
-}
-},
-"VPNEIP":{
-"Type":"AWS::EC2::EIP",
-"Properties":{
-"InstanceId":{
-"Ref":"bAS01"
-},
-"Domain":"vpc"
-}
-},
-"VPBDNSRecord":{
-"Type":"AWS::Route53::RecordSet",
-"DependsOn": "VPNEIP",
-"Properties":{
-"HostedZoneId":{
-"Ref":"HostedZoneId"
-},
-"Comment":"DNS name for Archive System instance.",
-"Name":{
-"Fn::Join":[
-"",
-[
-"vpn",
-".",
-{
-"Ref":"Environment"
-},
-".",
-"openwheredemo.com"
-]
-]
-},
-"Type":"A",
-"TTL":"900",
-"ResourceRecords":[
-{
-"Fn::GetAtt":[
-"bAS01",
-"PublicIp"
-]
-}
-]
-}
-}
-}
-}
-</textarea>
+<div id="templateRow" class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <h4 style="margin-top: 0">Master Cloud Formation Template</h4>
+            <textarea class="form-control" rows="15">{
+                "AWSTemplateFormatVersion":"2010-09-09",
+                "Description":"VPC DevOps Group",
+                "Parameters":{
+                "VpcId":{
+                "Description":"Id of VPC",
+                "Type":"String",
+                "Default":"vpc-e983468c"
+                },
+                "subnetId1":{
+                "Description":"Id of the subnet for these boxes",
+                "Type":"String",
+                "Default":"subnet-9ce9d0da"
+                },
+                "subnetId2":{
+                "Description":"2nd Id of the subnet for these boxes",
+                "Type":"String",
+                "Default":"subnet-3fabf217"
+                }
+                }
+            </textarea>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-</div>
-
 
 
 <div class="footer">
