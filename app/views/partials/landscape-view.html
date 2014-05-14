@@ -99,12 +99,19 @@
                                                      is-open="deployment.open" ng-class="{'panel-primary': deployment.open}">
 
                                         <accordion-heading>
-                                            {{deployment.stackName}}<a class="btn btn-sm btn-default pull-right" target="_blank" ng-show="deployment.open"
-                                                                       href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active">
-                                            <span class="glyphicon glyphicon-share-alt"></span> View in AWS</a>
+                                            {{deployment.stackName}}
                                             <div class="pull-right" ng-show="!deployment.open">
                                                 {{deployment.createdAt | date : 'MM/dd/yyyy @ HH:mm'}}
                                             </div>
+
+                                            <div class="pull-right">
+                                            <button class="btn btn-sm btn-default" target="_blank"
+                                                    ng-show="deployment.open"
+                                                    ng-click="newWindow('https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active')">
+                                                <span class="glyphicon glyphicon-share-alt"></span> View in AWS</button>
+                                            </div>
+
+
                                         </accordion-heading>
 
                                         <div>
@@ -115,10 +122,15 @@
                                         <p ng-show="deployment.billingCode"><strong>Billing Code:</strong> {{deployment.billingCode}}</p>
                                         <p ng-show="deployment.description"><strong>Description:</strong> {{deployment.description}}</p>
 
+                                        <p ng-show="deployment.createdBy"><strong>Created By:</strong> {{deployment.createdBy}}</p>
+                                        <p ng-show="deployment.createdAt"><strong>Created At:</strong> {{deployment.createdAt}}</p>
+
                                         <p style="margin-bottom: 0"><strong>Parameters</strong></p>
                                         <div class="well well-sm">
                                             <div ng-repeat="item in items"><p><strong>{{item.key}}:</strong> {{item.value}}</p></div>
                                         </div>
+
+
 
                                         <p style="margin-bottom: 0"><strong>Notes</strong></p>
                                         <div class="well well-sm">
