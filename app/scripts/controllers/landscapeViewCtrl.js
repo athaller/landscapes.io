@@ -14,18 +14,22 @@ angular.module('landscapesApp')
 
         $http.get('/api/landscapes/' + $routeParams.id + '/deployments')
             .success(function(data, status) {
-
                 $scope.deployments = data;
                 console.log(data);
-                console.log(status);
             })
             .error(function(data){
                 console.log(data);
+                console.log(status);
             }
         );
 
+        $scope.newWindow = function (path){
+            window.open(path, '_blank');
+        }
+
         $scope.go = function ( path ) {
             console.log(path);
+//            window.location = path;
             $location.path( path );
         };
 
@@ -52,8 +56,6 @@ angular.module('landscapesApp')
 function AccordionDemoCtrl($scope) {
     $scope.oneAtATime = true;
 
-
-
     $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
 
     $scope.addItem = function() {
@@ -69,10 +71,4 @@ function AccordionDemoCtrl($scope) {
         isFirstOpen: false,
         isFirstDisabled: false
     };
-
-    $scope.status1 = {};
-
-    $scope.status2 = {};
-
-    $scope.status3 = {};
 }

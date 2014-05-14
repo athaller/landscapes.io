@@ -33,12 +33,12 @@ angular.module('landscapesApp', [
             .when('/deploy/:id', {
                 templateUrl: 'partials/deploy',
                 controller: 'DeployCtrl',
-                authenticate: false             // DEV ONLY!
+                authenticate: true             // DEV ONLY!
             })
             .when('/landscapes/:id', {
                 templateUrl: 'partials/landscape-view',
                 controller: 'LandscapeViewCtrl',
-                authenticate: true
+                authenticate: true             // DEV ONLY!
             })
             .when('/landscapes/:id/edit', {
                 templateUrl: 'partials/landscape-edit',
@@ -53,7 +53,7 @@ angular.module('landscapesApp', [
             .when('/landscape/new', {
                 templateUrl: 'partials/landscape-new',
                 controller: 'LandscapeNewCtrl',
-                authenticate: false
+                authenticate: true             // DEV ONLY!
             })
             .otherwise({
                 redirectTo: '/'
