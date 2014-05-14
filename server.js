@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var multer = require('multer')
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -24,6 +25,17 @@ require('./lib/config/dummydata');
 var passport = require('./lib/config/passport');
 
 var app = express();
+
+// file upload configuration...
+app.configure(function () {
+    app.use(multer({
+        dest: './static/uploads/',
+        rename: function (fieldname, filename) {
+            return filename.replace(/\W+/g, '-').toLowerCase();
+        }
+    }));
+    app.use(express.static(__dirname + '/static'));
+});
 
 require('./lib/config/express')(app);
 require('./lib/routes')(app);

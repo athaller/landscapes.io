@@ -5,13 +5,17 @@ angular.module('landscapesApp', [
     'ngResource',
     'ngSanitize',
     'ngRoute',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angularFileUpload'
 ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'partials/main',
-                controller: 'MainCtrl'
+                redirectTo: '/landscapes'
+            })
+            .when('/landscapes', {
+                templateUrl: 'partials/landscapes',
+                controller: 'LandscapesCtrl'
             })
             .when('/login', {
                 templateUrl: 'partials/login',
@@ -29,17 +33,27 @@ angular.module('landscapesApp', [
             .when('/deploy/:id', {
                 templateUrl: 'partials/deploy',
                 controller: 'DeployCtrl',
-                authenticate: true
+                authenticate: false             // DEV ONLY!
             })
             .when('/landscapes/:id', {
-                templateUrl: 'partials/landscapes',
-                controller: 'LandscapesCtrl',
+                templateUrl: 'partials/landscape-view',
+                controller: 'LandscapeViewCtrl',
+                authenticate: true
+            })
+            .when('/landscapes/:id/edit', {
+                templateUrl: 'partials/landscape-edit',
+                controller: 'LandscapeEditCtrl',
+                authenticate: true
+            })
+            .when('/landscapes/:id/history', {
+                templateUrl: 'partials/landscape-history',
+                controller: 'LandscapeViewCtrl',
                 authenticate: true
             })
             .when('/landscape/new', {
                 templateUrl: 'partials/landscape-new',
-                controller: 'LandscapesCtrl',
-                authenticate: true
+                controller: 'LandscapeNewCtrl',
+                authenticate: false
             })
             .otherwise({
                 redirectTo: '/'
@@ -63,13 +77,9 @@ angular.module('landscapesApp', [
         }]);
     })
     .run(function ($rootScope, $location, Auth) {
-
-        // Redirect to login if route requires auth and you're not logged in
         $rootScope.$on('$routeChangeStart', function (event, next) {
-
             if (next.authenticate && !Auth.isLoggedIn()) {
                 $location.path('/login');
             }
         });
-    })
-;
+    });

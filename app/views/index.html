@@ -49,23 +49,33 @@
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/landscapes.js"></script>
+<script src="scripts/controllers/landscapesCtrl.js"></script>
+<script src="scripts/controllers/landscapeNewCtrl.js"></script>
+<script src="scripts/controllers/landscapeViewCtrl.js"></script>
 <script src="scripts/controllers/navbar.js"></script>
 <script src="scripts/controllers/login.js"></script>
-<script src="scripts/controllers/signup.js"></script>
+<script src="scripts/controllers/signupCtrl.js"></script>
 <script src="scripts/controllers/deploy.js"></script>
 <script src="scripts/controllers/settings.js"></script>
 <script src="scripts/services/auth.js"></script>
-<script src="scripts/services/deploy.js"></script>
-<script src="scripts/services/session.js"></script>
-<script src="scripts/services/user.js"></script>
+<script src="scripts/services/landscapeService.js"></script>
+<script src="scripts/services/deploymentService.js"></script>
+<script src="scripts/services/sessionSvc.js"></script>
+<script src="scripts/services/userSvc.js"></script>
 <script src="scripts/directives/mongooseError.js"></script>
+<script src="scripts/directives/autoExpand.js"></script>
+<script src="scripts/directives/validFile.js"></script>
+<script src="scripts/directives/dynamic-forms.js"></script>
+
+<!--<script src="scripts/filters/breakFilter.js"></script>-->
+
+
 <!-- endbuild -->
 </body>
 </html>
