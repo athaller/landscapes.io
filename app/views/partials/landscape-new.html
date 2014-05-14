@@ -1,42 +1,120 @@
 <div ng-include="'partials/navbar'"></div>
-<div id="titleRow" class="row">
-    <h2 class="pull-left col-md-9">New Landscape</h2>
-    <div class="col-md-3"></div>
-</div>
-</div>
-<div class="row">
-    <div ng-data="landscape">
-        <div class="col-md-6">
-            <div class="well">
-                <div class="media">
-                    <a class="pull-left" href="{{ '/landscapes/' + landscape._id + '/history'}}">
-                        <img class="media-object" src="{{landscape.imageUri}}" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><span><strong>Description: </strong></span>{{landscape.description}}.</p>
-                        <p><span><strong>Version: </strong></span> 1.4</p>
+<div ng-data="landscape">
+    <form class="form" name="form" role="form" ng-submit="createNewLandscape(form)" novalidate>
+
+        <div id="titleRow" class="row">
+            <h2 class="pull-left col-md-9">New Landscape</h2>
+            <div class="col-md-3">
+                <button class="btn btn-primary pull-right" type="submit">
+                    <span class="glyphicon glyphicon-save"></span> Save
+                </button>
+            </div>
+        </div>
+
+        <div id="formRow" class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <div class="form-horizontal">
+
+                            <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+                                <label for="landscapeName" class="col-sm-3 control-label">Name:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="landscapeName" name="name" class="form-control" ng-model="landscape.name" ng-minlength="3" required mongoose-error />
+                                    <p class="help-block" ng-show="(form.name.$error.minlength || form.name.$error.required) && submitted">
+                                        Name must be at least 3 characters.
+                                    </p>
+                                    <p class="help-block" ng-show="form.name.$error.mongoose">
+                                        {{ errors.name }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="landscapeVersion" class="col-sm-3 control-label">Version:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="landscapeVersion" name="version" class="form-control" tabindex="-1" ng-model="landscape.version" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="landscapeDescription" class="col-sm-3 control-label">Description:</label>
+                                <div class="col-sm-9">
+                                    <textarea id="landscapeDescription" class="form-control" name="description" rows="3" ng-model="landscape.description"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading title-heading">
+                        <h2 class="panel-title pull-left">Image</h2>
+                        <button type="button" class="btn btn-default pull-right" ng-show="!selectFile" ng-click="resetSelectTemplate()">
+                            <span class="glyphicon glyphicon-refresh"></span> Reset
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <p>https://github.com/danialfarid/angular-file-upload</p>
+                        <p>https://github.com/jackrabbitsgroup/angular-image-upload</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="well">
-                <h4>Select Image</h4>
-                <p>https://github.com/danialfarid/angular-file-upload</p>
-                <p>https://github.com/jackrabbitsgroup/angular-image-upload</p>
+
+        <div id="templateRow" class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default" ng-class="{ 'panel-danger': !templateSelected && submitted}">
+                    <div class="panel-heading title-heading">
+                        <h2 class="panel-title pull-left">CloudFormation Template</h2>
+                        <button type="button" class="btn btn-default pull-right" ng-show="templateSelected" ng-click="resetSelectTemplateForm()">
+                            <span class="glyphicon glyphicon-refresh"></span> Reset
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <p style="color: #a94442; margin-bottom: 15px;" ng-show="!templateSelected && submitted">
+                            CloudFormation Template is required.
+                        </p>
+                        <div ng-show="!templateSelected">
+                            <div class="drop-box" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="dragover">
+                                drop file here
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-success': templateSelected && submitted, 'has-error': !templateSelected && submitted }">
+                                <input type="file" ng-file-select="onFileSelect($files)" >
+                            </div>
+                        </div>
+                        <!--http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button-->
+                        <!--<button class="btn" ng-click="upload.abort()">Cancel Upload</button>-->
+                        <textarea class="form-control awsTemplate" ng-model="landscape.cloudFormationTemplate"
+                                  ng-show="templateSelected"
+                                  ng-auto-expand
+                                  required>
+                        </textarea>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div id="templateRow" class="row">
-    <div class="col-md-12">
-        <div class="well">
-            <h4>Cloud Formation Template</h4>
-            <textarea class="form-control" rows="15"></textarea>
-        </div>
-    </div>
-</div>
 
+        <div id="bottomButtonRow" class="row">
+            <div class="col-md-12">
+                <div style="position: relative; min-height: 40px;">
+                    <div style="position: absolute; right: 0px; bottom: 0px; margin-bottom: 10px;" class="pull-right">
+                        <button class="btn btn-primary pull-right" type="submit">
+                            <span class="glyphicon glyphicon-save"></span> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
 
 <div class="footer">
     <div class="pull-left"><p>landscapes.io v0.0.0</p></div>

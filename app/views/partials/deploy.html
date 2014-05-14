@@ -1,293 +1,293 @@
 <div ng-include="'partials/navbar.html'"></div>
 
-<h1>Deploy: {{landscape.name}}</h1>
-<hr>
-<div class="row">
-<form class="form" name="form" ng-submit="deploy(form)" novalidate>
-
-<div class="col-sm-12">
-    <div class="col-sm-6">
-        <div class="form-group"
-             ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control" ng-model="deployment.name" required/>
-        </div>
-
-        <div class="form-group">
-            <label>Location</label>
-            <select name="location" class="form-control" ng-model="deployment.location">
-                <option value="1">US East (Northern Virginia)</option>
-                <option>US West (Oregon)</option>
-                <option>US West (Northern California)</option>
-                <option>AWS GovCloud (US)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Flavor</label>
-            <select name="location" class="form-control" ng-model="deployment.flavor">
-                <option value="1">None</option>
-                <option>DEV</option>
-                <option>PROD</option>
-            </select>
-        </div>
 
 
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="description" rows="3" ng-model="deployment.description"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Billing Code</label>
-            <input type="text" name="billingCode" class="form-control" ng-model="deployment.billingCode"/>
-        </div>
+<form class="form" name="form" role="form" ng-submit="createNewDeployment(form)" novalidate>
 
-    </div>
-</div>
-
-<div class="col-sm-12">
-    <hr>
-</div>
-
-<div class="col-sm-12">
-
-<div class="row">
-    <div class="col-sm-3 deploymentfeature">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Optimized Instance</h3>
-            </div>
-            <div class="panel-body">
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        EBS-Optimized EC2 Instances
-                    </label>
-                </div>
-            </div>
+    <div id="titleRow" class="row">
+        <h2 class="pull-left col-md-9">Deploy: {{landscape.name}}</h2>
+        <div class="col-md-3">
+            <button class="btn btn-primary pull-right" type="submit">
+                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+            </button>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Business Support Services (BSS)</h3>
-            </div>
-            <div class="panel-body">
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Order Mgmt
-                    </label>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+
+                                <div class="form-group" ng-class="{ 'has-success': form.stackName.$valid && submitted, 'has-error': form.stackName.$invalid && submitted }">
+                                    <label for="deploymentStackName" class="col-md-3 control-label">Stack Name:</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="deploymentStackName" name="stackName" class="form-control" ng-model="deployment.stackName" required/>
+                                        <p class="help-block" ng-show="form.stackName.$error.required && submitted">
+                                            Stack Name is required.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="deploymentLocation" class="col-md-3 control-label">Location:</label>
+                                    <div class="col-md-9">
+                                        <select id="deploymentLocation" name="location" class="form-control" ng-model="deployment.location">
+                                            <option value="US East (Northern Virginia)">US East (Northern Virginia)</option>
+                                            <option>US West (Oregon)</option>
+                                            <option>US West (Northern California)</option>
+                                            <option>AWS GovCloud (US)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="deploymentFlavor" class="col-md-3 control-label">Flavor:</label>
+                                    <div class="col-md-9">
+                                        <select id="deploymentFlavor" name="flavor" class="form-control" ng-model="deployment.flavor">
+                                            <option value="None">None</option>
+                                            <option>DEV</option>
+                                            <option>PROD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="deploymentDescription" class="col-md-3 control-label">Description:</label>
+                                    <div class="col-md-9">
+                                        <textarea id="deploymentDescription" class="form-control" name="description" rows="3" ng-model="deployment.description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deploymentBillingCode" class="col-md-3 control-label">Billing Code:</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="deploymentBillingCode" name="billingCode" class="form-control" ng-model="deployment.billingCode"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Pricing
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Subscriber Mgmt
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Accounting and Billing
-                    </label>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Operational Support Services (OSS)</h3>
-            </div>
-            <div class="panel-body">
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Service Activation
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Events and Alarms
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        KPI and SLA Reporting
-                    </label>
-                </div>
-
             </div>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Security</h3>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                <div class="col-md-3 deploymentfeature">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Optimized Instance</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    EBS-Optimized EC2 Instances
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Business Support Services (BSS)</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Order Mgmt
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Pricing
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Subscriber Mgmt
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Accounting and Billing
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Operational Support Services (OSS)</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Service Activation
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Events and Alarms
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    KPI and SLA Reporting
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Security</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <dynamic-form template="formTemplate" ng-model="parameters" ng-submit="processForm()">
+                                <legend>Legend</legend>
+                            </dynamic-form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
+                    <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Infrastructure Services</h3>
+                        </div>
+                        <div class="panel-body">
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="" checked>
-                        Intrusion Detection System
-                    </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Map Reduce
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Event Stream Processor
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="" checked>
+                                    Enterprise Service Bus
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Archive Storage
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    WAN Accelerators
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Continuous Delivery Pipeline</h3>
+                        </div>
+                        <div class="panel-body">
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="" checked>
-                        SIEM
-                    </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Continuous Integration
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Automated Testing
+                                </label>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Automated Deployment
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    Build Pipeline Mgmt
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="" checked>
-                        Anomaly Identification
-                    </label>
+            </div>
                 </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Two Factor Authentication
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Polymorphic Attack Surface Policy
-                    </label>
-                </div>
-
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Infrastructure Services</h3>
-            </div>
-            <div class="panel-body">
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Map Reduce
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Event Stream Processor
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="" checked>
-                        Enterprise Service Bus
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Archive Storage
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        WAN Accelerators
-                    </label>
-                </div>
-
-            </div>
+        <div class="col-md-12">
+            <button class="btn btn-primary pull-right" type="submit">
+                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+            </button>
         </div>
+
     </div>
-    <div class="col-sm-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Continuous Delivery Pipeline</h3>
-            </div>
-            <div class="panel-body">
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Continuous Integration
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Automated Testing
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Automated Deployment
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        Build Pipeline Mgmt
-                    </label>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
-</div>
-
-<div class="col-sm-12">
-    <button class="btn btn-lg" type="button" ng-click="go('/')">Cancel</button>
-    <button class="btn btn-lg btn-primary" type="submit">Deploy</button>
-</div>
 
 </form>
-</div>
 
 <div class="footer" style="margin-top: 17px;">
     <div class="pull-left"><p>Version 0.0.0</p></div>
