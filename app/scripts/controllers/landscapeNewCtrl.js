@@ -19,19 +19,25 @@ angular.module('landscapesApp')
             // console.log($scope.landscape.cloudFormationTemplate);
             // validate cloudFormationTemplate here?
 
+
             if($scope.landscape.cloudFormationTemplate === undefined || $scope.templateSelected === false) {
                 form.$valid = false;
             }
 
+
+
+
             if(form.$valid) {
                 console.log('form.$valid');
 
+
                 LandscapeService.create({
                     name: $scope.landscape.name,
-                    description: $scope.landscape.description,
                     version: $scope.landscape.version,
+                    imageUri: 'images/tech4.png',
                     cloudFormationTemplate: $scope.landscape.cloudFormationTemplate,
-                    imageUri: 'images/tech4.png'
+                    infoLink: $scope.landscape.infoLink,
+                    description: $scope.landscape.description
                 })
                     .then( function() {
                         $location.path('/');
@@ -46,6 +52,8 @@ angular.module('landscapesApp')
                             $scope.errors[field] = error.message;
                         });
                     });
+            } else {
+                console.log(JSON.stringify(form.$error));
             }
         };
 

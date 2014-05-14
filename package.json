@@ -13,7 +13,8 @@
     "ejs": "~0.8.4",
     "aws-sdk": ">=2.0.0-rc.15",
     "winston": "^0.7.3",
-    "multer": "0.0.7"
+    "multer": "0.0.7",
+    "async": "^0.8.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

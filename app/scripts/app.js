@@ -76,9 +76,9 @@ angular.module('landscapesApp', [
             };
         }]);
     })
-    .run(function ($rootScope, $location, Auth) {
+    .run(function ($rootScope, $location, AuthService) {
         $rootScope.$on('$routeChangeStart', function (event, next) {
-            if (next.authenticate && !Auth.isLoggedIn()) {
+            if (next.authenticate && !AuthService.isLoggedIn()) {
                 $location.path('/login');
             }
         });

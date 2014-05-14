@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('NavbarCtrl', function ($scope, $location, Auth) {
+    .controller('NavbarCtrl', function ($scope, $location, AuthService) {
         $scope.menu = [{
             'title': 'Home',
             'link': '/'
@@ -11,7 +11,7 @@ angular.module('landscapesApp')
         }];
 
         $scope.logout = function() {
-            Auth.logout()
+            AuthService.logout()
                 .then(function() {
                     $location.path('/login');
                 });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('SignupCtrl', function ($scope, Auth, $location) {
+    .controller('SignupCtrl', function ($scope, AuthService, $location) {
         $scope.user = {};
         $scope.errors = {};
 
@@ -9,7 +9,7 @@ angular.module('landscapesApp')
             $scope.submitted = true;
 
             if(form.$valid) {
-                Auth.createUser({
+                AuthService.createUser({
                     name: $scope.user.name,
                     email: $scope.user.email,
                     password: $scope.user.password

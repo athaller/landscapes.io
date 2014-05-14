@@ -54,6 +54,10 @@ h2 {
     margin-top: 10px;
 }
 
+.panel-heading {
+    min-height: 48px;
+}
+
 h2.panel-title {
     font-size: 18px;
     margin-top: 5px;
@@ -71,6 +75,11 @@ textarea.awsTemplate {
     width: 100%;
     background-color: #f9f9f9;
     font-family: 'Courier New', Courier, monospace
+}
+
+.form-control[readonly].awsTemplate {
+    background-color: #f9f9f9;
+    padding: 8px;
 }
 
 .drop-box {
@@ -91,3 +100,4 @@ textarea.awsTemplate {
 .help-block {
     margin-bottom: 0;
 }
+

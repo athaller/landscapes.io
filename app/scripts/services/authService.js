@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
+    .factory('AuthService', function AuthService($location, $rootScope, Session, User, $cookieStore) {
 
         // Get currentUser from cookie
         $rootScope.currentUser = $cookieStore.get('user') || null;

@@ -351,6 +351,7 @@ angular.module('landscapesApp')
             }
         };
     }])
+
     //  Not a fan of how Angular's ngList is implemented, so here's a better one (IMO).  It will ONLY
     //  apply to <dynamic-form> child elements, and replaces the ngList that ships with Angular.
     .directive('ngList', [function () {
@@ -399,13 +400,14 @@ angular.module('landscapesApp')
             }
         };
     }])
+
     //  Following code was adapted from http://odetocode.com/blogs/scott/archive/2013/07/05/a-file-input-directive-for-angularjs.aspx
     .directive('input', ['$parse', function ($parse) {
         return {
             restrict: 'E',
             require: '?ngModel',
             link: function (scope, element, attrs, ctrl) {
-                if (attrs.type === 'file') {
+                if (attrs.type === 'filex') {
                     var modelGet = $parse(attrs.ngModel),
                         modelSet = modelGet.assign,
                         onChange = $parse(attrs.onChange),
