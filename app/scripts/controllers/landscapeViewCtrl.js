@@ -3,15 +3,9 @@
 angular.module('landscapesApp')
     .controller('LandscapeViewCtrl', function ($scope, $http, $location, $routeParams) {
 
-        console.log($routeParams.id);
-
         $http.get('/api/landscapes/' + $routeParams.id)
             .success(function(data, status) {
                 $scope.landscape = data;
-                $scope.landscape.frog = 'lips';
-                console.log(data);
-                console.log(status);
-
             })
             .error(function(data){
                 console.log(data);
@@ -34,22 +28,31 @@ angular.module('landscapesApp')
             console.log(path);
             $location.path( path );
         };
+
+        $scope.addFlavor =function(){
+            $scope.flavors.push({title: 'PROD', content: 'Production'});
+        }
+
+
+        $scope.flavors = [
+            {
+                title: 'DEV',
+                content: 'Development'
+            },
+            {
+                title: 'TEST',
+                content: 'Development'
+            }
+        ];
     }
 );
+
+
 
 function AccordionDemoCtrl($scope) {
     $scope.oneAtATime = true;
 
-    $scope.groups = [
-        {
-            title: 'DEV',
-            content: 'Development'
-        },
-        {
-            title: 'PROD',
-            content: 'Production'
-        }
-    ];
+
 
     $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
 

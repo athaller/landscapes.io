@@ -53,7 +53,7 @@ angular.module('landscapesApp')
 
             $scope.formTemplate["test"] = {"type": "text", "label": "Matthew Test"};
             console.log($scope.formTemplate)
-            return;
+//            return;
 
             $scope.submitted = true;
 
@@ -75,10 +75,12 @@ angular.module('landscapesApp')
                     flavor: $scope.deployment.flavor,
                     billingCode: $scope.deployment.billingCode
                 })
-                    .then( function() {
-                        $location.path('/');
+                    .then(function() {
+                        $location.path('/landscapes/'+ $routeParams.id);
                     })
-                    .catch( function(err) {
+                    .catch(function(err) {
+                        console.log(JSON.stringify(err));
+
                         err = err.data;
                         $scope.errors = {};
 
