@@ -2,7 +2,7 @@
 
 angular.module('landscapesApp')
     .controller('LandscapeNewCtrl', function ($scope, $upload, LandscapeService, $http, $location, $routeParams, $filter) {
-        $scope.landscape = {'version':'1.0'};
+        $scope.landscape = {'version':'1.0', 'imageUri': 'images/ow/sf01.png'};
         $scope.errors = {};
         $scope.selectFile = true;
         $scope.templateSelected = false;
@@ -19,22 +19,19 @@ angular.module('landscapesApp')
             // console.log($scope.landscape.cloudFormationTemplate);
             // validate cloudFormationTemplate here?
 
-
             if($scope.landscape.cloudFormationTemplate === undefined || $scope.templateSelected === false) {
                 form.$valid = false;
             }
 
-
-
-
             if(form.$valid) {
                 console.log('form.$valid');
 
+                console.log ($scope.landscape);
 
                 LandscapeService.create({
                     name: $scope.landscape.name,
                     version: $scope.landscape.version,
-                    imageUri: 'images/tech4.png',
+                    imageUri: $scope.landscape.imageUri,
                     cloudFormationTemplate: $scope.landscape.cloudFormationTemplate,
                     infoLink: $scope.landscape.infoLink,
                     description: $scope.landscape.description
@@ -44,6 +41,8 @@ angular.module('landscapesApp')
                     })
                     .catch( function(err) {
                         err = err.data;
+                        console.log(err)
+
                         $scope.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
