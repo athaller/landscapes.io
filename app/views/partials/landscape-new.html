@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label for="landscapeInfoLink" class="col-sm-3 control-label">Info Link:</label>
                                 <div class="col-sm-9">
-                                    <input type="TEXT" id="landscapeInfoLink" name="infoLink" class="form-control" ng-model="landscape.infoLink" />
+                                    <input type="text" id="landscapeInfoLink" name="infoLink" class="form-control" ng-model="landscape.infoLink" />
                                 </div>
                             </div>
 
@@ -66,10 +66,36 @@
                             <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
+
+
                     <div class="panel-body">
-                        <p>https://github.com/danialfarid/angular-file-upload</p>
-                        <p>https://github.com/jackrabbitsgroup/angular-image-upload</p>
+
+                        <div class="media">
+                            <div style="min-height: 128px; min-width: 128px;" class="col-sm-3">
+                                <img src="{{landscape.imageUri}}">
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="media-body col-sm-9">
+                                    <div class="form-group" ng-class="{ 'has-success': form.imageUri.$valid && submitted, 'has-error': form.imageUri.$invalid && submitted }">
+                                        <label for="landscapeImageUri" class="col-sm-4 control-label">Image URI:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="landscapeImageUri" name="imageUri" class="form-control" ng-model="landscape.imageUri" required mongoose-error />
+                                            <p class="help-block" ng-show="(form.imageUri.$error.required) && submitted">
+                                                Image URI is required.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div ng-show="false">
+                                        <p>https://github.com/flowjs/ng-flow</p>
+                                        <p>https://github.com/danialfarid/angular-file-upload</p>
+                                        <p>https://github.com/jackrabbitsgroup/angular-image-upload</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
