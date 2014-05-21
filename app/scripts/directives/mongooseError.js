@@ -1,6 +1,6 @@
 'use strict';
 
-// Removes server error when user updates input
+// Removes error when user updates input
 
 angular.module('landscapesApp')
 

@@ -1,6 +1,6 @@
 <div ng-include="'partials/navbar'"></div>
 <div id="titleRow" class="row">
-    <h2 class="pull-left col-md-9">History: {{landscape.name}} </h2>
+    <h2 class="pull-left col-md-9"><span class="glyphicon glyphicon-time"></span> History</h2>
     <div class="col-md-3"></div>
 </div>
 </div>
@@ -13,8 +13,10 @@
                         <img class="media-object" src="{{landscape.imageUri}}" alt="...">
                     </a>
                     <div class="media-body">
-                        <p><span><strong>Description: </strong></span>{{landscape.description}}.</p>
-                        <p><span><strong>Version: </strong></span> 1.4</p>
+                        <p><span><strong>Name: </strong></span>{{landscape.name}}</p>
+                        <p><span><strong>Version: </strong></span>{{landscape.version}}</p>
+                        <p><span><strong>Description: </strong></span>{{landscape.description}}</p>
+                        <p><span><strong>Info Link: </strong></span>{{landscape.infoLink}}</p>
                     </div>
                 </div>
 
