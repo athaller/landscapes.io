@@ -4,7 +4,7 @@
     <div class="col-md-3">
         <!--<button type="button" class="btn-sm pull-right" ng-click="go('/')">All Landscapes</button>-->
         <div class="pull-right">
-            <button type="button" class="btn btn-default" ng-click="go('/landscapes')">
+            <button type="button" class="btn btn-default" ng-click="go('/landscapes/' + landscape._id + '/edit')">
                 <span class="glyphicon glyphicon-edit"></span> Edit</button>
             <button type="button" class="btn btn-primary" ng-click="go('/deploy/' + landscape._id)">
                 <span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
@@ -21,15 +21,15 @@
                         <img class="media-object" src="{{landscape.imageUri}}" alt="...">
                     </a>
                     <div class="media-body">
-                        <p><span><strong>Version: </strong></span> {{landscape.version}}</p>
-                        <p ng-show="landscape.description"><span><strong>Description: </strong></span>{{landscape.description}}</p>
-                        <p ng-show="landscape.infoLink"><span><strong>Info Link: </strong></span>
-                            <a href="{{landscape.infoLink}}" target="_blank">{{landscape.infoLink}}</a>
+                        <p><span>Version </span> {{landscape.version}}</p>
+                        <p ng-show="landscape.description">{{landscape.description}}</p>
+                        <p ng-show="landscape.infoLink">
+                            <a href="{{landscape.infoLink}}" target="_blank">{{landscape.infoLinkText}}</a>
                         </p>
                     </div>
                 </div>
                 <div style="position: relative;">
-                    <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
+                    <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right" hidden>
                         <button type="button" class="btn btn-default" ng-click="go('/landscapes/' + landscape._id + '/history')"><span class="glyphicon glyphicon-time"></span> History</button>
                     </div>
                 </div>

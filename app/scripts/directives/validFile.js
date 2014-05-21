@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .directive('validFile',function(){
+    .directive('validFile', function() {
         return {
             require:'ngModel',
             link:function(scope, el, attrs, ngModel){

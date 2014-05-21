@@ -14,7 +14,6 @@ angular.module('landscapesApp')
             });
 
         $scope.go = function ( path ) {
-            console.log(path);
             $location.path( path );
         };
     }

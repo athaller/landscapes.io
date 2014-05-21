@@ -34,7 +34,7 @@ app.configure(function () {
             return filename.replace(/\W+/g, '-').toLowerCase();
         }
     }));
-    app.use(express.static(__dirname + '/static'));
+    app.use('/static', express.static(__dirname + '/static'));
 });
 
 require('./lib/config/express')(app);

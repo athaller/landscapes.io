@@ -9,14 +9,18 @@ body {
 h2 {
     margin-top: 0;
     margin-bottom: 15px;
+    color: #999999;
 }
 
+h2 small {
+    display: inline-block;
+    color: #333333;
+}
 
-/* Custom page header */
 .header {
     border-bottom: 1px solid #e5e5e5;
 }
-/* Make the masthead heading the same height as the navigation */
+
 .header h3 {
     margin-top: 0;
     margin-bottom: 0;
@@ -58,9 +62,22 @@ h2 {
     min-height: 48px;
 }
 
+.panel-body .media {
+    margin-top: 0;
+}
+
 h2.panel-title {
     font-size: 18px;
     margin-top: 5px;
+}
+
+#titleRow .btn {
+    margin-bottom: 15px;
+}
+
+#titleRow h2 {
+    line-height: 36px;
+    height: 36px;
 }
 
 div.title-heading {

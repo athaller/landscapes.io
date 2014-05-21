@@ -38,12 +38,12 @@ angular.module('landscapesApp', [
             .when('/landscapes/:id', {
                 templateUrl: 'partials/landscape-view',
                 controller: 'LandscapeViewCtrl',
-                authenticate: true             // DEV ONLY!
+                authenticate: false             // DEV ONLY!
             })
             .when('/landscapes/:id/edit', {
                 templateUrl: 'partials/landscape-edit',
                 controller: 'LandscapeEditCtrl',
-                authenticate: true
+                authenticate: false             // DEV ONLY!
             })
             .when('/landscapes/:id/history', {
                 templateUrl: 'partials/landscape-history',
@@ -53,7 +53,7 @@ angular.module('landscapesApp', [
             .when('/landscape/new', {
                 templateUrl: 'partials/landscape-new',
                 controller: 'LandscapeNewCtrl',
-                authenticate: true             // DEV ONLY!
+                authenticate: false             // DEV ONLY!
             })
             .otherwise({
                 redirectTo: '/'
@@ -83,3 +83,4 @@ angular.module('landscapesApp', [
             }
         });
     });
+

@@ -22,6 +22,7 @@
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animate.css">
     <!-- endbuild -->
 </head>
 <body ng-app="landscapesApp">
@@ -55,23 +56,29 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
+
 <script src="scripts/controllers/landscapesCtrl.js"></script>
 <script src="scripts/controllers/landscapeNewCtrl.js"></script>
 <script src="scripts/controllers/landscapeViewCtrl.js"></script>
+<script src="scripts/controllers/landscapeEditCtrl.js"></script>
 <script src="scripts/controllers/navbar.js"></script>
 <script src="scripts/controllers/login.js"></script>
 <script src="scripts/controllers/signupCtrl.js"></script>
-<script src="scripts/controllers/deployCtrl.js"></script>
 <script src="scripts/controllers/settings.js"></script>
+<script src="scripts/controllers/deployCtrl.js"></script>
+
 <script src="scripts/services/authService.js"></script>
 <script src="scripts/services/landscapeService.js"></script>
 <script src="scripts/services/deploymentService.js"></script>
 <script src="scripts/services/sessionSvc.js"></script>
 <script src="scripts/services/userSvc.js"></script>
+<script src="scripts/services/validationService.js"></script>
+
 <script src="scripts/directives/mongooseError.js"></script>
 <script src="scripts/directives/autoExpand.js"></script>
 <script src="scripts/directives/validFile.js"></script>
 <script src="scripts/directives/dynamic-forms.js"></script>
+<script src="scripts/directives/imageUpload.js"></script>
 
 <!--<script src="scripts/filters/breakFilter.js"></script>-->
 

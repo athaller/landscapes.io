@@ -16,7 +16,6 @@ angular.module('landscapesApp')
         $scope.createNewLandscape = function(form) {
             $scope.submitted = true;
 
-            // console.log($scope.landscape.cloudFormationTemplate);
             // validate cloudFormationTemplate here?
 
             if($scope.landscape.cloudFormationTemplate === undefined || $scope.templateSelected === false) {
@@ -34,6 +33,7 @@ angular.module('landscapesApp')
                     imageUri: $scope.landscape.imageUri,
                     cloudFormationTemplate: $scope.landscape.cloudFormationTemplate,
                     infoLink: $scope.landscape.infoLink,
+                    infoLinkText: $scope.landscape.infoLinkText,
                     description: $scope.landscape.description
                 })
                     .then( function() {
@@ -55,6 +55,30 @@ angular.module('landscapesApp')
                 console.log(JSON.stringify(form.$error));
             }
         };
+
+        $scope.onImageSelect = function($files) {
+            console.log('onImageSelect()');
+            for (var i = 0; i < $files.length; i++) {
+                var file = $files[i];
+                $scope.upload = $upload.upload({
+                    url: '/api/upload/image',
+                    method: 'POST',
+                    withCredentials: true,
+                    data: {myObj: $scope.myModelObj},
+                    file: file
+                })
+                    .success(function (data, status, headers, config) {
+                        data = JSON.parse($filter('json')(data));
+                        $scope.landscape.imageUri = data.imageUri;
+                        $scope.imageSelected = true;
+                        $scope.showUploadNewImage = false;
+                        $scope.form.$dirty = true;
+                    })
+                    .error(function(err){
+                        console.log(err);
+                    });
+            }
+        }
 
         $scope.onFileSelect = function($files) {
             for (var i = 0; i < $files.length; i++) {
