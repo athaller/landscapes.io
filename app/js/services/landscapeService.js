@@ -58,8 +58,7 @@ angular.module('landscapesApp')
                 ).$promise;
             }
         };
-    }
-);
+    });
 
 angular.module('landscapesApp')
     .factory('Landscape', function ($resource) {

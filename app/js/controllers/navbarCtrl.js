@@ -2,8 +2,9 @@
 
 angular.module('landscapesApp')
     .controller('NavbarCtrl', function ($scope, $location, AuthService) {
+
         $scope.menu = [{
-            'title': 'Home',
+            'title': 'Landscapes',
             'link': '/landscapes'
         }, {
             'title': 'Settings',

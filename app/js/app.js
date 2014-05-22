@@ -17,6 +17,10 @@ angular.module('landscapesApp', [
                 templateUrl: 'partials/landscapes',
                 controller: 'LandscapesCtrl'
             })
+            .when('/admin', {
+                templateUrl: 'partials/admin',
+                controller: 'AdminCtrl'
+            })
             .when('/login', {
                 templateUrl: 'partials/login',
                 controller: 'LoginCtrl'

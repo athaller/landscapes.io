@@ -1,37 +1,106 @@
 <div ng-include="'partials/navbar.html'"></div>
+<div id="titleRow" class="row">
+    <h2 class="pull-left col-md-9">Settings</h2>
+    <div class="col-md-3">
 
+        <div class="pull-right">
+            <button type="button" class="btn btn-default pull-right" ng-show="!changingPassword" ng-click="changingPassword=true">
+                <span class="glyphicon glyphicon-pencil"></span> Change Password
+            </button>
+
+        </div>
+    </div>
+</div>
 <div class="row">
-  <div class="col-sm-12">
-    <h1>Change Password</h1>
-  </div>
-  <div class="col-sm-12">
-    <form class="form" name="form" ng-submit="changePassword(form)" novalidate>
-    	
-      <div class="form-group">
-        <label>Current Password</label>
+    <div class="col-sm-6">
+        <form class="form" name="form" ng-submit="changingPassword(form)" novalidate>
 
-        <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
-               mongoose-error/>    
-        <p class="help-block" ng-show="form.password.$error.mongoose">
-            {{ errors.other }}
-        </p>
-      </div>
+            <div class="panel panel-default">
+                <div class="panel-heading title-heading">
+                    <h2 class="panel-title pull-left">Account</h2>
+                    <button type="button" class="btn btn-default pull-right" ng-show="!editingAccountSettings" ng-click="editAccountSettings()">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
 
-      <div class="form-group">
-        <label>New Password</label>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">User Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" class="form-control" ng-model="currentUser.name" ng-disabled="!editingAccountSettings" required/>
+                            </div>
+                        </div>
 
-        <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword" 
-               ng-minlength="3"
-               required/>
-        <p class="help-block"
-           ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
-          Password must be at least 3 characters.
-        </p>
-      </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Role</label>
+                            <div class="col-sm-9">
+                                <select name="role" class="form-control"
+                                        ng-disabled="!editingAccountSettings"
+                                        ng-model="currentUser.role"
+                                        ng-options="role for role in roles" />
+                            </div>
+                        </div>
+                    </div>
 
-      <p class="help-block"> {{ message }} </p>
+                    <div class="pull-right" ng-show="editingAccountSettings">
+                        <button type="button" class="btn btn-primary" ng-click="cancelEditAccountSettings(form)">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
+                            <span class="glyphicon glyphicon-save"></span> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-      <button class="btn btn-primary" type="submit">Save changes</button>
-    </form>
-  </div>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <!--<form class="form" name="form" ng-submit="changePassword(form)" novalidate>-->
+            <div class="panel panel-default" ng-show="changingPassword">
+                <div class="panel-heading title-heading">
+                    <h2 class="panel-title pull-left">Change Password</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Current Password</label>
+                            <div class="col-md-8">
+                                <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
+                                       mongoose-error/>
+                                <p class="help-block" ng-show="form.password.$error.mongoose">
+                                    {{ errors.other }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">New Password</label>
+                            <div class="col-md-8">
+                                <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"
+                                       ng-minlength="6"
+                                       required/>
+                                <p class="help-block"
+                                   ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
+                                    Password must be at least 6 characters.
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="help-block"> {{ message }} </p>
+                    </div>
+
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-primary" ng-click="changingPassword=false">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
+                            <span class="glyphicon glyphicon-save"></span> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <!--</form>-->
+    </div>
 </div>
