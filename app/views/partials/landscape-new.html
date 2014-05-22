@@ -3,7 +3,7 @@
     <form class="form" name="form" role="form" ng-submit="createNewLandscape(form)" novalidate>
 
         <div id="titleRow" class="row">
-            <h2 class="pull-left col-md-9"><span class="glyphicon glyphicon-plus"></span> New Landscape</h2>
+            <h2 class="pull-left col-md-9"><span class="glyphicon glyphicon-plus-sign"></span> New Landscape</h2>
             <div class="col-md-3">
                 <button class="btn btn-primary pull-right" type="submit">
                     <span class="glyphicon glyphicon-save"></span> Save
@@ -15,9 +15,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
-
                         <div class="form-horizontal">
-
                             <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
                                 <label for="landscapeName" class="col-sm-3 control-label">Name:</label>
                                 <div class="col-sm-9">

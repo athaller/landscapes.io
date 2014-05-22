@@ -1,10 +1,26 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('SettingsCtrl', function ($scope, User, AuthService) {
+    .controller('AdminCtrl', function ($scope, User, AuthService) {
+        $scope.menu = [
+            'Roles',
+            'Users',
+            'Global',
+            'MongoDB'
+        ];
+
+        $scope.selected = $scope.menu[0];
+
+        $scope.buttonClick = function(text){
+            $scope.selected = text;
+            console.log($scope.selected);
+        }
+
         $scope.errors = {};
 
-        $scope.changePassword = function (form) {
+        $scope.roles = [{name: 'Admin'},{name: 'Editor'},{name: 'User'}]
+
+        $scope.saveChanges = function (form) {
             $scope.submitted = true;
 
             if (form.$valid) {

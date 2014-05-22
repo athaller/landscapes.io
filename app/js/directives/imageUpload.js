@@ -6,7 +6,7 @@ angular.module('landscapesApp')
     .directive('imageUpload', function($parse) {
         return {
             restrict: 'AE',
-            templateUrl: '/scripts/directives/imageUpload.html',
+            templateUrl: '/js/directives/imageUpload.html',
             replace: true
         };
     });

@@ -2,7 +2,7 @@
 
 angular.module('landscapesApp')
     .controller('LandscapeNewCtrl', function ($scope, $upload, LandscapeService, $http, $location, $routeParams, $filter) {
-        $scope.landscape = {'version':'1.0', 'imageUri': 'images/ow/sf01.png'};
+        $scope.landscape = {'version':'1.0', 'imageUri': 'images/AWS-CF-Icon.png'};
         $scope.errors = {};
         $scope.selectFile = true;
         $scope.templateSelected = false;

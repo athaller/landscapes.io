@@ -1,0 +1,7 @@
+landscapes-svc
+
+Access Key ID:
+AKIAJD4G5WO3TIDN53VA
+
+Secret Access Key:
+2ciPz27C4RJD1WM81gjaynOkZgxtVwTT2mkVE7f/
