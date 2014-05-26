@@ -14,7 +14,7 @@ angular.module('landscapesApp')
         $scope.buttonClick = function(text){
             $scope.selected = text;
             console.log($scope.selected);
-        }
+        };
 
         $scope.errors = {};
 

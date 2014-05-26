@@ -1,21 +1,48 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LandscapeViewCtrl', function ($scope, $http, $location, $routeParams) {
+    .controller('LandscapeViewCtrl', function ($scope, $http, $location, $routeParams, LandscapeService) {
+        $scope.isArray = angular.isArray;
 
-        $http.get('/api/landscapes/' + $routeParams.id)
-            .success(function(data, status) {
-                $scope.landscape = data;
+        $scope.menu = [
+            'Overview',
+            'Template',
+            'Flavors',
+            'History'
+        ];
+
+        $scope.selected = $scope.menu[0];
+
+        $scope.buttonClick = function(text){
+            $scope.selected = text;
+            console.log($scope.selected)
+        };
+
+        $scope.resourcesKeys = [];
+        $scope.parametersKeys = [];
+        $scope.mappingsKeys = [];
+
+        LandscapeService.retrieve($routeParams.id)
+            .then(function(landscape) {
+                $scope.landscape = landscape;
+                $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
+                $scope.template.parametersLength = $scope.template.Parameters.length;
+
+                $scope.resourcesKeys = Object.keys($scope.template.Resources)
+                $scope.parametersKeys = Object.keys($scope.template.Parameters)
+                $scope.mappingsKeys = Object.keys($scope.template.Mappings)
+
             })
-            .error(function(data){
-                console.log(data);
-            }
-        );
+            .catch(function(err) {
+                err = err.data;
+                console.log(err)
+            });
 
+        // TO DO: DeploymentService.retrieveAll
         $http.get('/api/landscapes/' + $routeParams.id + '/deployments')
             .success(function(data, status) {
                 $scope.deployments = data;
-                console.log(data);
+                console.log('deployments: ' + data.length);
             })
             .error(function(data){
                 console.log(data);
@@ -25,17 +52,11 @@ angular.module('landscapesApp')
 
         $scope.newWindow = function (path){
             window.open(path, '_blank');
-        }
-
-        $scope.go = function ( path ) {
-            console.log(path);
-//            window.location = path;
-            $location.path( path );
         };
 
         $scope.addFlavor =function(){
             $scope.flavors.push({title: 'PROD', content: 'Production'});
-        }
+        };
 
 
         $scope.flavors = [
@@ -52,9 +73,10 @@ angular.module('landscapesApp')
 );
 
 
-
 function AccordionDemoCtrl($scope) {
     $scope.oneAtATime = true;
+
+    console.log('froglips' + $scope.deployments);
 
     $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
 

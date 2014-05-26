@@ -1,13 +1,17 @@
 <div class="header" ng-controller="NavbarCtrl">
+    <img src="images/logo.jpeg" />
+    <h3 class="text-muted" style="display: inline-block">
+        Open<span style="color: darkblue">Where</span><sup style="font-size:small;">&trade;</sup>
+    </h3>
+
     <ul class="nav nav-pills pull-right">
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
-        <li ng-hide="currentUser.role != 'admin'" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
-        <li ng-hide="currentUser" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
+        <li ng-show="currentUser.role == 'admin'" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
+        <li ng-show="currentUser" ng-class="{active: isActive('/settings')}"><a href="/settings">Settings</a></li>
+        <li ng-hide="currentUser" ng-class="{active: isActive('/login')}"><a href="/login">Log in</a></li>
         <li ng-hide="currentUser" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>
-        <li ng-show="currentUser" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Logout</a></li>
+        <li ng-show="currentUser" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Log out</a></li>
     </ul>
-
-    <h3 class="text-muted"><img src="images/logo.jpeg">Open<span style="color: darkblue">Where</span><sup style="font-size:small;">&trade;</sup></h3>
 </div>

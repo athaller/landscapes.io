@@ -16,6 +16,18 @@ angular.module('landscapesApp')
                         return cb(err);
                     }
                 ).$promise;
+            },
+            retrieve: function(id, callback) {
+                var cb = callback || angular.noop;
+
+                return Deployment.get({id:id},
+                    function(deployment) {
+                        return cb(deployment);
+                    },
+                    function(err) {
+                        return cb(err);
+                    }
+                ).$promise;
             }
         };
     });

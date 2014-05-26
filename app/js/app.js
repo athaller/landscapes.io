@@ -37,7 +37,7 @@ angular.module('landscapesApp', [
             .when('/deploy/:id', {
                 templateUrl: 'partials/deploy',
                 controller: 'DeployCtrl',
-                authenticate: true             // DEV ONLY!
+                authenticate: false             // DEV ONLY!
             })
             .when('/landscapes/:id', {
                 templateUrl: 'partials/landscape-view',
@@ -60,7 +60,7 @@ angular.module('landscapesApp', [
                 authenticate: false             // DEV ONLY!
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/landscapes'
             });
 
         $locationProvider.html5Mode(true);
@@ -81,10 +81,15 @@ angular.module('landscapesApp', [
         }]);
     })
     .run(function ($rootScope, $location, AuthService) {
+
         $rootScope.$on('$routeChangeStart', function (event, next) {
             if (next.authenticate && !AuthService.isLoggedIn()) {
                 $location.path('/login');
             }
         });
+
+        $rootScope.go = function ( path ) {
+            $location.path( path );
+        };
     });
 

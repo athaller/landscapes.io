@@ -3,18 +3,20 @@
 angular.module('landscapesApp')
     .controller('LandscapeEditCtrl',
     function ($scope,
-              $upload, $filter,
+              $upload,
+              $filter,
               $location,
               $routeParams,
               ValidationService,
               LandscapeService) {
 
+        $scope.toggleUploadNewImage = function() {
+            $scope.showUploadNewImage = !$scope.showUploadNewImage;
+            $scope.imageError = false;
+        };
+
         $scope.showUploadNewImage = false;
         $scope.showUploadNewTemplate = false;
-
-        $scope.go = function ( path ) {
-            $location.path( path );
-        };
 
         $scope.incrementVersion = function() {
             $scope.landscape.version = (Number($scope.landscape.version) + 0.1).toFixed(1);
@@ -37,7 +39,8 @@ angular.module('landscapesApp')
 
         LandscapeService.retrieve($routeParams.id)
             .then(function(landscape) {
-                $scope.landscape = landscape
+                $scope.landscape = landscape;
+                $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
             })
             .catch(function(err) {
                 err = err.data;
@@ -122,6 +125,13 @@ angular.module('landscapesApp')
         };
 
         $scope.onImageSelect = function($files) {
+            $scope.imageError = false;
+
+//            var imageFileExtensions = ['png','jpg','jpeg'];
+//            if(imageFileExtensions.indexOf(f.file.extension) === -1){
+//                res.send(f.file.extension + ' is not a supported image format.'), 400
+//            }
+
             console.log('onImageSelect()');
             for (var i = 0; i < $files.length; i++) {
                 var file = $files[i];
@@ -139,31 +149,14 @@ angular.module('landscapesApp')
                         $scope.showUploadNewImage = false;
                         $scope.form.$dirty = true;
                     })
-                    .error(function(err){
-                        console.log(err);
+                    .error(function(err, status, headers){
+                        if(status == 400) {
+                            $scope.imageError = err;
+                            console.log(err);
+                        }
                     });
             }
         }
 
     }
 );
-
-function AccordionDemoCtrl($scope) {
-    $scope.oneAtATime = true;
-
-    $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
-
-    $scope.addItem = function() {
-        var newItemNo = $scope.items.length + 1;
-        $scope.items.push({key:'Date', value:'Four billion'});
-    };
-
-    $scope.deleteItem = function() {
-        $scope.items.pop();
-    };
-
-    $scope.status = {
-        isFirstOpen: false,
-        isFirstDisabled: false
-    };
-}

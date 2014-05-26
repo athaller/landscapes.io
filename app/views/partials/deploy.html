@@ -1,20 +1,24 @@
 <div ng-include="'partials/navbar.html'"></div>
 
-
-
 <form class="form" name="form" role="form" ng-submit="createNewDeployment(form)" novalidate>
 
     <div id="titleRow" class="row">
-        <h2 class="pull-left col-md-9"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy <small>{{landscape.name}}</small></h2>
+        <h2 class="pull-left col-md-9">
+            <span class="glyphicon glyphicon-cloud-upload"></span> Deploy <small style="display: inline-block">{{landscape.name}}</small>
+        </h2>
         <div class="col-md-3">
-            <button class="btn btn-primary pull-right" type="submit">
-                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
-            </button>
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary" ng-click="go('/landscapes/' + landscape._id)">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                </button>
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+                </button>
+            </div>
         </div>
     </div>
 
     <div class="row">
-
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -78,218 +82,57 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title pull-left">Parameters</h2>
+                </div>
                 <div class="panel-body">
-                    <div class="row">
-                <div class="col-md-3 deploymentfeature">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Optimized Instance</h3>
-                        </div>
-                        <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div ng-repeat="(key, value) in template.Parameters">
 
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    EBS-Optimized EC2 Instances
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Business Support Services (BSS)</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Order Mgmt
-                                </label>
+                            <div class="form-group" ng-hide="template.Parameters[key]['AllowedValues'].length">
+                                <label class="col-md-3 control-label">{{key}}</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="{{key}}" class="form-control" ng-model="deployment[key]">
+                                </div>
+                                <div class="col-md-3"></div>
                             </div>
 
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Pricing
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Subscriber Mgmt
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Accounting and Billing
-                                </label>
+                            <div class="form-group" ng-show="template.Parameters[key]['AllowedValues'].length">
+                                <label class="col-md-3 control-label">{{key}}</label>
+                                <div class="col-md-6">
+                                    <select name="{{key}}" class="form-control" ng-model="deployment[key]">
+                                        <option ng-repeat="(k, v) in value['AllowedValues']">{{v}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3"></div>
                             </div>
 
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Operational Support Services (OSS)</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Service Activation
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Events and Alarms
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    KPI and SLA Reporting
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Security</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <dynamic-form template="formTemplate" ng-model="parameters" ng-submit="processForm()">
-                                <legend>Legend</legend>
-                            </dynamic-form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-                    <div class="row">
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Infrastructure Services</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Map Reduce
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Event Stream Processor
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="" checked>
-                                    Enterprise Service Bus
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Archive Storage
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    WAN Accelerators
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Continuous Delivery Pipeline</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Continuous Integration
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Automated Testing
-                                </label>
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Automated Deployment
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">
-                                    Build Pipeline Mgmt
-                                </label>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div id="bottomButton" class="row">
         <div class="col-md-12">
-            <button class="btn btn-primary pull-right" type="submit">
+            <div class="pull-right">
+            <button type="button" class="btn btn-primary" ng-click="go('/landscapes/' + landscape._id)">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+            <button class="btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
             </button>
+            </div>
         </div>
-
     </div>
+
 
 </form>
 
-<div class="footer" style="margin-top: 17px;">
-    <div class="pull-left"><p>Version 0.0.0</p></div>
-    <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
-</div>
+<div ng-include="'partials/footer.html'"></div>
