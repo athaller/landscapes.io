@@ -11,7 +11,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var config = require('./lib/config/config');
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
-// Bootstrap models
+// Load models
 var modelsPath = path.join(__dirname, 'lib/models');
 fs.readdirSync(modelsPath).forEach(function (file) {
   if (/(.*)\.(js$|coffee$)/.test(file)) {
@@ -19,8 +19,10 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 });
 
-// Populate empty DB with sample data
-require('./lib/config/dummydata');
+if(process.env.NODE_ENV == 'development') {
+    var devDb = require('./lib/config/dummydata');
+    devDb.clearDbAndPopulateWithSampleData();
+}
 
 var passport = require('./lib/config/passport');
 

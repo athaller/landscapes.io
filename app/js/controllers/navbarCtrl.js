@@ -6,10 +6,7 @@ angular.module('landscapesApp')
         $scope.menu = [{
             'title': 'Landscapes',
             'link': '/landscapes'
-        }, {
-            'title': 'Settings',
-            'link': '/settings'
-        }];
+        } ];
 
         $scope.logout = function() {
             AuthService.logout()

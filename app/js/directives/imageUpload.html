@@ -3,6 +3,6 @@
         drop file here
     </div>
     <div class="form-group" ng-class="{ 'has-success': templateSelected && submitted, 'has-error': !templateSelected && submitted }">
-        <input type="file" ng-file-select="onImageSelect($files)" >
+        <input type="file" id="imageUpload" ng-file-select="onImageSelect($files)" >
     </div>
 </div>

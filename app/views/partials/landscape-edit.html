@@ -81,29 +81,29 @@
             </div>
 
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-class="{'panel-danger': imageError}">
                     <div class="panel-heading title-heading">
                         <h2 class="panel-title pull-left">Image</h2>
-                        <button type="button" class="btn btn-default pull-right" ng-show="!showUploadNewImage" ng-click="showUploadNewImage = true">
+                        <button type="button" class="btn btn-default pull-right" ng-show="!showUploadNewImage" ng-click="toggleUploadNewImage()">
                             <span class="glyphicon glyphicon-open"></span> Upload New
                         </button>
-                        <button type="button" class="btn btn-info pull-right" ng-show="showUploadNewImage" ng-click="showUploadNewImage = false">
+                        <button type="button" class="btn btn-info pull-right" ng-show="showUploadNewImage" ng-click="toggleUploadNewImage()">
                             <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
-
                     <div class="panel-body">
+                        <div class="alert alert-danger" ng-show="imageError">
+                            <strong>{{imageError.err}}</strong>
+                        </div>
+
                         <div ng-show="showUploadNewImage">
                             <div image-upload></div>
                         </div>
-
                         <div class="media" ng-show="!showUploadNewImage">
                             <div class="pull-right" style="min-height: 128px; min-width: 128px; margin-left: 25px">
                                 <img src="{{landscape.imageUri}}">
                             </div>
-
                             <div class="media-body">
-
                                 <div class="form-group" ng-class="{ 'has-success': form.imageUri.$valid && submitted, 'has-error': form.imageUri.$invalid && submitted }">
                                     <label for="landscapeImageUri" class="control-label">Image URI:</label>
 
@@ -111,13 +111,11 @@
                                     <p class="help-block" ng-show="(form.imageUri.$error.required) && submitted">
                                         Image URI is required.
                                     </p>
-
                                 </div>
                             </div>
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </div>
@@ -160,12 +158,16 @@
 
         <div id="bottomButtonRow" class="row">
             <div class="col-md-12">
-                <div style="position: relative; min-height: 40px;">
-                    <div style="position: absolute; right: 0px; bottom: 0px; margin-bottom: 10px;" class="pull-right">
-                        <button class="btn pull-right" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
-                            <span class="glyphicon glyphicon-save"></span> Save
-                        </button>
-                    </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="go('/landscapes/' + landscape._id)">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                    </button>
+                    <button class="btn btn-danger" type="button" ng-click="deleteLandscape()">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+                    <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
+                        <span class="glyphicon glyphicon-save"></span> Save
+                    </button>
                 </div>
             </div>
         </div>
@@ -173,7 +175,4 @@
     </form>
 </div>
 
-<div class="footer">
-    <div class="pull-left"><p>landscapes.io v0.0.0</p></div>
-    <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
-</div>
+<div ng-include="'partials/footer'"></div>

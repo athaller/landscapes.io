@@ -32,8 +32,8 @@
                     </div>
                     <div style="position: relative">
                         <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
-                            <button type="button" class="btn" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-share-alt"></span> View</button>
-                            <button type="button" class="btn btn-primary" ng-click="go('/deploy/' + landscape._id)"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+                            <button type="button" class="btn btn-default" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-share-alt"></span> View</button>
+                            <button type="button" class="btn btn-default" ng-click="go('/deploy/' + landscape._id)"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,4 @@
     </div>
 </div>
 
-<div class="footer">
-    <div class="pull-left"><p>Version 0.0.0</p></div>
-    <div class="pull-right"><span ng-show="currentUser">{{ currentUser.name }}</span></div>
-</div>
+<div ng-include="'partials/footer'"></div>

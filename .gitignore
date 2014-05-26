@@ -6,3 +6,4 @@ app/bower_components
 /views
 dist
 .idea
+static/uploads

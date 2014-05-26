@@ -5,75 +5,82 @@
         <h2>Admin</h2>
     </div>
     <div class="col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-body" style="padding-bottom: 0">
-                <form class="form" name="form" ng-submit="saveChanges(form)" novalidate>
-                    <div class="row">
-                        <div class="col-sm-2" style="margin-bottom: 20px" >
-                            <div class="row">
-                            <div class="btn-group-vertical col-sm-12">
-                                <!--switch to horizontal in sm-->
+        <!--<div class="panel panel-default">-->
+        <div style="padding-bottom: 0">
+            <form class="form" name="form" ng-submit="saveChanges(form)" novalidate>
+                <div class="row">
+                    <div class="col-sm-2" style="margin-bottom: 20px" >
+                        <div class="row">
+                            <div class="btn-group col-sm-12 visible-xs">
                                 <button type="button" class="btn btn-default "
                                         ng-class="{active: selected == item}"
                                         ng-repeat="item in menu"
                                         ng-click="buttonClick(item)">{{item}}</button>
                             </div>
-                                </div>
+                            <div class="btn-group-vertical col-sm-12 hidden-xs">
+                                <!--switch to horizontal in xs-->
+                                <button type="button" class="btn btn-default "
+                                        ng-class="{active: selected == item}"
+                                        ng-repeat="item in menu"
+                                        ng-click="buttonClick(item)">{{item}}</button>
+                            </div>
                         </div>
-                        <div class="col-sm-10" style="padding: 0" >
-                            <div class="col-sm-12" ng-show="selected=='Roles'">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading title-heading">
-                                        <h2 class="panel-title pull-left">Roles</h2>
-                                        <button type="button" class="btn btn-default pull-right" ng-click="addRole()">
-                                            <span class="glyphicon glyphicon-plus-sign"></span> Add
-                                        </button>
-                                    </div>
-                                    <div class="panel-body">
-                                        <p>Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
-                                        <p>Editor &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
-                                        <p>User &nbsp; &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
-                                    </div>
+                    </div>
+                    <div class="col-sm-10" style="padding: 0" >
+                        <div class="col-sm-12" ng-show="selected=='Roles'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">Roles</h2>
+                                    <button type="button" class="btn btn-default pull-right" ng-click="addRole()">
+                                        <span class="glyphicon glyphicon-plus-sign"></span> Add
+                                    </button>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
+                                    <p>Editor &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
+                                    <p>User &nbsp; &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-sm-12" ng-show="selected=='Users'">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading title-heading">
-                                        <h2 class="panel-title pull-left">Users</h2>
-                                    </div>
-                                    <div class="panel-body">
-                                        <p>Matthew Fincher &nbsp; | &nbsp; mfincher@openwhere.com &nbsp; | &nbsp; Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
-                                        Wayne Wong &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp; wwong@openwhere.com &nbsp; &nbsp; | &nbsp; Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]
-                                    </div>
+                        <div class="col-sm-12" ng-show="selected=='Users'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">Users</h2>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Matthew Fincher &nbsp; | &nbsp; mfincher@openwhere.com &nbsp; | &nbsp; Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]</p>
+                                    Wayne Wong &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp; wwong@openwhere.com &nbsp; &nbsp; | &nbsp; Admin &nbsp; | &nbsp; [ delete ] &nbsp; [ edit ]
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-sm-12" ng-show="selected=='Global'">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading title-heading">
-                                        <h2 class="panel-title pull-left">Global</h2>
-                                    </div>
-                                    <div class="panel-body">
-                                        list of global settings
-                                    </div>
+                        <div class="col-sm-12" ng-show="selected=='Global'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">Global</h2>
+                                </div>
+                                <div class="panel-body">
+                                    list of global settings
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-sm-12" ng-show="selected=='MongoDB'">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading title-heading">
-                                        <h2 class="panel-title pull-left">MongoDB</h2>
-                                    </div>
-                                    <div class="panel-body">
-                                        list of MongoDB settings
-                                    </div>
+                        <div class="col-sm-12" ng-show="selected=='MongoDB'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">MongoDB</h2>
+                                </div>
+                                <div class="panel-body">
+                                    list of MongoDB settings
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+        <!--</div>-->
     </div>
 </div>
+<div ng-include="'partials/footer'"></div>

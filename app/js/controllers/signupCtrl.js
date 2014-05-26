@@ -15,7 +15,6 @@ angular.module('landscapesApp')
                     password: $scope.user.password
                 })
                     .then( function() {
-                        // Account created, redirect to home
                         $location.path('/');
                     })
                     .catch( function(err) {
