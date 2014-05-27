@@ -1,6 +1,6 @@
 <div ng-include="'partials/navbar'"></div>
 
-<div ng-data="landscape">
+<div>
 
 <div id="titleRow" class="row">
     <h2 class="pull-left col-md-9">{{landscape.name}}</h2>
@@ -51,6 +51,7 @@
 <div class="row">
 
 <div class="col-sm-12" ng-show="selected=='Overview'">
+
     <div class="row">
         <div class="col-md-12">
             <div class="media" style="margin-bottom: 20px">
@@ -67,13 +68,8 @@
                     </p>
                 </div>
             </div>
-            <div style="position: relative;">
-                <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right" hidden>
-                    <button type="button" class="btn btn-default" ng-click="go('/landscapes/' + landscape._id + '/history')"><span class="glyphicon glyphicon-time"></span> History</button>
-                </div>
-            </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-controller="DeploymentsCtrl">
             <div class="panel panel-default" ng-show="deployments.length">
                 <div class="panel-heading title-heading">
                     <h2 class="panel-title">Deployments</h2>
@@ -81,9 +77,9 @@
                 <div class="panel-body">
                     <div>
                         <accordion>
-
                             <accordion-group ng-repeat="deployment in deployments | orderBy: '-createdAt'"
-                                             is-open="deployment.open" ng-class="{'panel-primary': deployment.open, 'panel-danger': deployment.awsErrors}">
+                                             is-open="deployment.open"
+                                             ng-class="{'panel-primary': deployment.open, 'panel-danger': deployment.awsErrors}">
 
                                 <accordion-heading>
                                     {{deployment.stackName}}
@@ -97,11 +93,13 @@
                                                 ng-click="newWindow('https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active')">
                                             <span class="glyphicon glyphicon-share-alt"></span> View in AWS</button>
                                     </div>
-
-
                                 </accordion-heading>
 
                                 <table class="deploymentsTable">
+                                    <tr ng-show="deployment.awsErrors" style="color: #a94442;">
+                                        <td><strong>Errors:</strong></td>
+                                        <td>{{deployment.awsErrors}}</td>
+                                    </tr>
                                     <tr>
                                         <td><strong>Landscape:</strong></td>
                                         <td>{{landscape.name}} v{{landscape.version}}</td>
@@ -130,16 +128,12 @@
                                         <td><strong>Stack ID:</strong></td>
                                         <td>{{deployment.stackId}}</td>
                                     </tr>
-                                    <tr ng-show="deployment.awsErrors" style="color: #a94442;">
-                                        <td><strong>Errors:</strong></td>
-                                        <td>{{deployment.awsErrors}}</td>
-                                    </tr>
+
                                     <tr ng-show="deployment.cloudFormationParameters.length">
                                         <td><strong>Parameters:</strong></td>
                                         <td>&nbsp;</td>
                                     </tr>
                                 </table>
-
                                 <div ng-show="deployment.cloudFormationParameters.length">
                                     <table class="table table-striped table-condensed" style="margin-bottom: 10px; border: 1px solid #dddddd;">
                                         <tr ng-repeat="param in deployment.cloudFormationParameters">
@@ -149,8 +143,8 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <p style="margin: 0 0 5px 0"><strong>Tags:</strong></p>
-                                <div ng-show="deployment.cloudFormationParameters.length">
+                                <div ng-show="deployment.flavor != 'None' ||  deployment.description || deployment.billingCode">
+                                    <p style="margin: 0 0 5px 0"><strong>Tags:</strong></p>
                                     <table class="table table-striped table-condensed" style="margin-bottom: 30px; border: 1px solid #dddddd;">
                                         <tr ng-show="deployment.flavor != 'None'">
                                             <td style="width: 5%">1</td>
@@ -169,16 +163,29 @@
                                         </tr>
                                     </table>
                                 </div>
-
-
-                                <p style="margin: 30px 0 3px 0"><strong>Notes:</strong></p>
-                                <div class="well well-sm">
-                                    <div ng-repeat="note in deployment.notes">
-                                        <p style="margin-bottom:0"><strong>{note.createdBy} at {note.createdAt}</strong></p>
-                                        <p>{note.text}</p>
+                                <div>
+                                    <p style="margin: 20px 0 3px 0"><strong>Notes:</strong></p>
+                                    <div class="well well-sm">
+                                        <div ng-repeat="note in deployment.notes">
+                                            <p style="margin-bottom:0"><strong>{{note.createdBy.name}} - {{note.createdAt | date : 'medium'}}</strong></p>
+                                            <p class="noteText" style="">{{note.text}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-sm btn-default" ng-click="go('/deployments/' + deployment._id + '/template' )">
+                                <div ng-show="addNote" >
+
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="noteText" rows="3" ng-model="newNote.text" />
+                                    </div>
+
+                                    <button type="button" class="btn btn-sm btn-danger" ng-click="cancelNote($index)">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
+                                    <button type="button" class="btn btn-sm btn-default" ng-click="saveNote(deployment._id, $index)">
+                                        <span class="glyphicon glyphicon-save"></span> Save</button>
+
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-default" ng-show="!addNote" ng-click="addNote = true">
                                     <span class="glyphicon glyphicon-pencil"></span> Add Note</button>
 
                             </accordion-group>
@@ -277,7 +284,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div ng-controller="AccordionDemoCtrl">
+                    <div>
                         <accordion>
                             <accordion-group ng-repeat="flavor in flavors" is-open="flavor.open" ng-class="{'panel-primary': flavor.open}">
                                 <accordion-heading>
@@ -320,10 +327,11 @@
     <h4>History</h4>
 </div>
 
-</div>
-</div>
+</div> <!-- end class=row -->
 
-</div>
+</div> <!-- end id=content -->
+
+</div> <!-- end id=bodyRow -->
 
 </div>
 

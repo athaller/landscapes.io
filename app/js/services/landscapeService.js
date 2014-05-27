@@ -32,11 +32,9 @@ angular.module('landscapesApp')
             update: function(id, landscape, callback) {
                 var cb = callback || angular.noop;
 
-                console.log('update Landscape: ' + id)
-
                 return Landscape.update({id:id}, landscape,
-                    function(landscape) {
-                        return cb(landscape);
+                    function(data) {
+                        return cb(data);
                     },
                     function(err) {
                         return cb(err);

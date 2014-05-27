@@ -82,7 +82,7 @@ angular.module('landscapesApp')
                     })
                     .catch( function(err) {
                         err = err.data;
-                        console.log(err)
+                        console.log(err);
 
                         $scope.errors = {};
 
