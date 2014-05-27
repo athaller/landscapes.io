@@ -91,6 +91,10 @@ div.title-heading {
     padding-top: 8px;
 }
 
+h4.panel-title {
+    line-height: 28px;
+}
+
 /*.table > tbody > tr > td { line-height: 30px }*/
 
 textarea.awsTemplate {
@@ -143,4 +147,10 @@ textarea.awsTemplate {
     color: #aaaaaa;
     border: 2px dashed #428bca;
     background-color: #ECF3FA;
+}
+
+.noteText {
+    background-color: #ffffff;
+    padding: 3px 5px 3px 10px;
+    margin: 2px 0 10px 0;
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LandscapeViewCtrl', function ($scope, $http, $location, $routeParams, LandscapeService) {
+    .controller('LandscapeViewCtrl', function ($scope, $route, $http, $location, $routeParams, LandscapeService) {
         $scope.isArray = angular.isArray;
 
         $scope.menu = [
@@ -39,16 +39,7 @@ angular.module('landscapesApp')
             });
 
         // TO DO: DeploymentService.retrieveAll
-        $http.get('/api/landscapes/' + $routeParams.id + '/deployments')
-            .success(function(data, status) {
-                $scope.deployments = data;
-                console.log('deployments: ' + data.length);
-            })
-            .error(function(data){
-                console.log(data);
-                console.log(status);
-            }
-        );
+
 
         $scope.newWindow = function (path){
             window.open(path, '_blank');
@@ -60,37 +51,71 @@ angular.module('landscapesApp')
 
 
         $scope.flavors = [
-            {
-                title: 'DEV',
-                content: 'Development'
-            },
-            {
-                title: 'TEST',
-                content: 'Development'
-            }
+            { title: 'DEV', content: 'Development' },
+            { title: 'TEST', content: 'Development' }
         ];
+
+        $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
+
+        $scope.addItem = function() {
+            var newItemNo = $scope.items.length + 1;
+            $scope.items.push({key:'Date', value:'Four billion'});
+        };
+
+        $scope.deleteItem = function() {
+            $scope.items.pop();
+        };
     }
 );
 
+angular.module('landscapesApp')
+    .controller('DeploymentsCtrl', function ($scope, $http, $routeParams, DeploymentService) {
 
-function AccordionDemoCtrl($scope) {
-    $scope.oneAtATime = true;
+        $scope.addNote = false;
+        $scope.newNote = {};
+        $scope.deployments = [];
 
-    console.log('froglips' + $scope.deployments);
+        $scope.loadDeployments = function(isOpenIndex) {
+            DeploymentService.retrieveForLandscape($routeParams.id,
+                function (err, deployments) {
+                    if (err) {
+                        err = err.data;
+                        console.log(err)
+                    } else {
+                        $scope.deployments = deployments;
+                        if(isOpenIndex !== undefined) {
+                            $scope.deployments[isOpenIndex].open = true;
+                        }
+                    }
+                });
+        };
 
-    $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
+        $scope.loadDeployments();
 
-    $scope.addItem = function() {
-        var newItemNo = $scope.items.length + 1;
-        $scope.items.push({key:'Date', value:'Four billion'});
-    };
+        $scope.cancelNote = function(index) {
+            $scope.newNote.text = undefined;
+            $scope.addNote = false;
+            $scope.loadDeployments(index);
+        }
 
-    $scope.deleteItem = function() {
-        $scope.items.pop();
-    };
+        $scope.saveNote = function(id, index) {
+            console.log('saveNote: ' + id);
+            console.log($scope.newNote.text);
 
-    $scope.status = {
-        isFirstOpen: false,
-        isFirstDisabled: false
-    };
-}
+            if($scope.newNote.text !== undefined) {
+                var newNote = { text: $scope.newNote.text };
+                DeploymentService.update(id, { _id: id, note: newNote},
+                    function (err, data) {
+                        if (err) {
+                            err = err.data || err;
+                            console.log(err);
+                        } else {
+                            $scope.addNote = false;
+                        }
+                    });
+            }
+            $scope.newNote.text = undefined;
+            $scope.addNote = false;
+            $scope.loadDeployments(index);
+        };
+    });

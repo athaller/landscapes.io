@@ -3,7 +3,7 @@
 // https://docs.angularjs.org/api/ngResource/service/$resource
 
 angular.module('landscapesApp')
-    .factory('DeploymentService', function DeploymentService($location, $rootScope, Deployment) {
+    .factory('DeploymentService', function DeploymentService($location, $rootScope, Deployment, $http) {
         return {
             create: function(deployment, callback) {
                 var cb = callback || angular.noop;
@@ -17,17 +17,27 @@ angular.module('landscapesApp')
                     }
                 ).$promise;
             },
-            retrieve: function(id, callback) {
+            retrieveForLandscape: function(id, callback) {
                 var cb = callback || angular.noop;
 
-                return Deployment.get({id:id},
-                    function(deployment) {
-                        return cb(deployment);
-                    },
-                    function(err) {
+                $http.get('/api/landscapes/' + id + '/deployments')
+                    .success(function(deployments) {
+                        return cb(null, deployments);
+                    })
+                    .error(function(err) {
                         return cb(err);
-                    }
-                ).$promise;
+                    })
+            },
+            update: function(id, deployment, callback) {
+                var cb = callback || angular.noop;
+
+                $http.put('/api/deployments/' + id, deployment)
+                    .success(function(data) {;
+                        return cb(null, data);
+                    })
+                    .error(function(err) {
+                        return cb(err);
+                    })
             }
         };
     });
@@ -37,9 +47,6 @@ angular.module('landscapesApp')
         return $resource('/api/deployments/:id', {
             id: '@id'
         }, {
-            update: {
-                method: 'PUT',
-                params: {}
-            }
+            update: { method: 'PUT' }
         });
     });
