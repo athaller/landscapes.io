@@ -58,16 +58,7 @@ angular.module('landscapesApp')
                 form.$valid = false;
             }
 
-//            if(!ValidationService.tryParseJSON($scope.landscape.cloudFormationTemplate)) {
-//                console.log("tryParseJSON")
-//                form.$valid = false;
-//            }
-
             if(form.$valid) {
-                console.log('form.$valid');
-
-                console.log ($scope.landscape);
-
                 LandscapeService.update($routeParams.id, {
                     name: $scope.landscape.name,
                     version: $scope.landscape.version,

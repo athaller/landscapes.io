@@ -44,7 +44,7 @@ angular.module('landscapesApp')
             delete: function(id, callback) {
                 var cb = callback || angular.noop;
 
-                console.log('delete Landscape: ' + id)
+                console.log('delete Landscape: ' + id);
 
                 return Landscape.remove({id: id},
                     function(data) {

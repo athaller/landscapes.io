@@ -163,7 +163,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div>
+                                <div ng-show="deployment.notes.length">
                                     <p style="margin: 20px 0 3px 0"><strong>Notes:</strong></p>
                                     <div class="well well-sm">
                                         <div ng-repeat="note in deployment.notes">
@@ -171,22 +171,20 @@
                                             <p class="noteText" style="">{{note.text}}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div ng-show="addNote" >
 
+                                <div ng-show="addNote" >
                                     <div class="form-group">
                                         <textarea class="form-control" name="noteText" rows="3" ng-model="newNote.text" />
                                     </div>
-
                                     <button type="button" class="btn btn-sm btn-danger" ng-click="cancelNote($index)">
                                         <span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
                                     <button type="button" class="btn btn-sm btn-default" ng-click="saveNote(deployment._id, $index)">
                                         <span class="glyphicon glyphicon-save"></span> Save</button>
-
                                 </div>
 
                                 <button type="button" class="btn btn-sm btn-default" ng-show="!addNote" ng-click="addNote = true">
                                     <span class="glyphicon glyphicon-pencil"></span> Add Note</button>
+                                </div>
 
                             </accordion-group>
                         </accordion>

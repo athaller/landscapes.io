@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminCtrl', function ($scope, User, AuthService) {
+    .controller('AdminCtrl', function ($scope, User, AuthService, RoleService) {
         $scope.menu = [
             'Roles',
             'Users',
-            'Global',
-            'MongoDB'
+            'Global'
         ];
 
         $scope.selected = $scope.menu[0];
@@ -16,9 +15,10 @@ angular.module('landscapesApp')
             console.log($scope.selected);
         };
 
-        $scope.errors = {};
+        $scope.roles = RoleService.retrieveAll();
+        $scope.users = User.query();
 
-        $scope.roles = [{name: 'Admin'},{name: 'Editor'},{name: 'User'}]
+        $scope.errors = {};
 
         $scope.saveChanges = function (form) {
             $scope.submitted = true;
