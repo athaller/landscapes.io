@@ -11,12 +11,12 @@
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="landscape in landscapes">
+    <div ng-repeat="landscape in landscapes | orderBy:'-createdAt'">
         <div class="col-md-6">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{landscape.name}}</h3>
+                    <h3 class="panel-title">{{landscape.name}}</h3><div class="pull-right">{{landscape.createdAt}}</div>
                 </div>
                 <div class="panel-body">
 

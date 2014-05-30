@@ -17,10 +17,6 @@ angular.module('landscapesApp', [
                 templateUrl: 'partials/landscapes',
                 controller: 'LandscapesCtrl'
             })
-            .when('/admin', {
-                templateUrl: 'partials/admin',
-                controller: 'AdminCtrl'
-            })
             .when('/login', {
                 templateUrl: 'partials/login',
                 controller: 'LoginCtrl'
@@ -28,6 +24,11 @@ angular.module('landscapesApp', [
             .when('/signup', {
                 templateUrl: 'partials/signup',
                 controller: 'SignupCtrl'
+            })
+            .when('/admin', {
+                templateUrl: 'partials/admin',
+                controller: 'AdminCtrl',
+                authenticate: true
             })
             .when('/settings', {
                 templateUrl: 'partials/settings',
@@ -37,17 +38,17 @@ angular.module('landscapesApp', [
             .when('/deploy/:id', {
                 templateUrl: 'partials/deploy',
                 controller: 'DeployCtrl',
-                authenticate: false             // DEV ONLY!
+                authenticate: true             // DEV ONLY!
             })
             .when('/landscapes/:id', {
                 templateUrl: 'partials/landscape-view',
                 controller: 'LandscapeViewCtrl',
-                authenticate: false             // DEV ONLY!
+                authenticate: true             // DEV ONLY!
             })
             .when('/landscapes/:id/edit', {
                 templateUrl: 'partials/landscape-edit',
                 controller: 'LandscapeEditCtrl',
-                authenticate: false             // DEV ONLY!
+                authenticate: true             // DEV ONLY!
             })
             .when('/landscapes/:id/history', {
                 templateUrl: 'partials/landscape-history',
@@ -57,7 +58,7 @@ angular.module('landscapesApp', [
             .when('/landscape/new', {
                 templateUrl: 'partials/landscape-new',
                 controller: 'LandscapeNewCtrl',
-                authenticate: false             // DEV ONLY!
+                authenticate: true             // DEV ONLY!
             })
             .otherwise({
                 redirectTo: '/landscapes'

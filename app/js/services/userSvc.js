@@ -1,6 +1,23 @@
 'use strict';
 
-// https://docs.angularjs.org/api/ngResource/service/$resource
+angular.module('landscapesApp')
+    .factory('UserService', function LandscapeService($location, $rootScope, User) {
+        return {
+            update: function (id, user, callback) {
+                var cb = callback || angular.noop;
+
+                return User.update({id: id}, user,
+                    function (data) {
+                        return cb(data);
+                    },
+                    function (err) {
+                        return cb(err);
+                    }
+                ).$promise;
+            }
+        }
+    });
+
 
 angular.module('landscapesApp')
     .factory('User', function ($resource) {
@@ -8,8 +25,7 @@ angular.module('landscapesApp')
             id: '@id'
         }, {
             update: {
-                method: 'PUT',
-                params: {}
+                method: 'PUT'
             },
             get: {
                 method: 'GET',

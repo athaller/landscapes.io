@@ -120,6 +120,7 @@ angular.module('landscapesApp')
                         form['template'].$setValidity('json', true);
                         form.template.$valid = true;
                         form.template.$invalid = false;
+                        $scope.landscape.description = 'template description'
                     })
                     .error(function(err){
                         console.log(err);
