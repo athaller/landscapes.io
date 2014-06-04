@@ -3,9 +3,11 @@
 angular.module('landscapesApp')
     .controller('AdminCtrl', function ($scope, User, AuthService, RoleService) {
         $scope.menu = [
+            'Settings',
             'Roles',
             'Users',
-            'Global'
+            'Globals',
+            'AWS Accounts'
         ];
 
         $scope.selected = $scope.menu[0];

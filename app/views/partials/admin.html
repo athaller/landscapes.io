@@ -3,7 +3,6 @@
 <div class="row">
     <div class="col-sm-12">
         <h2>Admin</h2>
-        <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new">https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new</a>
     </div>
     <div class="col-sm-12">
         <!--<div class="panel panel-default">-->
@@ -39,8 +38,9 @@
                                 <div class="panel-body">
                                     <table class="table table-striped table-condensed">
                                         <tr ng-repeat="role in roles">
-                                            <td >{{$index+1}}</td>
-                                            <td>{{role}}</td>
+                                            <td>{{$index+1}}</td>
+                                            <td><strong>{{role}}</strong></td>
+                                            <td>description...</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -56,7 +56,7 @@
                                     <table class="table table-striped table-condensed">
                                         <tr ng-repeat="user in users">
                                             <td>{{$index+1}}</td>
-                                            <td>{{user.name}}</td>
+                                            <td> <strong>{{user.name}}</strong> </td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.role}}</td>
                                         </tr>
@@ -65,14 +65,93 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12" ng-show="selected=='Global'">
+                        <div class="col-sm-12" ng-show="selected=='Settings'">
                             <div class="panel panel-default">
                                 <div class="panel-heading title-heading">
-                                    <h2 class="panel-title pull-left">Global</h2>
+                                    <h2 class="panel-title pull-left">Settings</h2>
                                 </div>
                                 <div class="panel-body">
-                                    list of global settings
-                                    <p>Default Icon: /images/wa.jpeg</p>
+                                    <p><strong>Default Icon: </strong> &nbsp; <input type="text" class="input-sm" value="/images/wa.jpeg"> </input> </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" ng-show="selected=='AWS Accounts'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">AWS Accounts</h2>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong>Name:</strong> OpenWhere-DEV</p>
+                                    <p><strong>Service Account:</strong> landscapes-svc</p>
+                                    <hr>
+                                    <p><strong>Name:</strong> OpenWhere</p>
+                                    <p><strong>Link:</strong> OpenWhere</p>
+                                    <p><strong>Service Account:</strong> landscapes-svc</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" ng-show="selected=='Globals'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading title-heading">
+                                    <h2 class="panel-title pull-left">Globals</h2>
+                                </div>
+                                <div class="panel-body">
+                                    <h4>Tags</h4>
+
+                                    <table class="table table-striped table-condensed">
+                                        <tr>
+                                            <td><strong>Key: <input type="text" class="input-sm"/> </strong></td>
+                                            <td><strong>Value: <input type="text" class="input-sm"/> </strong></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="addRole()">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p>&nbsp;</p>
+                                    <p>&nbsp;</p>
+
+                                    <h4>Advanced</h4>
+                                    <table class="table">
+                                        <tr>
+                                            <td colspan="2"><strong>Notification options</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0">&nbsp;</td>
+                                            <td style="border:0"><input type="radio" checked /> No notification</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0">&nbsp;</td>
+                                            <td style="border:0"><input type="radio" /> New Amazon SNS topic</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0">&nbsp;</td>
+                                            <td style="border:0"><input type="radio" /> Existing Amazon SNS topic</td>
+                                        </tr>
+                                        <tr><td  style="border:0" colspan="2">&nbsp;</td></tr>
+
+                                        <tr>
+                                            <td style="border:0"><strong>Timeout</strong></td>
+                                            <td style="border:0"><input type="text" class="input-sm"> Minutes</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0"><strong>Rollback on failure</strong></td>
+                                            <td style="border:0"><input type="radio"> Yes</input> &nbsp; &nbsp; <input type="radio"> No</input></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0"><strong>Stack policy</strong></td>
+                                            <td style="border:0"><input type="radio"> Enter policy </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:0">&nbsp;</td>
+                                            <td style="border:0"><textarea class="form-control" rows="3"></textarea></td>
+                                        </tr>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
