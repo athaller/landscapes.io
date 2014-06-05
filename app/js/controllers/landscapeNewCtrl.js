@@ -1,3 +1,17 @@
+// Copyright 2014 OpenWhere, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 'use strict';
 
 angular.module('landscapesApp')
@@ -13,6 +27,9 @@ angular.module('landscapesApp')
         };
 
         $scope.resetSelectCloudFormationTemplatePanel = function (form){
+            if($scope.landscape.description == JSON.parse($scope.landscape.cloudFormationTemplate).Description){
+                $scope.landscape.description = undefined;
+            }
             $scope.landscape.cloudFormationTemplate = undefined;
             $scope.templateSelected = false;
             form['template'].$setValidity('required', false);
@@ -69,12 +86,6 @@ angular.module('landscapesApp')
         $scope.onImageSelect = function($files) {
             $scope.imageError = false;
 
-//            var imageFileExtensions = ['png','jpg','jpeg'];
-//            if(imageFileExtensions.indexOf(f.file.extension) === -1){
-//                res.send(f.file.extension + ' is not a supported image format.'), 400
-//            }
-
-            console.log('onImageSelect()');
             for (var i = 0; i < $files.length; i++) {
                 var file = $files[i];
                 $scope.upload = $upload.upload({
@@ -93,13 +104,14 @@ angular.module('landscapesApp')
                     })
                     .error(function(err, status, headers){
                         if(status == 400) {
-                            $scope.imageError = err.msg;
+                            $scope.imageError = err.msg || err;
                             console.log(err);
                         } else if(status == 500) {
-                            $scope.imageError = 'POST /api/upload/image --> 500 (Internal Server Error)';
+                            $scope.imageError = '500 (Internal Server Error)';
                             console.log(err);
                         }
-                    });
+                    }
+                );
             }
         };
 
@@ -120,7 +132,12 @@ angular.module('landscapesApp')
                         form['template'].$setValidity('json', true);
                         form.template.$valid = true;
                         form.template.$invalid = false;
-                        $scope.landscape.description = 'template description'
+
+                        var templateDescription = JSON.parse($scope.landscape.cloudFormationTemplate).Description;
+
+                        console.log(templateDescription);
+                        console.log($scope.landscape.description);
+                        $scope.landscape.description = $scope.landscape.description || templateDescription;
                     })
                     .error(function(err){
                         console.log(err);

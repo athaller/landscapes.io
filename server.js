@@ -34,7 +34,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 });
 
 if(process.env.NODE_ENV == 'development') {
-    var devDb = require('./lib/config/dummydata');
+    var devDb = require('./lib/config/sampleData/sample-data');
     devDb.clearDbAndPopulateWithSampleData();
 }
 

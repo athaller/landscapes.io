@@ -1,6 +1,18 @@
-'use strict';
+// Copyright 2014 OpenWhere, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-// https://bitbucket.org/danhunsaker/angular-dynamic-forms
+'use strict';
 
 angular.module('landscapesApp')
     .controller('DeployCtrl', function ($scope, $http, $location, $routeParams, DeploymentService) {
@@ -16,11 +28,10 @@ angular.module('landscapesApp')
 
                 $scope.keys = Object.keys($scope.template.Parameters);
 
+                console.log('PARAMETERS...')
                 for (var i = 0; i < $scope.keys.length; i++){
-                    console.log ($scope.keys[i] + ': ' + $scope.deployment[$scope.keys[i]]);
-                    console.log($scope.template.Parameters[$scope.keys[i]]);
+                    console.log ($scope.keys[i] + ': ' + JSON.stringify($scope.template.Parameters[$scope.keys[i]]));
                     $scope.deployment[$scope.keys[i]] = '';
-
 
                     // add AllowedValues
                     if($scope.template.Parameters[$scope.keys[i]].hasOwnProperty('AllowedValues')){
@@ -41,7 +52,7 @@ angular.module('landscapesApp')
 
         $scope.createNewDeployment = function(form){
             $scope.submitted = true;
-            console.log('createNewDeployment: ' + JSON.stringify($scope.deployment))
+            // console.log('createNewDeployment: ' + JSON.stringify($scope.deployment));
 
             $scope.cloudFormationParameters = {};
 
@@ -49,7 +60,7 @@ angular.module('landscapesApp')
                 $scope.cloudFormationParameters[$scope.keys[i]] = $scope.deployment[$scope.keys[i]];
             };
 
-            console.log (JSON.stringify($scope.cloudFormationParameters))
+            console.log (JSON.stringify($scope.cloudFormationParameters));
 
             if(form.$valid) {
                 console.log('form.$valid');
@@ -82,7 +93,8 @@ angular.module('landscapesApp')
                             form[field].$setValidity('mongoose', false);
                             $scope.errors[field] = error.message;
                         });
-                    });
+                    }
+                );
             }
         };
     });
