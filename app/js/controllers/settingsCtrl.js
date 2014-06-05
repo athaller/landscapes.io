@@ -1,7 +1,24 @@
+// Copyright 2014 OpenWhere, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('SettingsCtrl', function ($scope, UserService, AuthService, RoleService) {
+    .controller('SettingsCtrl', function ($scope, UserService, AuthService, RoleService, _) {
+
+        $scope._ = _;
+
         $scope.roles = RoleService.retrieveAll();
         $scope.editingAccountSettings = false;
         $scope.changingPassword = false;
@@ -11,6 +28,7 @@ angular.module('landscapesApp')
             $scope.editingAccountSettings = true;
             $scope.currentUser.role_old = $scope.currentUser.role;
             $scope.currentUser.name_old = $scope.currentUser.name;
+            $scope.message = undefined;
         };
 
         $scope.cancelEditAccountSettings = function(form) {

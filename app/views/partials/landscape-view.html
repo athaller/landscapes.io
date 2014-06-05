@@ -59,6 +59,7 @@
                     <img class="media-object" src="{{landscape.imageUri}}" alt="..." style="margin-right: 10px;">
                 </a>
                 <div class="media-body">
+                    <div class="pull-right">{{landscape.createdAt | date : 'short'}} by {{landscape.createdBy}}</div>
                     <p><span>Version </span> {{landscape.version}}</p>
                     <p ng-show="landscape.description">{{landscape.description}}</p>
                     <p ng-show="landscape.infoLink">

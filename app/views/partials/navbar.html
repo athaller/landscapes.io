@@ -8,7 +8,7 @@
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
-        <li ng-show="currentUser.role == 'admin'" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
+        <li ng-show="_.contains(currentUser.roles, 'admin')" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
         <li ng-show="currentUser" ng-class="{active: isActive('/settings')}"><a href="/settings">Settings</a></li>
         <li ng-hide="currentUser" ng-class="{active: isActive('/login')}"><a href="/login">Log in</a></li>
         <li ng-hide="currentUser" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>

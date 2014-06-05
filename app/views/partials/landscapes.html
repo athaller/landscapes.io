@@ -16,13 +16,13 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{landscape.name}}</h3>
+                    <h3 class="panel-title"><strong>{{landscape.name}}</strong></h3>
                 </div>
                 <div class="panel-body">
 
                     <div class="media">
                         <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}">
-                            <img class="media-object" src="{{landscape.imageUri}}" alt="...">
+                            <img style="max-height: 128px; max-width: 192px" class="media-object" src="{{landscape.imageUri}}" alt="...">
                         </a>
 
                         <div class="media-body" style="min-height: 128px">

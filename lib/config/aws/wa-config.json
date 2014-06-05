@@ -1,0 +1,13 @@
+[
+    {
+        "accessKeyId": "AKIAJRDVKAYM2CNOJYRA",
+        "secretAccessKey": "eLum76cXZJ8eyFHotJSwlwTqWqM6U9siEa2QFbME",
+        "region": "us-east-1"
+    },
+
+    {
+        "accessKeyId": "YourAccessKeyId",
+        "secretAccessKey": "YourSecretAccessKey",
+        "region": "us-east-1"
+    }
+]

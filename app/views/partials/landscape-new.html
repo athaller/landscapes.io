@@ -62,15 +62,12 @@
                                     <input type="text" id="landscapeinfoLinkText" name="infoLinkText" class="form-control" ng-model="landscape.infoLinkText" />
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-
                 <div class="panel panel-default" ng-class="{'panel-danger': imageError}">
                     <div class="panel-heading title-heading">
                         <h2 class="panel-title pull-left">Image</h2>
@@ -96,7 +93,6 @@
                             <div class="media-body">
                                 <div class="form-group" ng-class="{ 'has-success': form.imageUri.$valid && submitted, 'has-error': form.imageUri.$invalid && submitted }">
                                     <label for="landscapeImageUri" class="control-label">Image URI:</label>
-
                                     <input type="text" id="landscapeImageUri" name="imageUri" class="form-control" ng-model="landscape.imageUri" required mongoose-error />
                                     <p class="help-block" ng-show="(form.imageUri.$error.required) && submitted">
                                         Image URI is required.
@@ -104,10 +100,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -139,7 +133,6 @@
                                 <input type="file" ng-file-select="onFileSelect($files, form)" >
                             </div>
                         </div>
-                        <!--http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button-->
                         <textarea class="form-control awsTemplate" name="template" ng-class="{'redTextarea': form.template.$invalid }"
                                   ng-file-drop="onFileSelect($files, form)"
                                   ng-file-drag-over-class="dragover"
