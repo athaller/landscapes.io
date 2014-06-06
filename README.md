@@ -5,7 +5,7 @@ Designed to handle the most complicated DevOps deployments, landscapes.io is an 
 Currently, the project is in ALPHA and frequent (weekly) updates should be expected.
 
 ##Demo
-A live demo of landscapes.io is available at [http://demo.landscapes.io](http://demo.landscapes.io).
+Coming soon... a live instance of landscapes.io will be available at [http://demo.landscapes.io](http://demo.landscapes.io).
 
 
 ##Installation
@@ -49,11 +49,14 @@ landscapes.io requires [ImageMagick](http://www.imagemagick.org). This dependenc
 * Go to the [Windows Binary Release page on the ImageMagick website](http://www.imagemagick.org/script/binary-releases.php#windows) and then download and install the appropriate version.
 
 
-
-
 ###Configuration
 
-NODE_ENV
+landscapes.io has three configuration options.
+
+1  | Production:  | `$ NODE_ENV=production node server.js`
+2  | Test:        | `$ NODE_ENV=test node server.js`
+3  | Development: | `node server.js`
+
 
 /lib/config
 
