@@ -2,11 +2,11 @@ landscapes.io
 ===============
 Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built with the MEAN stack.
 
-1. The MongoDB/node.js/express server-side code lives in `/lib`.
-2. The AngularJS/Bootstrap client-side code is in `/app`.
+1. The MongoDB / node.js / express server-side code lives in `/lib`.
+2. The AngularJS / Twitter Bootstrap client-side code is in `/app`.
 3. All tests are in `/test`. (We need more tests...)
 
-Currently, the project is in ALPHA and frequent (weekly) updates should be expected.
+Currently, the project is in ALPHA and frequent updates should be expected.
 
 ##Demo
 Coming soon... a live instance of landscapes.io will be available at [http://demo.landscapes.io](http://demo.landscapes.io).
@@ -14,13 +14,13 @@ Coming soon... a live instance of landscapes.io will be available at [http://dem
 
 ##Installation
 
-landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/). 
+landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/) for installation.
 
-Install client-side dependencies listed in bower.json.
+Install client-side dependencies listed in `bower.json`.
 
     $ bower install
     
-Install backend dependencies listed in package.json.
+Install backend dependencies listed in `package.json`.
 
     $ npm install
     
@@ -50,6 +50,11 @@ landscapes.io is available through several channels...
 **AWS AMI**
 
     coming soon!
+
+
+###MongoDB
+
+landscapes.io requires MongoDB for data persistence. OOTB landscapes.io is configured to access a [MongoDB](http://www.mongodb.org) server on `localhost`.
 
 
 ###ImageMagick
