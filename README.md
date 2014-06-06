@@ -12,6 +12,7 @@ A live demo of landscapes.io is available at [http://demo.landscapes.io](http://
 The application is available through several channels...
 
 **npm**
+
     $ npm install landscapes.io
 
 **bower**
