@@ -1,6 +1,6 @@
 landscapes.io
 ===============
-Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built on the MEAN stack.
+Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built with the MEAN stack.
 
 Currently, the project is in ALPHA and frequent (weekly) updates should be expected.
 
@@ -49,20 +49,49 @@ landscapes.io requires [ImageMagick](http://www.imagemagick.org). This dependenc
 * Go to the [Windows Binary Release page on the ImageMagick website](http://www.imagemagick.org/script/binary-releases.php#windows) and then download and install the appropriate version.
 
 
+###AWS Service Account
+
+landscapes.io requires an AWS IAM account with full access to AWS CloudFormation.
+
+####I. Create an AWS Service Account
+
+1. Sign into your [AWS Management Console](https://console.aws.amazon.com).
+2. Navigate to the [IAM Dashboard](https://console.aws.amazon.com/iam).
+3. Go to the [IAM Users](https://console.aws.amazon.com/iam/home#users) page and click the **Create New Users** button.
+4. In the **Create User** modal window, enter the name of your Service Account (e.g., landscapes-svc).
+5. Make sure **Generate an access key for each User** is checked and then click the **Create** button.
+6. The next modal window should state: **Your 1 User(s) have been created successfully.**
+7. Click the **Download Credentials** button.
+    * This "credentials.csv" file contains the **Access Key Id** and **Secret Access Key** you will need to configure landscapes.io.
+8. Click the **Close Window** button.
+10. At the [IAM Users](https://console.aws.amazon.com/iam/home#users) page, check the box for your new Service Account.
+11. Select the **Permissions** tab and then click the **Attach User Policy** button.
+12. In the **Manage User Permissions** modal window, select the **Policy Generator** radio button and click **Select**.
+13. Set the **Edit Permissions** form to the following values:
+    * **Effect**: Allow
+    * **AWS Service**: AWS CloudFormation
+    * **Actions**: All Actions Selected
+14. Click the **Add Statement** button and then click **Continue**.
+15. In the **Set Permissions** form click the **Apply Policy** button.
+
+####II. Enter Your AWS Service Account Data into landscapes.io configuration
+
+1. Open the "credentials.csv" file that you downloaded in step 7 above. 
+2. Open `/lib/config/aws/config.json` for editing.  
+3. Copy and paste your AWS Service Account's **accessKeyId** and **secretAccessKey** into `config.json`.
+4. Save your changes to `/lib/config/aws/config.json`.
+
+
 ###Configuration
 
 landscapes.io has three configuration options.
 
-1  | Production:  | `$ NODE_ENV=production node server.js`
-2  | Test:        | `$ NODE_ENV=test node server.js`
-3  | Development: | `node server.js`
+1. `$ NODE_ENV=production node server.js`
+2. `$ NODE_ENV=test node server.js`
+3. `node server.js`
 
+If `NODE_ENV` is not set, landscapes.io will default to the "development" configuration. 
 
-/lib/config
-
-Add your AWS accessKeyId, secretAccessKey and region to... 
-
-    /lib/config/aws/config.json
 
 ##Contributing
 1. [Check for open issues](https://github.com/OpenWhere/landscapes.io/issues) or [open a new issue](https://github.com/OpenWhere/landscapes.io/issues/new) to start a discussion around a bug or feature idea.

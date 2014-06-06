@@ -170,3 +170,9 @@ textarea.awsTemplate {
     padding: 3px 5px 3px 10px;
     margin: 2px 0 10px 0;
 }
+
+.badge.alert-success {
+    line-height: 16px;
+    padding-right: 12px;
+    padding-left: 12px;
+}

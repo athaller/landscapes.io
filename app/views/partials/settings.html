@@ -1,15 +1,6 @@
 <div ng-include="'partials/navbar.html'"></div>
 <div id="titleRow" class="row">
     <h2 class="pull-left col-md-9">Settings</h2>
-    <div class="col-md-3">
-
-        <!--<div class="pull-right">-->
-        <!--<button type="button" class="btn btn-default pull-right" ng-show="!changingPassword" ng-click="changingPassword=true">-->
-        <!--<span class="glyphicon glyphicon-pencil"></span> Change Password-->
-        <!--</button>-->
-        <!--</div>-->
-
-    </div>
 </div>
 <div class="row">
 
@@ -68,28 +59,33 @@
     <div class="col-sm-6">
         <form class="form" name="form" novalidate ng-submit="updateUser(form)">
 
-            <div id="AdminOnly" class="panel panel-default" ng-show="_.contains(currentUser.roles, 'admin')" >
+            <div class="panel panel-default"  ng-class="{ 'panel-primary': editingAccountSettings, 'panel-danger': form.$invalid && submitted }">
                 <div class="panel-heading title-heading">
                     <h2 class="panel-title pull-left">Account</h2>
-                    <button type="button" class="btn btn-default pull-right" ng-show="!editingAccountSettings" ng-click="editAccountSettings()">
+                    <button type="button" class="btn btn-default pull-right" ng-show="!editingAccountSettings"
+                            ng-click="editAccountSettings()">
                         <span class="glyphicon glyphicon-pencil"></span> Edit
                     </button>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal">
 
-                        <div class="form-group">
+                        <div class="form-group"
+                             ng-class="{ 'has-success': form.userName.$valid && submitted && editingAccountSettings, 'has-error': form.userName.$invalid && submitted && editingAccountSettings }">
                             <label class="col-md-3 control-label">User Name</label>
-                            <div class="col-sm-9">
+                            <div class="col-md-9">
                                 <input type="text" name="userName" class="form-control" ng-model="currentUser.name"
                                        ng-disabled="!editingAccountSettings" required/>
+                                <p class="help-block" ng-show="form.userName.$error.required && submitted">
+                                    User Name is required.
+                                </p>
                             </div>
                         </div>
 
                         <div class="form-group"
                              ng-class="{ 'has-success': form.email.$valid && submitted && editingAccountSettings, 'has-error': form.email.$invalid && submitted && editingAccountSettings }">
                             <label class="col-md-3 control-label">Email</label>
-                            <div class="col-sm-9">
+                            <div class="col-md-9">
                                 <input type="email" name="email" class="form-control" ng-model="currentUser.email"
                                        ng-disabled="!editingAccountSettings" required/>
 
@@ -104,13 +100,23 @@
                                 </p>
                             </div>
                         </div>
+
+                        <div class="form-group" ng-show="!editingAccountSettings">
+                            <label class="col-md-3 control-label">Roles</label>
+                            <div class="col-md-9" style="line-height: 32px;">
+                                <span ng-repeat="role in currentUser.roles">
+                                    <span style="" class="badge alert-success" ng-click="editUser()" ng-class="{'alert-danger': role=='admin' }">
+                                        {{role}}</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pull-right" ng-show="editingAccountSettings">
                         <button type="button" class="btn btn-primary" ng-click="cancelEditAccountSettings(form)">
                             <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                         </button>
-                        <button class="btn" type="submit" ng-class="{'btn-default': form.$invalid }" >
+                        <button class="btn btn-default" type="submit" ng-class="{'btn-success': form.$valid && submitted }" >
                             <span class="glyphicon glyphicon-save"></span> Save
                         </button>
                     </div>
