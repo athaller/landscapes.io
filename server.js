@@ -36,6 +36,9 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 if(process.env.NODE_ENV == 'development') {
     var devDb = require('./lib/config/sampleData/sample-data');
     devDb.clearDbAndPopulateWithSampleData();
+} else {
+    var db = require('./lib/config/startupData/startup-data');
+    db.createStartupData();
 }
 
 var passport = require('./lib/config/passport');

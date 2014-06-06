@@ -20,7 +20,7 @@ angular.module('landscapesApp')
             'Users',
             'Roles',
             'Globals',
-            'AWS Accounts',
+            'Accounts',
             'Settings'
         ];
 
