@@ -51,7 +51,7 @@ The landscapes.io RESTful API backend requires [ImageMagick](http://www.imagemag
 
 
 
-### Configuration
+###Configuration
 
 NODE_ENV
 
@@ -61,14 +61,14 @@ Add your AWS accessKeyId, secretAccessKey and region to...
 
     /lib/config/aws/config.json
 
-## Contributing
+##Contributing
 1. [Check for open issues](https://github.com/OpenWhere/landscapes.io/issues) or [open a new issue](https://github.com/OpenWhere/landscapes.io/issues/new) to start a discussion around a bug or feature idea.
 2. Fork the landscapes.io repository on Github and make your changes to the codebase
 3. Write a test that shows the bug was fixed or the feature works as expected.
 4. Send a pull request and add yourself to the Contributors list below.
 
 
-## License
+##License
 
 Copyright 2014 OpenWhere, Inc.
 
