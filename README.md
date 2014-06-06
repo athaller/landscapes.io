@@ -1,26 +1,27 @@
-# landscapes.io
+landscapes.io
+===============
 Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built on the MEAN stack.
 
 Currently, the project is in ALPHA and frequent (weekly) updates should be expected.
 
-## Demo
+##Demo
 A live demo of landscapes.io is available at [http://demo.landscapes.io](http://demo.landscapes.io).
 
 
-## Installation
+##Installation
 The application is available through several channels...
 
-#### npm
+**npm**
     $ npm install landscapes.io
 
-#### bower
+**bower**
     $ bower install landscapes.io
 
-#### AWS AMI
+**AWS AMI**
     coming soon!
 
 
-### ImageMagick
+###ImageMagick
 
 The landscapes.io RESTful API backend requires [ImageMagick](http://www.imagemagick.org). This dependency may be installed as follows.
 
