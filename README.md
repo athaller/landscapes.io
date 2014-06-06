@@ -14,23 +14,6 @@ Coming soon... a live instance of landscapes.io will be available at [http://dem
 
 ##Installation
 
-landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/) for installation.
-
-Install client-side dependencies listed in `bower.json`.
-
-    $ bower install
-    
-Install backend dependencies listed in `package.json`.
-
-    $ npm install
-    
-Launch landscapes.io in development mode.
-
-    $ node server.js
-    
-You can log into landscapes.io using `admin@admin.com` and `admin`.
-    
-
 landscapes.io is available through several channels...
 
 
@@ -50,6 +33,23 @@ landscapes.io is available through several channels...
 **AWS AMI**
 
     coming soon!
+    
+
+landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/) for installation.
+
+Install client-side dependencies listed in `bower.json`.
+
+    $ bower install
+    
+Install backend dependencies listed in `package.json`.
+
+    $ npm install
+    
+Launch landscapes.io in development mode.
+
+    $ node server.js
+    
+You can log into landscapes.io using `admin@admin.com` and `admin`.
 
 
 ###MongoDB
