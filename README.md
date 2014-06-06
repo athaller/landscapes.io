@@ -13,7 +13,30 @@ Coming soon... a live instance of landscapes.io will be available at [http://dem
 
 
 ##Installation
-The application is available through several channels...
+
+landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/). 
+
+Install client-side dependencies listed in bower.json.
+
+    $ bower install
+    
+Install backend dependencies listed in package.json.
+
+    $ npm install
+    
+Launch landscapes.io in development mode.
+
+    $ node server.js
+    
+You can log into landscapes.io using `admin@admin.com` and `admin`.
+    
+
+landscapes.io is available through several channels...
+
+
+**git**
+
+    $ git clone git://github.com/OpenWhere/landscapes.io.git
 
 **npm**
 
@@ -88,14 +111,13 @@ landscapes.io requires an AWS IAM account with full access to AWS CloudFormation
 
 ###Configuration
 
-landscapes.io has three configuration options.
+landscapes.io has three configuration modes:
 
 1. `$ NODE_ENV=production node server.js`
 2. `$ NODE_ENV=test node server.js`
 3. `node server.js`
 
-If `NODE_ENV` is not set, landscapes.io will default to the "development" configuration. 
-
+If `NODE_ENV` is not set, landscapes.io will default to the "development" configuration.
 
 ##Contributing
 1. [Check for open issues](https://github.com/OpenWhere/landscapes.io/issues) or [open a new issue](https://github.com/OpenWhere/landscapes.io/issues/new) to start a discussion around a bug or feature idea.
