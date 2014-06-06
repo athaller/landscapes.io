@@ -27,7 +27,7 @@ The application is available through several channels...
 
 ###ImageMagick
 
-The landscapes.io RESTful API backend requires [ImageMagick](http://www.imagemagick.org). This dependency may be installed as follows.
+landscapes.io requires [ImageMagick](http://www.imagemagick.org). This dependency may be installed as follows.
 
 **CentOS, RHEL and AmazonLinux**
 
