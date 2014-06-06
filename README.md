@@ -2,6 +2,10 @@ landscapes.io
 ===============
 Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built with the MEAN stack.
 
+1. The MongoDB/node.js/express server-side code lives in `/lib`.
+2. The AngularJS/Bootstrap client-side code is in `/app`.
+3. All tests are in `/test`. (We need more tests...)
+
 Currently, the project is in ALPHA and frequent (weekly) updates should be expected.
 
 ##Demo
