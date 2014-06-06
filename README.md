@@ -41,7 +41,7 @@ The landscapes.io RESTful API backend requires [ImageMagick](http://www.imagemag
 
 **Windows**
 
-* Go to the [Windows Binary Release page on the ImageMagick website] (http://www.imagemagick.org/script/binary-releases.php#windows) and then download and install the appropriate version.
+* Go to the [Windows Binary Release page on the ImageMagick website](http://www.imagemagick.org/script/binary-releases.php#windows) and then download and install the appropriate version.
 
 
 
