@@ -16,9 +16,12 @@ The application is available through several channels...
     $ npm install landscapes.io
 
 **bower**
+
     $ bower install landscapes.io
 
+
 **AWS AMI**
+
     coming soon!
 
 
