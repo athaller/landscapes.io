@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LandscapeEditCtrl',
+    .controller('EditLandscapeCtrl',
     function ($scope,
               $upload,
               $filter,

@@ -28,10 +28,6 @@ angular.module('landscapesApp', [
             .when('/', {
                 redirectTo: '/landscapes'
             })
-            .when('/landscapes', {
-                templateUrl: 'partials/landscapes',
-                controller: 'LandscapesCtrl'
-            })
             .when('/login', {
                 templateUrl: 'partials/login',
                 controller: 'LoginCtrl'
@@ -40,44 +36,48 @@ angular.module('landscapesApp', [
                 templateUrl: 'partials/signup',
                 controller: 'SignupCtrl'
             })
-            .when('/admin', {
-                templateUrl: 'partials/admin',
-                controller: 'AdminCtrl',
-                authenticate: true
-            })
             .when('/settings', {
                 templateUrl: 'partials/settings',
                 controller: 'SettingsCtrl',
                 authenticate: true
             })
-            .when('/deploy/:id', {
-                templateUrl: 'partials/deploy',
-                controller: 'DeployCtrl',
-                authenticate: true             // DEV ONLY!
-            })
-            .when('/landscapes/:id', {
-                templateUrl: 'partials/landscape-view',
-                controller: 'LandscapeViewCtrl',
-                authenticate: true             // DEV ONLY!
-            })
-            .when('/landscapes/:id/edit', {
-                templateUrl: 'partials/landscape-edit',
-                controller: 'LandscapeEditCtrl',
-                authenticate: true             // DEV ONLY!
-            })
-            .when('/landscapes/:id/history', {
-                templateUrl: 'partials/landscape-history',
-                controller: 'LandscapeViewCtrl',
+            .when('/admin', {
+                templateUrl: 'partials/admin/admin-main',
+                controller: 'AdminCtrl',
                 authenticate: true
             })
             .when('/landscape/new', {
-                templateUrl: 'partials/landscape-new',
-                controller: 'LandscapeNewCtrl',
-                authenticate: true             // DEV ONLY!
+                templateUrl: 'partials/landscape/create-landscape',
+                controller: 'CreateLandscapeCtrl',
+                authenticate: true
             })
-            .otherwise({
-                redirectTo: '/landscapes'
-            });
+            .when('/landscapes/:id/edit', {
+                templateUrl: 'partials/landscape/edit-landscape',
+                controller: 'EditLandscapeCtrl',
+                authenticate: true
+            })
+            .when('/landscapes', {
+                templateUrl: 'partials/landscape/list-landscapes',
+                controller: 'ListLandscapesCtrl'
+            })
+            .when('/landscapes/:id', {
+                templateUrl: 'partials/landscape/view-landscape',
+                controller: 'ViewLandscapeCtrl',
+                authenticate: true
+            })
+            .when('/landscapes/:id/history', {
+                templateUrl: 'partials/landscape/view-landscape-history',
+                controller: 'LandscapeViewCtrl',
+                authenticate: true
+            })
+            .when('/deploy/:id', {
+                templateUrl: 'partials/deployment/create-deployment',
+                controller: 'CreateDeploymentCtrl',
+                authenticate: true
+            })
+//            .otherwise({
+//                redirectTo: '/landscapes'
+//            });
 
         $locationProvider.html5Mode(true);
 

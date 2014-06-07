@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LandscapeViewCtrl', function ($scope, $route, $http, $location, $routeParams, LandscapeService) {
+    .controller('ViewLandscapeCtrl', function ($scope, $route, $http, $location, $routeParams, LandscapeService, UserService) {
         $scope.isArray = angular.isArray;
 
         $scope.menu = [
@@ -36,7 +36,10 @@ angular.module('landscapesApp')
         $scope.parametersKeys = [];
         $scope.mappingsKeys = [];
 
-        LandscapeService.retrieve($routeParams.id)
+        // http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
+
+        LandscapeService
+            .retrieve($routeParams.id)
             .then(function(landscape) {
                 $scope.landscape = landscape;
                 $scope.landscape.createdBy = landscape.createdBy;
@@ -45,13 +48,22 @@ angular.module('landscapesApp')
                 $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
                 $scope.template.parametersLength = $scope.template.Parameters.length;
 
-                $scope.resourcesKeys = Object.keys($scope.template.Resources)
-                $scope.parametersKeys = Object.keys($scope.template.Parameters)
-                $scope.mappingsKeys = Object.keys($scope.template.Mappings)
+                $scope.resourcesKeys = Object.keys($scope.template.Resources);
+                $scope.parametersKeys = Object.keys($scope.template.Parameters);
+                $scope.mappingsKeys = Object.keys($scope.template.Mappings);
 
+                UserService
+                    .retrieve(landscape.createdBy)
+                    .then(function(user) {
+                        $scope.user = user;
+                    })
+                    .catch(function (err) {
+                        err = err.data || err;
+                        console.log(err);
+                    })
             })
             .catch(function(err) {
-                err = err.data;
+                err = err.data || err;
                 console.log(err)
             });
 
@@ -81,56 +93,3 @@ angular.module('landscapesApp')
         };
     }
 );
-
-angular.module('landscapesApp')
-    .controller('DeploymentsCtrl', function ($scope, $http, $routeParams, DeploymentService) {
-
-        $scope.addNote = false;
-        $scope.newNote = {};
-        $scope.deployments = [];
-
-        $scope.loadDeployments = function(isOpenIndex) {
-            //console.log(isOpenIndex)
-            DeploymentService.retrieveForLandscape($routeParams.id,
-                function (err, deployments) {
-                    if (err) {
-                        err = err.data;
-                        console.log(err)
-                    } else {
-                        $scope.deployments = deployments;
-                        if(isOpenIndex !== undefined) {
-                            $scope.deployments[isOpenIndex].open = true;
-                        }
-                    }
-                });
-        };
-
-        $scope.loadDeployments();
-
-        $scope.cancelNote = function(index) {
-            $scope.newNote.text = undefined;
-            $scope.addNote = false;
-            $scope.loadDeployments(index);
-        }
-
-        $scope.saveNote = function(id, index) {
-            console.log('saveNote: ' + id);
-            console.log($scope.newNote.text);
-
-            if($scope.newNote.text !== undefined) {
-                var newNote = { text: $scope.newNote.text };
-                DeploymentService.update(id, { _id: id, note: newNote},
-                    function (err, data) {
-                        if (err) {
-                            err = err.data || err;
-                            console.log(err);
-                        } else {
-                            $scope.addNote = false;
-                        }
-                    });
-            }
-            $scope.newNote.text = undefined;
-            $scope.addNote = false;
-            $scope.loadDeployments(index);
-        };
-    });

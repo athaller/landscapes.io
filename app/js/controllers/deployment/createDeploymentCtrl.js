@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('DeployCtrl', function ($scope, $http, $location, $routeParams, DeploymentService) {
+    .controller('CreateDeploymentCtrl', function ($scope, $http, $location, $routeParams, DeploymentService) {
 
         $scope.deployment = {location:'US East (Northern Virginia)', flavor:'None'};
         $scope.errors = {};

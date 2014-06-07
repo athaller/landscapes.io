@@ -16,6 +16,10 @@
 
 angular.module('landscapesApp')
     .controller('AdminCtrl', function ($scope, User, AuthService, RoleService) {
+
+        console.log('AdminCtrl');
+
+
         $scope.menu = [
             'Users',
             'Roles',

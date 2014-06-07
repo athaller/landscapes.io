@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LandscapeNewCtrl', function ($scope, $upload, LandscapeService, ValidationService, $http, $location, $routeParams, $filter) {
+    .controller('CreateLandscapeCtrl', function ($scope, $upload, LandscapeService, ValidationService, $http, $location, $routeParams, $filter) {
         $scope.landscape = {'version':'1.0', 'imageUri': 'images/AWS-CF-Icon.png'};
         $scope.errors = {};
         $scope.selectFile = true;
