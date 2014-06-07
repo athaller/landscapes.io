@@ -17,6 +17,18 @@
 angular.module('landscapesApp')
     .factory('UserService', function LandscapeService($location, $rootScope, User) {
         return {
+            retrieve: function(id, callback) {
+                var cb = callback || angular.noop;
+
+                return User.get({id:id},
+                    function(user) {
+                        return cb(user);
+                    },
+                    function(err) {
+                        return cb(err);
+                    }
+                ).$promise;
+            },
             update: function (id, user, callback) {
                 var cb = callback || angular.noop;
 
