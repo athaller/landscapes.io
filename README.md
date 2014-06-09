@@ -2,14 +2,25 @@ landscapes.io
 ===============
 Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built with the MEAN stack.
 
-1. The MongoDB / node.js / express server-side code lives in `/lib`.
-2. The AngularJS / Twitter Bootstrap client-side code is in `/app`.
-3. All tests are in `/test`. (We need more tests...)
-
 Currently, the project is in ALPHA and frequent updates should be expected.
+
+
+---
+
+
+The [mailing list](https://groups.google.com/forum/#!forum/landscapes-io) is intended for general discussion only.
+**How-to questions** and **why-doesn't-this-work questions** should be posted on
+[Stack Overflow](http://www.stackoverflow.com/search?q=landscapes.io) with the `landscapes.io` tag;
+we monitor these posts and ensure that they are properly answered.
+
+
+The [landscapes.io wiki](https://github.com/OpenWhere/landscapes.io/wiki) is a repository for detailed documentation. 
+
+
 
 ##Demo
 Coming soon... a live instance of landscapes.io will be available at [http://demo.landscapes.io](http://demo.landscapes.io).
+
 
 
 ##Installation
@@ -124,11 +135,18 @@ landscapes.io has three configuration modes:
 
 If `NODE_ENV` is not set, landscapes.io will default to the "development" configuration.
 
+
+
 ##Contributing
+* The **MongoDB / node.js / express** server-side code lives in `/lib`.
+* The **AngularJS / Twitter Bootstrap** client-side code is in `/app`.
+* All tests are in `/test`. (We need more tests...)
+
 1. [Check for open issues](https://github.com/OpenWhere/landscapes.io/issues) or [open a new issue](https://github.com/OpenWhere/landscapes.io/issues/new) to start a discussion around a bug or feature idea.
 2. Fork the landscapes.io repository on Github and make your changes to the codebase
 3. Write a test that shows the bug was fixed or the feature works as expected.
 4. Send a pull request and add yourself to the Contributors list below.
+
 
 
 ##License

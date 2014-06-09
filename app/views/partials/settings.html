@@ -4,57 +4,57 @@
 </div>
 <div class="row">
 
-    <div class="col-sm-6">
-        <!--<form class="form" name="form" ng-submit="changePassword(form)" novalidate>-->
-        <div class="panel panel-default">
-            <div class="panel-heading title-heading">
-                <h2 class="panel-title pull-left">Password</h2>
-                <button type="button" class="btn btn-default pull-right" ng-show="!changingPassword" ng-click="changingPassword = true">
-                    <span class="glyphicon glyphicon-pencil"></span> Edit
-                </button>
-            </div>
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Current Password</label>
-                        <div class="col-md-8">
-                            <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
-                                   mongoose-error/>
-                            <p class="help-block" ng-show="form.password.$error.mongoose">
-                                {{ errors.other }}
-                            </p>
-                        </div>
-                    </div>
+    <!--<div class="col-sm-6">-->
+    <!--&lt;!&ndash;<form class="form" name="form" ng-submit="changePassword(form)" novalidate>&ndash;&gt;-->
+    <!--<div class="panel panel-default">-->
+    <!--<div class="panel-heading title-heading">-->
+    <!--<h2 class="panel-title pull-left">Password</h2>-->
+    <!--<button type="button" class="btn btn-default pull-right" ng-show="!changingPassword" ng-click="changingPassword = true">-->
+    <!--<span class="glyphicon glyphicon-pencil"></span> Edit-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--<div class="panel-body">-->
+    <!--<div class="form-horizontal">-->
+    <!--<div class="form-group">-->
+    <!--<label class="col-md-4 control-label">Current Password</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="password" name="password" class="form-control" ng-model="user.oldPassword"-->
+    <!--mongoose-error/>-->
+    <!--<p class="help-block" ng-show="form.password.$error.mongoose">-->
+    <!--{{ errors.other }}-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--</div>-->
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">New Password</label>
-                        <div class="col-md-8">
-                            <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"
-                                   ng-minlength="6"
-                                   required/>
-                            <p class="help-block"
-                               ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
-                                Password must be at least 6 characters.
-                            </p>
-                        </div>
-                    </div>
+    <!--<div class="form-group">-->
+    <!--<label class="col-md-4 control-label">New Password</label>-->
+    <!--<div class="col-md-8">-->
+    <!--<input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"-->
+    <!--ng-minlength="6"-->
+    <!--required/>-->
+    <!--<p class="help-block"-->
+    <!--ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">-->
+    <!--Password must be at least 6 characters.-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--</div>-->
 
-                    <p class="help-block"> {{ message }} </p>
-                </div>
+    <!--<p class="help-block"> {{ message }} </p>-->
+    <!--</div>-->
 
-                <div class="pull-right" ng-show="changingPassword">
-                    <button type="button" class="btn btn-primary" ng-click="changingPassword=false">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                    </button>
-                    <button class="btn btn" type="submit">
-                        <span class="glyphicon glyphicon-save"></span> Save
-                    </button>
-                </div>
+    <!--<div class="pull-right" ng-show="changingPassword">-->
+    <!--<button type="button" class="btn btn-primary" ng-click="changingPassword=false">-->
+    <!--<span class="glyphicon glyphicon-ban-circle"></span> Cancel-->
+    <!--</button>-->
+    <!--<button class="btn btn" type="submit">-->
+    <!--<span class="glyphicon glyphicon-save"></span> Save-->
+    <!--</button>-->
+    <!--</div>-->
 
-            </div>
-        </div>
-        <!--</form>-->
-    </div>
+    <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;</form>&ndash;&gt;-->
+    <!--</div>-->
 
     <div class="col-sm-6">
         <form class="form" name="form" novalidate ng-submit="updateUser(form)">
@@ -102,14 +102,23 @@
                         </div>
 
                         <div class="form-group" ng-show="!editingAccountSettings">
-                            <label class="col-md-3 control-label">Roles</label>
-                            <div class="col-md-9" style="line-height: 32px;">
-                                <span ng-repeat="role in currentUser.roles">
-                                    <span style="" class="badge alert-success" ng-click="editUser()" ng-class="{'alert-danger': role=='admin' }">
-                                        {{role}}</span>
-                                </span>
+                            <label class="col-md-3 control-label">Role</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" ng-model="currentUser.role" disabled />
                             </div>
                         </div>
+
+                        <div class="form-group" ng-show="!editingAccountSettings && currentUser.groups" >
+
+                                <label class="col-md-3 control-label">Groups</label>
+                                <div class="col-md-9" style="line-height: 32px;">
+                                <span ng-repeat="group in currentUser.groups">
+                                    <span class="badge alert-success">{{group}}</span>
+                                </span>
+                                </div>
+
+                        </div>
+
                     </div>
 
                     <div class="pull-right" ng-show="editingAccountSettings">

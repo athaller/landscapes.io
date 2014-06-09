@@ -43,7 +43,6 @@ angular.module('landscapesApp')
             .then(function(landscape) {
                 $scope.landscape = landscape;
                 $scope.landscape.createdBy = landscape.createdBy;
-                console.log( $scope.landscape.createdBy);
 
                 $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
                 $scope.template.parametersLength = $scope.template.Parameters.length;

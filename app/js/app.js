@@ -21,7 +21,8 @@ angular.module('landscapesApp', [
     'ngRoute',
     'ui.bootstrap',
     'angularFileUpload',
-    'underscore'
+    'underscore',
+    'checklist-model'
 ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider

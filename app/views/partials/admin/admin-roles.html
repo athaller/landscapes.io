@@ -1,17 +1,49 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="AdminRolesCtrl">
     <div class="panel-heading title-heading">
         <h2 class="panel-title pull-left">Roles</h2>
-        <button type="button" class="btn btn-default pull-right" ng-click="addRole()">
+        <button type="button" class="btn btn-default pull-right"
+                ng-hide="addingRole || editingRole"
+                ng-click="addRole()">
             <span class="glyphicon glyphicon-plus-sign"></span> Add
+        </button>
+        <button type="button" class="btn btn-default pull-right"
+                ng-show="addingRole || editingRole"
+                ng-click="reset()">
+            <span class="glyphicon glyphicon-refresh"></span> Reset
         </button>
     </div>
     <div class="panel-body">
-        <table class="table table-striped table-condensed">
-            <tr ng-repeat="role in roles">
-                <td>{{$index+1}}</td>
-                <td><strong>{{role}}</strong></td>
-                <td>description...</td>
+
+        <table class="table table-striped adminTable" ng-hide="addingRole || editingRole">
+            <tr>
+                <td>&nbsp;</td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Permissions</th>
+            </tr>
+            <tr ng-repeat="role in roles | orderBy: 'name'">
+                <td>
+                    <button type="button" class="btn btn-default btn-xs"
+                            ng-hide="role.name=='Administrator'"
+                            ng-click="editRole(role._id)">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                </td>
+                <td><strong>{{role.name}}</strong></td>
+                <td>{{role.description}}</td>
+                <td>
+                    <span ng-repeat="permission in role.permissions">
+                        <span style="" class="badge alert-success"
+                              ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
+                            {{permission}}</span>
+                    </span>
+                </td>
             </tr>
         </table>
+
+        <div ng-show="addingRole || editingRole">
+            <div ng-include="'partials/admin/admin-roles-modify'"></div>
+        </div>
+
     </div>
 </div>

@@ -15,28 +15,27 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminCtrl', function ($scope, User, AuthService, RoleService) {
-
-        console.log('AdminCtrl');
-
+    .controller('AdminCtrl', function ($scope, User, AuthService, RoleService, GroupService, PermissionService) {
 
         $scope.menu = [
             'Users',
             'Roles',
+            'Groups',
             'Globals',
             'Accounts',
-            'Settings'
+            'App Settings'
         ];
 
         $scope.selected = $scope.menu[0];
 
         $scope.buttonClick = function(text){
             $scope.selected = text;
-            console.log($scope.selected);
         };
 
-        $scope.roles = RoleService.retrieveAll();
+        $scope.roles = RoleService.retrieve();
         $scope.users = User.query();
+        $scope.groups = GroupService.retrieve();
+        $scope.permissions = PermissionService.retrieveAll();
 
         $scope.errors = {};
 
@@ -54,4 +53,20 @@ angular.module('landscapesApp')
                     });
             }
         };
+
+        $scope.setUserGroups = function() {
+            for (var i = 0; i < $scope.groups.length; i++) {
+                var group = $scope.groups[i];
+
+                for (var q = 0; q < $scope.users.length; q++) {
+                    var usr = $scope.users[q];
+
+                    if (_.contains(group.users, usr._id)) {
+                        $scope.users[q].groups.push(group);
+                    }
+                }
+            }
+        }
+
+
     });

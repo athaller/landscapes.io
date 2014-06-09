@@ -15,13 +15,13 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('RoleService', function RoleService($location, $rootScope, Role) {
+    .factory('GroupService', function GroupService($location, $rootScope, Group) {
         return {
-            create: function(role, callback) {
+            create: function(group, callback) {
                 var cb = callback || angular.noop;
-                return Role.save(role,
-                    function(role) {
-                        return cb(role);
+                return Group.save(group,
+                    function(data) {
+                        return cb(data);
                     },
                     function(err) {
                         return cb(err);
@@ -29,15 +29,15 @@ angular.module('landscapesApp')
                 ).$promise;
             },
             retrieve: function(callback) {
-                return Role.query(function(){});
+                return Group.query(function(){});
             },
             retrieveOne: function(id) {
-                return Role.get({id:id}, function(){});
+                return Group.get({id:id}, function(){});
             },
-            update: function(id, role, callback) {
+            update: function(id, group, callback) {
                 var cb = callback || angular.noop;
 
-                return Role.update({id:id}, role,
+                return Group.update({id:id}, group,
                     function(data) {
                         return cb(data);
                     },
@@ -49,9 +49,7 @@ angular.module('landscapesApp')
             delete: function(id, callback) {
                 var cb = callback || angular.noop;
 
-                console.log('delete Role: ' + id);
-
-                return Role.remove({id: id},
+                return Group.remove({id: id},
                     function(data) {
                         return cb(data);
                     },
@@ -64,8 +62,8 @@ angular.module('landscapesApp')
     });
 
 angular.module('landscapesApp')
-    .factory('Role', function ($resource) {
-        return $resource('/api/roles/:id', {
+    .factory('Group', function ($resource) {
+        return $resource('/api/groups/:id', {
             id: '@id'
         }, {
             update: { method: 'PUT' }
