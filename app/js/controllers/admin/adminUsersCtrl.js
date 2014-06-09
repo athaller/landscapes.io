@@ -14,23 +14,25 @@
 
 'use strict';
 
-var mongoose = require('mongoose'),
-    passport = require('passport');
+angular.module('landscapesApp')
+    .controller('AdminUsersCtrl', function ($scope, User, AuthService, RoleService, GroupService, _) {
+        console.log('AdminUsersCtrl');
 
-exports.logout = function (req, res) {
-  req.logout();
-  res.send(200);
-};
+        $scope.addingUser = false;
 
-exports.login = function (req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    var error = err || info;
-    if (error) return res.json(401, error);
+        $scope.editUser = function() {
+            console.log('editRole');
+        };
 
-    req.logIn(user, function(err) {
-      
-      if (err) return res.send(err);
-      res.json(req.user.userInfo);
+        $scope.addUser = function() {
+            console.log('addUser');
+            $scope.addingUser = true;
+        };
+
+        $scope.reset = function(form){
+            $scope.addingUser = false;
+        };
+
+        $scope.setUserGroups();
+
     });
-  })(req, res, next);
-};

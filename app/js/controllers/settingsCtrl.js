@@ -19,7 +19,7 @@ angular.module('landscapesApp')
 
         $scope._ = _;
 
-        $scope.roles = RoleService.retrieveAll();
+        $scope.roles = RoleService.retrieve();
         $scope.editingAccountSettings = false;
         $scope.changingPassword = false;
         $scope.errors = {};
@@ -61,13 +61,15 @@ angular.module('landscapesApp')
         };
 
         $scope.updateUser = function (form) {
+            console.log('updateUser')
             $scope.submitted = true;
             if (form.$valid) {
                 var id = $scope.currentUser._id;
                 var userData = {
                     name: $scope.currentUser.name,
-                    email: $scope.currentUser.email
-                }
+                    email: $scope.currentUser.email,
+                    role: $scope.currentUser.role
+                };
                 UserService.update(id, userData)
                     .then(function () {
                         $scope.message = 'User account settings updated.';

@@ -74,21 +74,20 @@
                                     </p>
                                 </div>
                                 <div class="col-md-12">
-                                <p ng-show="landscape.description">{{landscape.description}}</p>
-                                <p ng-show="landscape.infoLink">
-                                    <a href="{{landscape.infoLink}}" target="_blank">
-                                        {{landscape.infoLinkText}}
-                                    </a>
-                                </p>
-                                    </div>
+                                    <hr style="border-color: #cccccc; margin-top: 0">
+                                    <p ng-show="landscape.description">{{landscape.description}}</p>
+                                    <p ng-show="landscape.infoLink">
+                                        <a href="{{landscape.infoLink}}" target="_blank">
+                                            {{landscape.infoLinkText}}
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div ng-init="param='value';">
-                    <div ng-include="'partials/landscape/list-landscape-deployments'"></div>
-                </div>
+                <div ng-include="'partials/landscape/list-landscape-deployments'"></div>
 
             </div>
         </div>

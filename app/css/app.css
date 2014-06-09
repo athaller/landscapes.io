@@ -176,3 +176,12 @@ textarea.awsTemplate {
     padding-right: 12px;
     padding-left: 12px;
 }
+
+.table.adminTable td {
+    line-height: 24px;
+}
+
+.table.adminTable {
+    border-bottom: 1px solid #dddddd;
+    margin-bottom: 30px;
+}

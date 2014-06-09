@@ -1,0 +1,104 @@
+<div class="panel panel-default" ng-controller="AdminGroupsCtrl">
+    <div class="panel-heading title-heading">
+        <h2 class="panel-title pull-left">Groups</h2>
+        <button type="button" class="btn btn-default pull-right"
+                ng-hide="addingGroup || editingGroup || viewingGroup"
+                ng-click="addGroup()">
+            <span class="glyphicon glyphicon-plus-sign"></span> Add
+        </button>
+        <button type="button" class="btn btn-default pull-right"
+                ng-show="addingGroup || editingGroup || viewingGroup"
+                ng-click="reset()">
+            <span class="glyphicon glyphicon-refresh"></span> Reset
+        </button>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-striped adminTable" ng-hide="addingGroup || editingGroup || viewingGroup">
+            <tr>
+                <td>&nbsp;</td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Permissions</th>
+            </tr>
+            <tr ng-repeat="group in groups | orderBy: 'name'">
+                <td>
+                    <button type="button" class="btn btn-default btn-xs"
+                            ng-click="editGroup(group._id)">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-xs"
+                            ng-click="viewGroup(group)">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                    </button>
+                </td>
+                <td><strong>{{group.name}}</strong></td>
+                <td>{{group.description}}</td>
+                <td>
+                    <span ng-repeat="permission in group.permissions">
+                        <span style="" class="badge alert-success"
+                              ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
+                            {{permission}}</span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+        <div ng-show="addingGroup || editingGroup">
+            <div ng-include="'partials/admin/admin-groups-modify'"></div>
+        </div>
+
+        <div>
+            <h4 style="margin: 0 0 20px 0" ng-show="viewingGroup">
+                <span class="glyphicon glyphicon-share-alt"></span> View
+            </h4>
+
+            <div class="form-horizontal" ng-show="viewingGroup">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Name</label>
+                    <div class="col-md-10">
+                        <input type="text" name="name" class="form-control" ng-model="group.name" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Description</label>
+                    <div class="col-md-10">
+                        <textarea type="text" name="description" class="form-control" ng-model="group.description" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Landscapes</label>
+                    <div class="col-md-10">
+                        <div class="checkbox col-xs-6" ng-repeat="landscape in landscapes">
+                            <label>
+                                <input type="checkbox" checklist-model="group.landscapes" checklist-value="landscape._id" disabled> {{landscape.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Permissions</label>
+                    <div style="line-height: 32px;" class="col-md-10">
+                        <span ng-repeat="permission in group.permissions">
+                            <span class="badge alert-success"
+                                  ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
+                                {{permission}}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Users</label>
+                    <div class="col-md-10">
+                        <div class="checkbox col-xs-3" ng-repeat="user in users">
+                            <label>
+                                <input type="checkbox" checklist-model="group.users" checklist-value="user._id" disabled> {{user.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

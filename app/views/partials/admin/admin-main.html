@@ -2,136 +2,138 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Admin</h2>
+        <h2>Administrator</h2>
     </div>
     <div class="col-md-12">
         <!--<div class="panel panel-default">-->
         <div style="padding-bottom: 0">
-            <form class="form" name="form" ng-submit="saveChanges(form)" novalidate>
-                <div class="row">
-                    <div class="col-md-2" style="margin-bottom: 20px" >
-                        <div class="row">
-                            <div class="btn-group col-md-12 visible-sm visible-xs">
-                                <button type="button" class="btn btn-default "
-                                        ng-class="{active: selected == item}"
-                                        ng-repeat="item in menu"
-                                        ng-click="buttonClick(item)">{{item}}</button>
-                            </div>
-                            <div class="btn-group-vertical col-md-12 hidden-sm hidden-xs">
-                                <!--switch to horizontal in xs-->
-                                <button type="button" class="btn btn-default "
-                                        ng-class="{active: selected == item}"
-                                        ng-repeat="item in menu"
-                                        ng-click="buttonClick(item)">{{item}}</button>
-                            </div>
+
+            <div class="row">
+                <div class="col-md-2" style="margin-bottom: 20px" >
+                    <div class="row">
+                        <div class="btn-group col-md-12 visible-sm visible-xs">
+                            <button type="button" class="btn btn-default "
+                                    ng-class="{active: selected == item}"
+                                    ng-repeat="item in menu"
+                                    ng-click="buttonClick(item)">{{item}}</button>
                         </div>
-                    </div>
-                    <div class="col-md-10" style="padding: 0" >
-
-                        <div class="col-md-12" ng-show="selected=='Roles'">
-                            <div ng-include="'partials/admin/admin-roles.html'"></div>
+                        <div class="btn-group-vertical col-md-12 hidden-sm hidden-xs">
+                            <!--switch to horizontal in xs-->
+                            <button type="button" class="btn btn-default "
+                                    ng-class="{active: selected == item}"
+                                    ng-repeat="item in menu"
+                                    ng-click="buttonClick(item)">{{item}}</button>
                         </div>
-
-                        <div class="col-md-12" ng-show="selected=='Users'">
-
-                            <div ng-include="'partials/admin/admin-users.html'"></div>
-
-                        </div>
-
-                        <div class="col-md-12" ng-show="selected=='Settings'">
-                            <div class="panel panel-default">
-                                <div class="panel-heading title-heading">
-                                    <h2 class="panel-title pull-left">Settings</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <p><strong>Default Icon: </strong> &nbsp; <input type="text" class="input-sm" value="/images/wa.jpeg"> </input> </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12" ng-show="selected=='Accounts'">
-                            <div class="panel panel-default">
-                                <div class="panel-heading title-heading">
-                                    <h2 class="panel-title pull-left">Accounts</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <p><strong>Name:</strong> OpenWhere-DEV</p>
-                                    <p><strong>Service Account:</strong> landscapes-svc</p>
-                                    <hr>
-                                    <p><strong>Name:</strong> OpenWhere</p>
-                                    <p><strong>Link:</strong> OpenWhere</p>
-                                    <p><strong>Service Account:</strong> landscapes-svc</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12" ng-show="selected=='Globals'">
-                            <div class="panel panel-default">
-                                <div class="panel-heading title-heading">
-                                    <h2 class="panel-title pull-left">Globals</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <h4>Tags</h4>
-
-                                    <table class="table table-striped table-condensed">
-                                        <tr>
-                                            <td><strong>Key: <input type="text" class="input-sm"/> </strong></td>
-                                            <td><strong>Value: <input type="text" class="input-sm"/> </strong></td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="addRole()">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                    <p>&nbsp;</p>
-                                    <p>&nbsp;</p>
-
-                                    <h4>Advanced</h4>
-                                    <table class="table">
-                                        <tr>
-                                            <td colspan="2"><strong>Notification options</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0">&nbsp;</td>
-                                            <td style="border:0"><input type="radio" checked /> No notification</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0">&nbsp;</td>
-                                            <td style="border:0"><input type="radio" /> New Amazon SNS topic</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0">&nbsp;</td>
-                                            <td style="border:0"><input type="radio" /> Existing Amazon SNS topic</td>
-                                        </tr>
-                                        <tr><td  style="border:0" colspan="2">&nbsp;</td></tr>
-
-                                        <tr>
-                                            <td style="border:0"><strong>Timeout</strong></td>
-                                            <td style="border:0"><input type="text" class="input-sm"> Minutes</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0"><strong>Rollback on failure</strong></td>
-                                            <td style="border:0"><input type="radio"> Yes</input> &nbsp; &nbsp; <input type="radio"> No</input></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0"><strong>Stack policy</strong></td>
-                                            <td style="border:0"><input type="radio"> Enter policy </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:0">&nbsp;</td>
-                                            <td style="border:0"><textarea class="form-control" rows="3"></textarea></td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-            </form>
+                <div class="col-md-10" style="padding: 0" >
+
+                    <div class="col-md-12" ng-show="selected=='Roles'">
+                        <div ng-include="'partials/admin/admin-roles.html'"></div>
+                    </div>
+
+
+                    <div class="col-md-12" ng-show="selected=='Groups'">
+                        <div ng-include="'partials/admin/admin-groups.html'"></div>
+                    </div>
+
+                    <div class="col-md-12" ng-show="selected=='Users'">
+                        <div ng-include="'partials/admin/admin-users.html'"></div>
+                    </div>
+
+                    <div class="col-md-12" ng-show="selected=='App Settings'">
+                        <div class="panel panel-default">
+                            <div class="panel-heading title-heading">
+                                <h2 class="panel-title pull-left">App Settings</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>Default Icon: </strong> &nbsp; <input type="text" class="input-sm" value="/images/wa.jpeg"> </input> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-show="selected=='Accounts'">
+                        <div class="panel panel-default">
+                            <div class="panel-heading title-heading">
+                                <h2 class="panel-title pull-left">Accounts</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>Name:</strong> OpenWhere-DEV</p>
+                                <p><strong>Service Account:</strong> landscapes-svc</p>
+                                <hr>
+                                <p><strong>Name:</strong> OpenWhere</p>
+                                <p><strong>Link:</strong> OpenWhere</p>
+                                <p><strong>Service Account:</strong> landscapes-svc</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-show="selected=='Globals'">
+                        <div class="panel panel-default">
+                            <div class="panel-heading title-heading">
+                                <h2 class="panel-title pull-left">Globals</h2>
+                            </div>
+                            <div class="panel-body">
+                                <h4>Tags</h4>
+
+                                <table class="table table-striped table-condensed">
+                                    <tr>
+                                        <td><strong>Key: <input type="text" class="input-sm"/> </strong></td>
+                                        <td><strong>Value: <input type="text" class="input-sm"/> </strong></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="addRole()">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+
+                                <h4>Advanced</h4>
+                                <table class="table">
+                                    <tr>
+                                        <td colspan="2"><strong>Notification options</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0">&nbsp;</td>
+                                        <td style="border:0"><input type="radio" checked /> No notification</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0">&nbsp;</td>
+                                        <td style="border:0"><input type="radio" /> New Amazon SNS topic</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0">&nbsp;</td>
+                                        <td style="border:0"><input type="radio" /> Existing Amazon SNS topic</td>
+                                    </tr>
+                                    <tr><td  style="border:0" colspan="2">&nbsp;</td></tr>
+
+                                    <tr>
+                                        <td style="border:0"><strong>Timeout</strong></td>
+                                        <td style="border:0"><input type="text" class="input-sm"> Minutes</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0"><strong>Rollback on failure</strong></td>
+                                        <td style="border:0"><input type="radio"> Yes</input> &nbsp; &nbsp; <input type="radio"> No</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0"><strong>Stack policy</strong></td>
+                                        <td style="border:0"><input type="radio"> Enter policy </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0">&nbsp;</td>
+                                        <td style="border:0"><textarea class="form-control" rows="3"></textarea></td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
         <!--</div>-->
     </div>
