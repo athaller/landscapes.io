@@ -15,8 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminUsersCtrl', function ($scope, User, AuthService, RoleService, GroupService, _) {
-        console.log('AdminUsersCtrl');
+    .controller('AdminUsersCtrl', function ($scope) {
 
         $scope.addingUser = false;
 
@@ -29,7 +28,7 @@ angular.module('landscapesApp')
             $scope.addingUser = true;
         };
 
-        $scope.reset = function(form){
+        $scope.resetUsers = function(form){
             $scope.addingUser = false;
         };
 

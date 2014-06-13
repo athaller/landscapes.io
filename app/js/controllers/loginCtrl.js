@@ -15,7 +15,18 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('LoginCtrl', function ($scope, AuthService, $location, $modal) {
+    .controller('LoginCtrl', function ($scope, $rootScope, $cookieStore, AuthService, $modal, _) {
+
+        $scope.$on('$viewContentLoaded', function() {
+            AuthService.logout()
+                .then(function() {
+                    $cookieStore.remove('user');
+                    console.log("$cookieStore.remove('user')");
+                });
+        });
+
+
+
         $scope.user = {};
         $scope.errors = {};
 
@@ -42,8 +53,8 @@ angular.module('landscapesApp')
                     password: $scope.user.password
                 })
                     .then( function() {
-                        // Logged in, redirect to home
-                        $location.path('/');
+//                        $rootScope.currentUser = $cookieStore.get('user');
+                        $scope.go('/');
                     })
                     .catch( function(err) {
                         err = err.data;
@@ -56,10 +67,10 @@ angular.module('landscapesApp')
     });
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, msg) {
-
     $scope.msg = msg;
 
     $scope.close = function () {
         $modalInstance.dismiss('cancel');
     };
 };
+

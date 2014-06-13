@@ -1,10 +1,10 @@
 <div>
 
     <form class="form" name="form" novalidate ng-submit="saveRole(form)" >
-        <h4 style="margin: 0 0 20px 0" ng-show="addingRole">
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="addingRole">
             <span class="glyphicon glyphicon-plus-sign"></span> Add
         </h4>
-        <h4 style="margin: 0 0 20px 0" ng-show="editingRole">
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingRole">
             <span class="glyphicon glyphicon-edit"></span> Edit
         </h4>
 
@@ -33,8 +33,9 @@
                 <label class="col-md-2 control-label">Permissions</label>
                 <div class="col-md-10">
                     <div class="checkbox col-xs-1" ng-repeat="permission in permissions">
-                        <label>
-                            <input type="checkbox" checklist-model="role.permissions" checklist-value="permission" > {{permission}}
+                        <label popover="{{permission.name}}" popover-trigger="mouseenter">
+                            <input type="checkbox"
+                                   checklist-model="role.permissions" checklist-value="permission" /> {{permission.value}}
                         </label>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
         </div>
 
         <div class="pull-right">
-            <button type="button" class="btn btn-primary" ng-click="reset()">
+            <button type="button" class="btn btn-primary" ng-click="resetRoles()">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
             </button>
             <button type="button" class="btn btn-danger"

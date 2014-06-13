@@ -29,7 +29,16 @@ angular.module('landscapesApp')
                 ).$promise;
             },
             retrieve: function(callback) {
-                return Group.query(function(){});
+                var cb = callback || angular.noop;
+
+                return Group.query({},
+                    function(data) {
+                        return cb(data);
+                    },
+                    function(err) {
+                        return cb(err);
+                    }
+                ).$promise;
             },
             retrieveOne: function(id) {
                 return Group.get({id:id}, function(){});

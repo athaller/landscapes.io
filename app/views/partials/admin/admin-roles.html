@@ -8,7 +8,7 @@
         </button>
         <button type="button" class="btn btn-default pull-right"
                 ng-show="addingRole || editingRole"
-                ng-click="reset()">
+                ng-click="resetRoles()">
             <span class="glyphicon glyphicon-refresh"></span> Reset
         </button>
     </div>
@@ -23,8 +23,9 @@
             </tr>
             <tr ng-repeat="role in roles | orderBy: 'name'">
                 <td>
-                    <button type="button" class="btn btn-default btn-xs"
-                            ng-hide="role.name=='Administrator'"
+                    <button type="button" class="btn btn-primary btn-xs"
+                            ng-disabled="role.name=='administrator'"
+                            popover="Edit" popover-trigger="mouseenter"
                             ng-click="editRole(role._id)">
                         <span class="glyphicon glyphicon-edit"></span>
                     </button>
@@ -32,10 +33,11 @@
                 <td><strong>{{role.name}}</strong></td>
                 <td>{{role.description}}</td>
                 <td>
-                    <span ng-repeat="permission in role.permissions">
+                    <span ng-repeat="permission in role.permissions | orderBy:'displayOrder'">
                         <span style="" class="badge alert-success"
-                              ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
-                            {{permission}}</span>
+                              popover="{{permission.name}}" popover-trigger="mouseenter"
+                              ng-class="{'alert-danger': permission.value=='F', 'alert-warning': permission.value=='C', 'alert-info': permission.value=='X'  }">
+                            {{permission.value}}</span>
                     </span>
                 </td>
             </tr>

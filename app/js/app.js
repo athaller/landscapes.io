@@ -47,6 +47,11 @@ angular.module('landscapesApp', [
                 controller: 'AdminCtrl',
                 authenticate: true
             })
+            .when('/landscapes', {
+                templateUrl: 'partials/landscape/list-landscapes',
+                controller: 'ListLandscapesCtrl',
+                authenticate: false
+            })
             .when('/landscape/new', {
                 templateUrl: 'partials/landscape/create-landscape',
                 controller: 'CreateLandscapeCtrl',
@@ -56,10 +61,6 @@ angular.module('landscapesApp', [
                 templateUrl: 'partials/landscape/edit-landscape',
                 controller: 'EditLandscapeCtrl',
                 authenticate: true
-            })
-            .when('/landscapes', {
-                templateUrl: 'partials/landscape/list-landscapes',
-                controller: 'ListLandscapesCtrl'
             })
             .when('/landscapes/:id', {
                 templateUrl: 'partials/landscape/view-landscape',
@@ -76,13 +77,13 @@ angular.module('landscapesApp', [
                 controller: 'CreateDeploymentCtrl',
                 authenticate: true
             })
-//            .otherwise({
-//                redirectTo: '/landscapes'
-//            });
+            .otherwise({
+                redirectTo: '/landscapes'
+            });
 
         $locationProvider.html5Mode(true);
 
-        // Intercept 401s and redirect you to login
+        // Intercept 401 and redirect to login
         $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
             return {
                 'responseError': function(response) {
@@ -97,9 +98,9 @@ angular.module('landscapesApp', [
             };
         }]);
     })
-    .run(function ($rootScope, $location, AuthService) {
+    .run(function ($rootScope, $location, $templateCache, AuthService) {
 
-        $rootScope.$on('$routeChangeStart', function (event, next) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (next.authenticate && !AuthService.isLoggedIn()) {
                 $location.path('/login');
             }
@@ -108,5 +109,36 @@ angular.module('landscapesApp', [
         $rootScope.go = function ( path ) {
             $location.path( path );
         };
-    });
 
+        $rootScope.hasPermission = function(user, permission, landscapeId) {
+            if(!user.permissions){
+                return false;
+            }
+            if(user.role === 'administrator'){
+                return true;
+            }
+
+            // TO DO: Check role permissions first!
+
+            var found = false;
+
+            if(landscapeId) {
+                _.each(user.permissions, function (e, i) {
+                    if (e[landscapeId]) {
+                        if (_.contains(e[landscapeId], permission)) {
+                            found = true;
+                        }
+                    }
+                });
+            } else {
+                _.each(user.permissions, function (e, i) {
+                    var p = _.values(e)[0];
+                    if(_.contains(p, permission)) {
+                        found = true;
+                    }
+                });
+            }
+
+            return found;
+        }
+    });

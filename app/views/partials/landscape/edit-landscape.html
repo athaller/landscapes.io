@@ -9,7 +9,9 @@
                     <button type="button" class="btn btn-primary" ng-click="go('/landscapes/' + landscape._id)">
                         <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                     </button>
-                    <button class="btn btn-danger" type="button" ng-click="deleteLandscape()">
+                    <button class="btn btn-danger" type="button"
+                            ng-show="hasPermission(currentUser, 'D', landscape._id)"
+                            ng-click="deleteLandscape()">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </button>
                     <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
@@ -162,7 +164,9 @@
                     <button type="button" class="btn btn-primary" ng-click="go('/landscapes/' + landscape._id)">
                         <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                     </button>
-                    <button class="btn btn-danger" type="button" ng-click="deleteLandscape()">
+                    <button class="btn btn-danger" type="button"
+                            ng-show="hasPermission(currentUser, 'D', landscape._id)"
+                            ng-click="deleteLandscape()">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </button>
                     <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
