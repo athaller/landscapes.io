@@ -8,7 +8,7 @@
         </button>
         <button type="button" class="btn btn-default pull-right"
                 ng-show="addingGroup || editingGroup || viewingGroup"
-                ng-click="reset()">
+                ng-click="resetGroups()">
             <span class="glyphicon glyphicon-refresh"></span> Reset
         </button>
     </div>
@@ -23,11 +23,13 @@
             </tr>
             <tr ng-repeat="group in groups | orderBy: 'name'">
                 <td>
-                    <button type="button" class="btn btn-default btn-xs"
+                    <button type="button" class="btn btn-primary btn-xs"
+                            popover="Edit" popover-trigger="mouseenter"
                             ng-click="editGroup(group._id)">
                         <span class="glyphicon glyphicon-edit"></span>
                     </button>
-                    <button type="button" class="btn btn-default btn-xs"
+                    <button type="button" class="btn btn-xs"
+                            popover="View" popover-trigger="mouseenter"
                             ng-click="viewGroup(group)">
                         <span class="glyphicon glyphicon-share-alt"></span>
                     </button>
@@ -35,10 +37,11 @@
                 <td><strong>{{group.name}}</strong></td>
                 <td>{{group.description}}</td>
                 <td>
-                    <span ng-repeat="permission in group.permissions">
+                    <span ng-repeat="permission in group.permissions | orderBy:'displayOrder'">
                         <span style="" class="badge alert-success"
-                              ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
-                            {{permission}}</span>
+                              popover="{{permission.name}}" popover-trigger="mouseenter"
+                              ng-class="{'alert-danger': permission.value=='F', 'alert-info': permission.value=='X'  }">
+                            {{permission.value}}</span>
                     </span>
                 </td>
             </tr>
@@ -49,7 +52,7 @@
         </div>
 
         <div>
-            <h4 style="margin: 0 0 20px 0" ng-show="viewingGroup">
+            <h4 style="margin: 0 0 20px 0; font-size: 22px" ng-show="viewingGroup">
                 <span class="glyphicon glyphicon-share-alt"></span> View
             </h4>
 
@@ -69,7 +72,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Landscapes</label>
                     <div class="col-md-10">
-                        <div class="checkbox col-xs-6" ng-repeat="landscape in landscapes">
+                        <div class="checkbox col-xs-6" ng-repeat="landscape in landscapes | orderBy:'name'">
                             <label>
                                 <input type="checkbox" checklist-model="group.landscapes" checklist-value="landscape._id" disabled> {{landscape.name}}
                             </label>
@@ -79,10 +82,11 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Permissions</label>
                     <div style="line-height: 32px;" class="col-md-10">
-                        <span ng-repeat="permission in group.permissions">
+                        <span ng-repeat="permission in group.permissions | orderBy:'displayOrder'">
                             <span class="badge alert-success"
-                                  ng-class="{'alert-danger': permission=='F', 'alert-info': permission=='X'  }">
-                                {{permission}}
+                                  popover="{{permission.name}}" popover-trigger="mouseenter"
+                                  ng-class="{'alert-danger': permission.value=='F', 'alert-info': permission.value=='X'  }">
+                                {{permission.value}}
                             </span>
                         </span>
                     </div>
@@ -90,7 +94,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Users</label>
                     <div class="col-md-10">
-                        <div class="checkbox col-xs-3" ng-repeat="user in users">
+                        <div class="checkbox col-xs-3" ng-repeat="user in users | orderBy:'name'">
                             <label>
                                 <input type="checkbox" checklist-model="group.users" checklist-value="user._id" disabled> {{user.name}}
                             </label>

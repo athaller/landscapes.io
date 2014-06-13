@@ -29,6 +29,9 @@ angular.module('landscapesApp')
                     password: $scope.user.password
                 })
                     .then( function() {
+
+                        // set groups and permissions!
+
                         $location.path('/');
                     })
                     .catch( function(err) {

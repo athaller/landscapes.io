@@ -15,13 +15,10 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminGroupsCtrl', function ($scope, $http, User, GroupService, PermissionService) {
-        console.log('AdminGroupsCtrl');
+    .controller('AdminGroupsCtrl', function ($scope, $rootScope, $cookieStore, $http, User, GroupService) {
 
         $scope.group = { permissions: [] };
-        $scope.errors = {};
-
-
+//        $scope.errors = {};
 
         $http.get('/api/landscapes')
             .success(function(data, status) {
@@ -48,14 +45,15 @@ angular.module('landscapesApp')
             $scope.addingGroup = true;
         };
 
-        $scope.reset = function() {
-            $scope.groups = GroupService.retrieve();
+        $scope.resetGroups = function() {
+            console.log('resetGroups');
+            $scope.setUserGroups();
+
             $scope.addingGroup = false;
             $scope.editingGroup = false;
             $scope.viewingGroup = false;
             $scope.group = {};
             $scope.submitted = false;
-            $scope.setUserGroups();
         };
 
         $scope.saveGroup = function (form) {
@@ -73,7 +71,7 @@ angular.module('landscapesApp')
                     landscapes: $scope.group.landscapes
                 })
                     .then(function () {
-                        $scope.reset();
+                        $scope.resetGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -98,7 +96,7 @@ angular.module('landscapesApp')
                     landscapes: $scope.group.landscapes
                 })
                     .then(function () {
-                        $scope.reset();
+                        $scope.resetGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -119,7 +117,7 @@ angular.module('landscapesApp')
             console.log('deleteGroup: ' + $scope.group._id)
             GroupService.delete($scope.group._id)
                 .then(function() {
-                    $scope.reset();
+                    $scope.resetGroups();
                 })
                 .catch(function(err) {
                     err = err.data || err;

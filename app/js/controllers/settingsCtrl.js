@@ -61,7 +61,7 @@ angular.module('landscapesApp')
         };
 
         $scope.updateUser = function (form) {
-            console.log('updateUser')
+
             $scope.submitted = true;
             if (form.$valid) {
                 var id = $scope.currentUser._id;

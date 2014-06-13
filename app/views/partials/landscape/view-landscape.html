@@ -6,10 +6,16 @@
     <h2 class="pull-left col-md-9">{{landscape.name}}</h2>
     <div class="col-md-3" style="display: inline-block">
         <div class="pull-right hidden-sm hidden-xs">
-            <button type="button" class="btn btn-default" ng-click="go('/landscapes/' + landscape._id + '/edit')">
-                <span class="glyphicon glyphicon-edit"></span> Edit</button>
-            <button type="button" class="btn btn-primary" ng-click="go('/deploy/' + landscape._id)">
-                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+            <button type="button" class="btn btn-default"
+                    ng-show="hasPermission(currentUser, 'U', landscape._id)"
+                    ng-click="go('/landscapes/' + landscape._id + '/edit')">
+                <span class="glyphicon glyphicon-edit"></span> Edit
+            </button>
+            <button type="button" class="btn btn-primary"
+                    ng-show="hasPermission(currentUser, 'X', landscape._id)"
+                    ng-click="go('/deploy/' + landscape._id)">
+                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+            </button>
 
         </div>
     </div>
@@ -24,7 +30,8 @@
             <button type="button" class="btn btn-default "
                     ng-class="{active: selected == item}"
                     ng-repeat="item in menu"
-                    ng-click="buttonClick(item)">{{item}}</button>
+                    ng-click="buttonClick(item)">{{item}}
+            </button>
         </div>
 
 
@@ -32,15 +39,22 @@
             <button type="button" class="btn btn-default "
                     ng-class="{active: selected == item}"
                     ng-repeat="item in menu"
-                    ng-click="buttonClick(item)">{{item}}</button>
+                    ng-click="buttonClick(item)">{{item}}
+            </button>
         </div>
 
         <div class="col-md-3 visible-sm visible-xs" >
             <div class="pull-right" >
-                <button type="button" class="btn btn-default" ng-click="go('/landscapes/' + landscape._id + '/edit')">
-                    <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                <button type="button" class="btn btn-primary" ng-click="go('/deploy/' + landscape._id)">
-                    <span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+                <button type="button" class="btn btn-default"
+                        ng-show="hasPermission(currentUser, 'U', landscape._id)"
+                        ng-click="go('/landscapes/' + landscape._id + '/edit')">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </button>
+                <button type="button" class="btn btn-primary"
+                        ng-show="hasPermission(currentUser, 'X', landscape._id)"
+                        ng-click="go('/deploy/' + landscape._id)">
+                    <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+                </button>
             </div>
         </div>
     </div>
@@ -51,6 +65,7 @@
     <div class="row">
 
         <div class="col-sm-12" ng-show="selected=='Overview'">
+
 
             <div class="row">
                 <div class="col-md-12">

@@ -4,7 +4,9 @@
     <h2 class="pull-left col-md-9">Landscapes</h2>
     <div class="col-md-3">
         <div class="pull-right">
-            <button type="button" class="btn btn-default" ng-click="go('/landscape/new')">
+            <button type="button" class="btn btn-default"
+                    ng-show="hasPermission(currentUser, 'C')"
+                    ng-click="go('/landscape/new')">
                 <span class="glyphicon glyphicon-plus-sign"></span> New
             </button>
         </div>
@@ -22,7 +24,7 @@
 
                     <div class="media">
                         <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}">
-                            <img style="max-height: 128px; max-width: 192px" class="media-object" src="{{landscape.imageUri}}" alt="...">
+                            <img style="max-height: 128px; max-width: 192px" class="media-object" ng-src="{{landscape.imageUri}}" alt="...">
                         </a>
 
                         <div class="media-body" style="min-height: 128px">
@@ -32,8 +34,16 @@
                     </div>
                     <div style="position: relative">
                         <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
-                            <button type="button" class="btn btn-default" ng-click="go('/landscapes/'+ landscape._id)"><span class="glyphicon glyphicon-share-alt"></span> View</button>
-                            <button type="button" class="btn btn-default" ng-click="go('/deploy/' + landscape._id)"><span class="glyphicon glyphicon-cloud-upload"></span> Deploy</button>
+                            <button type="button" class="btn btn-default"
+                                    ng-show="hasPermission(currentUser, 'R', landscape._id)"
+                                    ng-click="go('/landscapes/'+ landscape._id)">
+                                <span class="glyphicon glyphicon-share-alt"></span> View
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-show="hasPermission(currentUser, 'X', landscape._id)"
+                                    ng-click="go('/deploy/' + landscape._id)">
+                                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
+                            </button>
                         </div>
                     </div>
                 </div>

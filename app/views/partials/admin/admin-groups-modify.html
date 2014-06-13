@@ -1,10 +1,10 @@
 <div>
 
     <form class="form" name="form" novalidate ng-submit="saveGroup(form)" >
-        <h4 style="margin: 0 0 20px 0" ng-show="addingGroup">
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="addingGroup">
             <span class="glyphicon glyphicon-plus-sign"></span> Add
         </h4>
-        <h4 style="margin: 0 0 20px 0" ng-show="editingGroup">
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingGroup">
             <span class="glyphicon glyphicon-edit"></span> Edit
         </h4>
 
@@ -30,11 +30,21 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-2 control-label">Landscapes</label>
+                <div class="col-md-10">
+                    <div class="checkbox col-xs-6" ng-repeat="landscape in landscapes | orderBy:'name'">
+                        <label>
+                            <input type="checkbox" checklist-model="group.landscapes" checklist-value="landscape._id" > {{landscape.name}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-2 control-label">Permissions</label>
                 <div class="col-md-10">
-                    <div class="checkbox col-xs-1" ng-repeat="permission in permissions">
-                        <label>
-                            <input type="checkbox" checklist-model="group.permissions" checklist-value="permission" > {{permission}}
+                    <div class="checkbox col-xs-1" ng-repeat="permission in permissions" ng-hide="permission.value=='C' || permission.value=='F'">
+                        <label popover="{{permission.name}}" popover-trigger="mouseenter" >
+                            <input type="checkbox" checklist-model="group.permissions" checklist-value="permission"> {{permission.value}}
                         </label>
                     </div>
                 </div>
@@ -42,7 +52,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">Users</label>
                 <div class="col-md-10">
-                    <div class="checkbox col-xs-3" ng-repeat="user in users">
+                    <div class="checkbox col-xs-3" ng-repeat="user in users | orderBy:'name'">
                         <label>
                             <input type="checkbox" checklist-model="group.users" checklist-value="user._id" > {{user.name}}
                         </label>
@@ -52,7 +62,7 @@
         </div>
 
         <div class="pull-right">
-            <button type="button" class="btn btn-primary" ng-click="reset()">
+            <button type="button" class="btn btn-primary" ng-click="resetGroups()">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
             </button>
             <button type="button" class="btn btn-danger"

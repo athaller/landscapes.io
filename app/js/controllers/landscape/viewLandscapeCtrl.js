@@ -15,8 +15,9 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('ViewLandscapeCtrl', function ($scope, $route, $http, $location, $routeParams, LandscapeService, UserService) {
+    .controller('ViewLandscapeCtrl', function ($scope, $routeParams, AuthService, LandscapeService, UserService, PermissionService,  _) {
         $scope.isArray = angular.isArray;
+        $scope._ = _;
 
         $scope.menu = [
             'Overview',
@@ -35,8 +36,6 @@ angular.module('landscapesApp')
         $scope.resourcesKeys = [];
         $scope.parametersKeys = [];
         $scope.mappingsKeys = [];
-
-        // http://solutionoptimist.com/2013/12/27/javascript-promise-chains-2/
 
         LandscapeService
             .retrieve($routeParams.id)
@@ -70,23 +69,21 @@ angular.module('landscapesApp')
             window.open(path, '_blank');
         };
 
+        // WIP...
         $scope.addFlavor =function(){
             $scope.flavors.push({title: 'PROD', content: 'Production'});
         };
-
-
         $scope.flavors = [
             { title: 'DEV', content: 'Development' },
             { title: 'TEST', content: 'Development' }
         ];
-
-        $scope.items = [{key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}];
-
+        $scope.items = [
+            {key:'Apple', value:'One hundred'}, {key:'Banana', value:'Two thousand'}, {key:'Cherry', value:'Three million'}
+        ];
         $scope.addItem = function() {
             var newItemNo = $scope.items.length + 1;
             $scope.items.push({key:'Date', value:'Four billion'});
         };
-
         $scope.deleteItem = function() {
             $scope.items.pop();
         };

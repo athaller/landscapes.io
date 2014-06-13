@@ -16,13 +16,12 @@
 
 angular.module('landscapesApp')
     .controller('AdminRolesCtrl', function ($scope, RoleService, PermissionService) {
-        console.log('AdminRolesCtrl');
 
         $scope.role = { permissions: [] };
-        $scope.errors = {};
+//        $scope.errors = {};
 
-        $scope.roles = RoleService.retrieve();
-        $scope.permissions = PermissionService.retrieveAll();
+//        $scope.roles = RoleService.retrieve();
+//        $scope.permissions = PermissionService.retrieveAll();
 
         $scope.addingRole = false;
         $scope.editingRole = false;
@@ -38,7 +37,7 @@ angular.module('landscapesApp')
             $scope.addingRole = true;
         };
 
-        $scope.reset = function() {
+        $scope.resetRoles = function() {
             $scope.roles = RoleService.retrieve();
             $scope.addingRole = false;
             $scope.editingRole = false;
@@ -59,7 +58,7 @@ angular.module('landscapesApp')
                     permissions: $scope.role.permissions
                 })
                     .then(function () {
-                        $scope.reset();
+                        $scope.resetRoles();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -82,7 +81,7 @@ angular.module('landscapesApp')
                     description: $scope.role.description
                 })
                     .then(function () {
-                        $scope.reset();
+                        $scope.resetRoles();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -103,7 +102,7 @@ angular.module('landscapesApp')
             console.log('deleteRole: ' + $scope.role._id)
             RoleService.delete($scope.role._id)
                 .then(function() {
-                    $scope.reset();
+                    $scope.resetRoles();
                 })
                 .catch(function(err) {
                     err = err.data || err;

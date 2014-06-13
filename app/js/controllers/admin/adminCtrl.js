@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminCtrl', function ($scope, User, AuthService, RoleService, GroupService, PermissionService) {
+    .controller('AdminCtrl', function ($scope, UserService, AuthService, RoleService, GroupService, PermissionService) {
 
         $scope.menu = [
             'Users',
@@ -33,40 +33,43 @@ angular.module('landscapesApp')
         };
 
         $scope.roles = RoleService.retrieve();
-        $scope.users = User.query();
-        $scope.groups = GroupService.retrieve();
         $scope.permissions = PermissionService.retrieveAll();
+
+        UserService.retrieveAll()
+            .then(function(data){
+                $scope.users = data;
+            });
+
+        GroupService.retrieve()
+            .then(function(data){
+                $scope.groups = data;
+            });
 
         $scope.errors = {};
 
-        $scope.saveChanges = function (form) {
-            $scope.submitted = true;
-
-            if (form.$valid) {
-                AuthService.changePassword($scope.user.oldPassword, $scope.user.newPassword)
-                    .then(function () {
-                        $scope.message = 'Password successfully changed.';
-                    })
-                    .catch(function () {
-                        form.password.$setValidity('mongoose', false);
-                        $scope.errors.other = 'Incorrect password';
-                    });
-            }
-        };
-
         $scope.setUserGroups = function() {
-            for (var i = 0; i < $scope.groups.length; i++) {
-                var group = $scope.groups[i];
+            $scope.users = [];
 
-                for (var q = 0; q < $scope.users.length; q++) {
-                    var usr = $scope.users[q];
+            GroupService.retrieve()
+                .then(function(groups){
+                    $scope.groups = groups;
 
-                    if (_.contains(group.users, usr._id)) {
-                        $scope.users[q].groups.push(group);
-                    }
-                }
-            }
+                    UserService.retrieveAll()
+                        .then(function(users) {
+                            console.log('$scope.setUserGroups');
+                            $scope.users = users;
+                            for (var i = 0; i < $scope.groups.length; i++) {
+                                var group = $scope.groups[i];
+
+                                for (var q = 0; q < $scope.users.length; q++) {
+                                    var usr = $scope.users[q];
+
+                                    if (_.contains(group.users, usr._id)) {
+                                        $scope.users[q].groups.push(group);
+                                    }
+                                }
+                            }
+                        });
+                });
         }
-
-
     });

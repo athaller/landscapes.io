@@ -15,11 +15,20 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('PermissionService', function PermissionService($rootScope) {
+    .factory('PermissionService', function PermissionService($rootScope, GroupService, _) {
+
+        var permissions = [
+            { value: 'C', name:'Create',        displayOrder: '10'},
+            { value: 'R', name:'Read',          displayOrder: '20'},
+            { value: 'U', name:'Update',        displayOrder: '30'},
+            { value: 'D', name:'Delete',        displayOrder: '40'},
+            { value: 'X', name:'Execute',       displayOrder: '80'},
+            { value: 'F', name:'Full Control',  displayOrder: '90'}
+        ];
+
         return {
             retrieveAll: function (callback) {
-                var permissions = ['C','R','U','D','X','F'];
-            return permissions;
+                return permissions;
             }
         }
     });
