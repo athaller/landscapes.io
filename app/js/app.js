@@ -111,9 +111,9 @@ angular.module('landscapesApp', [
         };
 
         $rootScope.hasPermission = function(user, permission, landscapeId) {
-            if(!user.permissions){
-                return false;
-            }
+            if(!user) return false;
+            if(!user.permissions) return false;
+
             if(user.role === 'administrator'){
                 return true;
             }
