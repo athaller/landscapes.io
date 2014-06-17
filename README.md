@@ -2,10 +2,8 @@ landscapes.io
 ===============
 Designed to handle the most complicated DevOps deployments, landscapes.io is an AWS CloudFormation management tool built with the MEAN stack.
 
-Currently, the project is in ALPHA and frequent updates should be expected.
 
-
----
+**Please note: This is a public Alpha of landscapes.io.**
 
 
 The [mailing list](https://groups.google.com/forum/#!forum/landscapes-io) is intended for general discussion only.
