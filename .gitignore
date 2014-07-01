@@ -2,10 +2,7 @@ node_modules
 .tmp
 .sass-cache
 app/bower_components
-/views
+static/uploads
 dist
 .idea
-static/uploads
-.ow
-config.json
-config.json.ow
+*.ow
