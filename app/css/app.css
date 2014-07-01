@@ -185,3 +185,7 @@ textarea.awsTemplate {
     border-bottom: 1px solid #dddddd;
     margin-bottom: 30px;
 }
+
+.text-muted {
+    color: #555555;
+}

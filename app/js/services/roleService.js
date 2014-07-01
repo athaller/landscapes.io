@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('RoleService', function RoleService($location, $rootScope, Role) {
+    .factory('RoleService', function RoleService($http, $rootScope, $q, Role) {
         return {
             create: function(role, callback) {
                 var cb = callback || angular.noop;
@@ -30,6 +30,20 @@ angular.module('landscapesApp')
             },
             retrieve: function(callback) {
                 return Role.query(function(){});
+            },
+            retrieveUsersInRole: function(id, callback) {
+                var cb = callback || angular.noop;
+
+                return $http({method: 'GET', url: '/api/roles/'+id+'/users'})
+                    .success(function(data, status) {
+                        console.log('RoleService:' + JSON.stringify(data));
+                        cb(data);
+                    })
+                    .error(function(data, status) {
+                        var error = data || 'ERROR: RoleService.retrieveUsersInRole('+id+')';
+                        cb(error);
+                    })
+                    .$promise;
             },
             retrieveOne: function(id) {
                 return Role.get({id:id}, function(){});

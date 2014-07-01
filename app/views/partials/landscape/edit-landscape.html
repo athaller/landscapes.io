@@ -11,7 +11,7 @@
                     </button>
                     <button class="btn btn-danger" type="button"
                             ng-show="hasPermission(currentUser, 'D', landscape._id)"
-                            ng-click="deleteLandscape()">
+                            ng-click="deleteLandscape(landscape.name)">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </button>
                     <button class="btn" type="submit" ng-class="{'btn-success': form.$dirty }" ng-disabled=!form.$dirty >
@@ -180,3 +180,20 @@
 </div>
 
 <div ng-include="'partials/footer'"></div>
+
+<script type="text/ng-template" id="confirmDeleteModal.html">
+    <div class="modal-header">
+        <strong style="font-size: 18px;">Delete Landscape?</strong>
+    </div>
+    <div class="modal-body" style="padding: 10px 15px 10px 15px">
+        <h4 style="font-size: 14px;">{{ msg }}</h4>
+    </div>
+    <div class="modal-footer" style="margin-top: 0; padding: 15px">
+        <button class="btn btn-primary" ng-click="confirmDeleteButtonClick(false)">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+        </button>
+        <button class="btn btn-danger" ng-click="confirmDeleteButtonClick(true)">
+            <span class="glyphicon glyphicon-remove"></span> Delete
+        </button>
+    </div>
+</script>

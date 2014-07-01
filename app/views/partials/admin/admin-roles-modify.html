@@ -12,7 +12,9 @@
             <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
                 <label class="col-md-2 control-label">Name</label>
                 <div class="col-md-10">
-                    <input type="text" name="name" class="form-control" ng-model="role.name" required/>
+                    <input type="text" name="name" class="form-control"
+                           ng-disabled=" role.name=='administrator' "
+                           ng-model="role.name" required/>
                     <p class="help-block" ng-show="form.name.$error.required && submitted">
                         Name is required.
                     </p>
@@ -23,7 +25,6 @@
                 <label class="col-md-2 control-label">Description</label>
                 <div class="col-md-10">
                     <textarea type="text" name="description" class="form-control" ng-model="role.description" required/>
-
                     <p class="help-block" ng-show="form.description.$error.required && submitted">
                         Description is required.
                     </p>
@@ -35,7 +36,22 @@
                     <div class="checkbox col-xs-1" ng-repeat="permission in permissions">
                         <label popover="{{permission.name}}" popover-trigger="mouseenter">
                             <input type="checkbox"
+                                   ng-disabled=" role.name=='administrator' "
                                    checklist-model="role.permissions" checklist-value="permission" /> {{permission.value}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Users</label>
+                <div class="col-md-10">
+
+                    <div class="checkbox col-xs-4" ng-repeat="user in users | orderBy:'name'">
+                        <label>
+                            <input type="checkbox" value="user.name"
+                                   ng-checked="roleUsers.indexOf(user._id) > -1"
+                                   ng-click="updateUser(user._id)" />
+                            {{user.name}} {{user._id}}
                         </label>
                     </div>
                 </div>
@@ -47,6 +63,7 @@
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
             </button>
             <button type="button" class="btn btn-danger"
+                    ng-disabled=" role.name=='administrator' "
                     ng-show="editingRole"
                     ng-click="deleteRole()">
                 <span class="glyphicon glyphicon-remove"></span> Delete
@@ -55,8 +72,13 @@
                 <span class="glyphicon glyphicon-save"></span> Save
             </button>
         </div>
+        <div>{{roleUsers}}</div>
+
+
         <div style="margin-bottom: 0" class="text-center"
              ng-class="{'alert alert-success': message}">{{ message }}</div>
+
     </form>
+
 
 </div>

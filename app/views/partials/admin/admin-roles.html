@@ -24,7 +24,6 @@
             <tr ng-repeat="role in roles | orderBy: 'name'">
                 <td>
                     <button type="button" class="btn btn-primary btn-xs"
-                            ng-disabled="role.name=='administrator'"
                             popover="Edit" popover-trigger="mouseenter"
                             ng-click="editRole(role._id)">
                         <span class="glyphicon glyphicon-edit"></span>

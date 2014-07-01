@@ -25,21 +25,15 @@ angular.module('landscapesApp')
                 });
         });
 
-
-
         $scope.user = {};
         $scope.errors = {};
 
         $scope.open = function (msg) {
-
             var modalInstance = $modal.open({
                 templateUrl: 'myModalContent.html',
                 controller: ModalInstanceCtrl,
                 size: 'sm',
-                resolve: {
-                    msg: function () {
-                        return msg;
-                    }
+                resolve: { msg: function () { return msg; }
                 }
             });
         };
@@ -53,7 +47,6 @@ angular.module('landscapesApp')
                     password: $scope.user.password
                 })
                     .then( function() {
-//                        $rootScope.currentUser = $cookieStore.get('user');
                         $scope.go('/');
                     })
                     .catch( function(err) {
@@ -73,4 +66,3 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, msg) {
         $modalInstance.dismiss('cancel');
     };
 };
-

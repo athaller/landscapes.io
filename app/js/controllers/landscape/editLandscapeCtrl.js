@@ -16,13 +16,21 @@
 
 angular.module('landscapesApp')
     .controller('EditLandscapeCtrl',
-    function ($scope,
-              $upload,
-              $filter,
-              $location,
-              $routeParams,
-              ValidationService,
-              LandscapeService) {
+    function ($scope, $location, $modal, $upload, $filter, $routeParams, ValidationService, LandscapeService) {
+
+        $scope.confirmDelete = function (msg, callback) {
+            var modalInstance = $modal.open( {
+                templateUrl: 'confirmDeleteModal.html',
+                controller: DeleteModalInstanceCtrl,
+                size: 'sm',
+                resolve: { msg: function () { return msg; } }
+            });
+
+            modalInstance.result
+                .then(function(deleteIsConfirmed) {
+                    return callback(deleteIsConfirmed);
+                });
+        };
 
         $scope.toggleUploadNewImage = function() {
             $scope.showUploadNewImage = !$scope.showUploadNewImage;
@@ -37,18 +45,22 @@ angular.module('landscapesApp')
             $scope.form.$dirty = true;
         };
 
-        $scope.deleteLandscape = function(){
-            LandscapeService.delete($routeParams.id)
-                .then(function(data) {
-                    console.log(data)
-                    // show modal?
-                    $location.path('/');
-                })
-                .catch(function(err) {
-                    err = err.data;
-                    console.log(err)
-                });
-
+        $scope.deleteLandscape = function(name) {
+            console.log('name: ' + name);
+            $scope.confirmDelete(name, function(deleteConfirmed) {
+                console.log('deleteLandscape.deleteConfirmed: ' + deleteConfirmed);
+                if(deleteConfirmed === true) {
+                    LandscapeService.delete($routeParams.id)
+                        .then(function (data) {
+                            console.log(data);
+                            $scope.go('/');
+                        })
+                        .catch(function (err) {
+                            err = err.data;
+                            console.log(err);
+                        });
+                }
+            });
         };
 
         LandscapeService.retrieve($routeParams.id)
@@ -114,18 +126,16 @@ angular.module('landscapesApp')
                     url: '/api/upload/template',
                     method: 'POST',
                     withCredentials: true,
-                    data: {myObj: $scope.myModelObj},
+                    data: { myObj: $scope.myModelObj },
                     file: file
                 })
-                    .success(function (data, status, headers, config) {
+                    .success(function(data) {
                         $scope.landscape.cloudFormationTemplate = $filter('json')(data);
                         $scope.templateSelected = true;
                     })
                     .error(function(err){
                         console.log(err);
                     });
-                //.then(success, error, progress);
-                //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
             }
         };
 
@@ -162,3 +172,11 @@ angular.module('landscapesApp')
         }
     }
 );
+
+var DeleteModalInstanceCtrl = function ($scope, $modalInstance, msg) {
+    $scope.msg = msg;
+
+    $scope.confirmDeleteButtonClick = function (deleteConfirmed) {
+        $modalInstance.close(deleteConfirmed);
+    };
+};

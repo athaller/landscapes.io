@@ -15,13 +15,9 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminRolesCtrl', function ($scope, RoleService, PermissionService) {
-
+    .controller('AdminRolesCtrl', function ($scope, RoleService, UserService) {
         $scope.role = { permissions: [] };
-//        $scope.errors = {};
-
-//        $scope.roles = RoleService.retrieve();
-//        $scope.permissions = PermissionService.retrieveAll();
+        $scope.roleUsers = [];
 
         $scope.addingRole = false;
         $scope.editingRole = false;
@@ -30,6 +26,19 @@ angular.module('landscapesApp')
             console.log('editRole: ' + id);
             $scope.editingRole = true;
             $scope.role = RoleService.retrieveOne(id);
+            $scope.roleUsers = [];
+            RoleService.retrieveUsersInRole(id, function(data) {
+                $scope.roleUsers = data;
+                console.log('$scope.roleUsers: ' + $scope.roleUsers.length);
+                console.log(JSON.stringify($scope.users))
+            });
+        };
+
+        $scope.updateUserList = [];
+        $scope.updateUser = function(id) {
+            console.log('updateUser');
+            $scope.updateUserList.push(id);
+            console.log($scope.roleUsers);
         };
 
         $scope.addRole = function() {
@@ -38,11 +47,14 @@ angular.module('landscapesApp')
         };
 
         $scope.resetRoles = function() {
+            console.log('resetRoles');
             $scope.roles = RoleService.retrieve();
             $scope.addingRole = false;
             $scope.editingRole = false;
             $scope.role = { permissions: [] };
+            $scope.roleUsers = [];
             $scope.submitted = false;
+            console.log('$scope.roleUsers: ' + $scope.roleUsers.length);
         };
 
         $scope.saveRole = function (form) {
@@ -50,6 +62,7 @@ angular.module('landscapesApp')
 
             if (form.$invalid) {
                 console.log('form.$invalid: ' + JSON.stringify(form.$error));
+
             } else if ($scope.addingRole) {
 
                 RoleService.create({
@@ -75,12 +88,27 @@ angular.module('landscapesApp')
 
             } else if ($scope.editingRole) {
 
+                console.log('editing role...')
+                console.log($scope.role)
+
                 RoleService.update($scope.role._id, {
                     name: $scope.role.name,
                     permissions: $scope.role.permissions,
                     description: $scope.role.description
                 })
                     .then(function () {
+                        console.log('$scope.roleUsers: '+ $scope.roleUsers.length)
+
+
+                        for(var i = 0; i < $scope.roleUsers.length; i++) {
+
+
+//                            UserService.update($scope.updateUsers[i], {role: $scope.role.name})
+//                                .then(function () {
+//                                })
+//                                .catch(function (err) {
+//                                })
+                        }
                         $scope.resetRoles();
                     })
                     .catch(function (err) {

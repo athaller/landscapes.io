@@ -23,7 +23,15 @@
                 <div class="panel-body">
 
                     <div class="media">
-                        <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}">
+                        <!--hide hyperlink-->
+                        <a class="pull-left" href="{{ '/landscapes/'}}"
+                           ng-show="!hasPermission(currentUser, 'R', landscape._id)">
+                            <img style="max-height: 128px; max-width: 192px" class="media-object" ng-src="{{landscape.imageUri}}" alt="...">
+                        </a>
+
+
+                        <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}"
+                           ng-show="hasPermission(currentUser, 'R', landscape._id)">
                             <img style="max-height: 128px; max-width: 192px" class="media-object" ng-src="{{landscape.imageUri}}" alt="...">
                         </a>
 
