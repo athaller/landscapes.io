@@ -18,11 +18,11 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
-var multer = require('multer')
+var multer = require('multer');
+var config = require('./lib/config/config');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./lib/config/config');
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Load models

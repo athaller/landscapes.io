@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminCtrl', function ($scope, UserService, RoleService, GroupService, PermissionService) {
+    .controller('AdminCtrl', function ($scope, UserService, RoleService, GroupService, PermissionService, AccountService, AppSettingsService) {
 
         $scope.menu = [
             'Users',
@@ -47,6 +47,16 @@ angular.module('landscapesApp')
                 $scope.groups = data;
             });
 
+        AccountService.retrieve()
+            .then(function(data){
+                $scope.accounts = data;
+            });
+
+        AppSettingsService.retrieve()
+            .then(function(data){
+                $scope.appSettings = data;
+            });
+
         $scope.setUserGroups = function() {
             $scope.users = [];
 
@@ -56,7 +66,6 @@ angular.module('landscapesApp')
 
                     UserService.retrieveAll()
                         .then(function(users) {
-                            console.log('$scope.setUserGroups');
                             $scope.users = users;
                             for (var i = 0; i < $scope.groups.length; i++) {
                                 var group = $scope.groups[i];

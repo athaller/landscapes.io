@@ -42,8 +42,5 @@
     "angular-mocks": "1.2.x",
     "angular-scenario": "1.2.x"
   },
-  "testPath": "test/client/spec",
-  "resolutions": {
-    "angular": "1.2.x"
-  }
+  "testPath": "test/client/spec"
 }
