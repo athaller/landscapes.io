@@ -187,19 +187,7 @@
                     </div>
 
                     <div class="col-md-12" ng-show="selected=='Accounts'">
-                        <div class="panel panel-default">
-                            <div class="panel-heading title-heading">
-                                <h2 class="panel-title pull-left">Accounts</h2>
-                            </div>
-                            <div class="panel-body">
-                                <p><strong>Name:</strong> OpenWhere-DEV</p>
-                                <p><strong>Service Account:</strong> landscapes-svc</p>
-                                <hr>
-                                <p><strong>Name:</strong> OpenWhere</p>
-                                <p><strong>Link:</strong> OpenWhere</p>
-                                <p><strong>Service Account:</strong> landscapes-svc</p>
-                            </div>
-                        </div>
+                        <div ng-include="'partials/admin/admin-accounts.html'"></div>
                     </div>
 
                     <div class="col-md-12" ng-show="selected=='App Settings'">
@@ -210,9 +198,17 @@
                             <div class="panel-body">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Default Icon </label>
-                                        <div class="col-md-10">
-                                            <input type="text" name="defaultIcon" class="form-control" value="/images/AWS-icon.jpeg"/>
+                                        <label class="col-md-4 control-label">Default Icon </label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="defaultIcon" class="form-control" ng-model="appSettings[0].defaultIcon" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Default Account </label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="defaultIcon" class="form-control" ng-model="appSettings[0].defaultAccount" />
                                         </div>
                                     </div>
                                 </div>

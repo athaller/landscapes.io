@@ -1,0 +1,91 @@
+<div>
+
+    <form class="form" name="form" novalidate ng-submit="saveAccount(form)" >
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="addingAccount">
+            <span class="glyphicon glyphicon-plus-sign"></span> Add
+        </h4>
+        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingAccount">
+            <span class="glyphicon glyphicon-edit"></span> Edit
+        </h4>
+
+        <div class="form-horizontal">
+            <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+                <label class="col-md-3 control-label">Name</label>
+                <div class="col-md-9">
+                    <input type="text" name="name" class="form-control" ng-model="account.name" required/>
+                    <p class="help-block" ng-show="form.name.$error.required && submitted">
+                        Name is required.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group"
+                 ng-class="{ 'has-success': form.description.$valid && submitted, 'has-error': form.description.$invalid && submitted }">
+                <label class="col-md-3 control-label">Default Region</label>
+                <div class="col-md-9">
+                    <select id="defaultRegion" name="location" class="form-control" ng-model="account.region">
+                        <option value="us-east-1">US East (Northern Virginia)</option>
+                        <option value="us-west-1">US West (Northern California) Region</option>
+                        <option value="us-west-2">US West (Oregon) Region</option>
+                        <option value="eu-west-1">EU (Ireland) Region</option>
+                        <option value="ap-southeast-1">Asia Pacific (Singapore) Region</option>
+                        <option value="ap-southeast-2">Asia Pacific (Sydney) Region</option>
+                        <option value="ap-northeast-1">Asia Pacific (Tokyo) Region</option>
+                        <option value="sa-east-1">South America (Sao Paulo) Region</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+                <label class="col-md-3 control-label">Access Key ID</label>
+                <div class="col-md-9">
+                    <input type="text" name="name" class="form-control" ng-model="account.accessKeyId" required/>
+                    <p class="help-block" ng-show="form.accessKeyId.$error.required && submitted">
+                        <strong>Access Key ID</strong> is required.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+                <label class="col-md-3 control-label">Secret Access Key</label>
+                <div class="col-md-9">
+                    <input type="text" name="name" class="form-control" ng-model="account.secretAccessKey" required/>
+                    <p class="help-block" ng-show="form.secretAccessKey.$error.required && submitted">
+                        <strong>Secret Access Key</strong> is required.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" ng-click="resetAccounts()">
+                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+            <button type="button" class="btn btn-danger"
+                    ng-show="editingAccount"
+                    ng-click="deleteAccount()">
+                <span class="glyphicon glyphicon-remove"></span> Delete
+            </button>
+            <button class="btn btn-default" type="submit" ng-class="{'btn-success': form.$valid && submitted }" >
+                <span class="glyphicon glyphicon-save"></span> Save
+            </button>
+        </div>
+        <div style="margin-bottom: 0" class="text-center"
+             ng-class="{'alert alert-success': message}">{{ message }}</div>
+    </form>
+
+</div>
+
+<script type="text/ng-template" id="confirmDeleteModal.html">
+    <div class="modal-header">
+        <strong style="font-size: 18px;">Delete Account?</strong>
+    </div>
+    <div class="modal-body" style="padding: 10px 15px 10px 15px">
+        <h4 style="font-size: 14px;">{{ msg }}</h4>
+    </div>
+    <div class="modal-footer" style="margin-top: 0; padding: 15px">
+        <button class="btn btn-primary" ng-click="confirmDeleteButtonClick(false)">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+        </button>
+        <button class="btn btn-danger" ng-click="confirmDeleteButtonClick(true)">
+            <span class="glyphicon glyphicon-remove"></span> Delete
+        </button>
+    </div>
+</script>

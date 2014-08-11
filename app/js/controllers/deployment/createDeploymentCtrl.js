@@ -15,11 +15,29 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('CreateDeploymentCtrl', function ($scope, $http, $location, $routeParams, DeploymentService) {
+    .controller('CreateDeploymentCtrl', function ($scope, $http, $location, $routeParams, AccountService, DeploymentService) {
 
-        $scope.deployment = {location:'US East (Northern Virginia)', flavor:'None'};
+        $scope.deployment = { };
         $scope.errors = {};
         $scope.keys = [];
+        $scope.accounts = [];
+
+        $scope.changeAccount = function() {
+            angular.forEach($scope.accounts, function(account) {
+                if(account.id == $scope.deployment.account) {
+                    $scope.deployment.location = account.region;
+                }
+            });
+        };
+
+        AccountService.retrieve()
+            .then(function(data){
+                $scope.accounts = data;
+                if(data.length > 0) {
+                    $scope.deployment.account = $scope.accounts[0].id;
+                    $scope.deployment.location = $scope.accounts[0].region;
+                }
+            });
 
         $http.get('/api/landscapes/' + $routeParams.id)
             .success(function(data, status) {
@@ -68,12 +86,24 @@ angular.module('landscapesApp')
                 var cleanStackName = $scope.deployment.stackName.replace(/ /g, '-');
                 console.log(cleanStackName);
 
+                if($scope.accounts.length != 0) {
+                    angular.forEach($scope.accounts, function(account) {
+                        if(account.id = $scope.deployment.account) {
+                            $scope.deployment.accessKeyId = account.accessKeyId;
+                            $scope.deployment.secretAccessKey = account.secretAccessKey;
+                        }
+                    });
+                }
 
                 DeploymentService.create({
                     landscapeId: $routeParams.id,
                     stackName: cleanStackName,
                     description: $scope.deployment.description,
+
                     location: $scope.deployment.location,
+                    accessKeyId: $scope.deployment.accessKeyId,
+                    secretAccessKey: $scope.deployment.secretAccessKey,
+
                     flavor: $scope.deployment.flavor,
                     billingCode: $scope.deployment.billingCode,
                     cloudFormationParameters: $scope.cloudFormationParameters

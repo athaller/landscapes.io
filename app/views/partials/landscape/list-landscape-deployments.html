@@ -73,14 +73,9 @@
                                 </tr>
                             </table>
                         </div>
-                        <div ng-show="deployment.flavor != 'None' ||  deployment.description || deployment.billingCode">
+                        <div ng-show="deployment.description || deployment.billingCode">
                             <p style="margin: 0 0 5px 0"><strong>Tags:</strong></p>
                             <table class="table table-striped table-condensed" style="margin-bottom: 30px; border: 1px solid #dddddd;">
-                                <tr ng-show="deployment.flavor != 'None'">
-                                    <td style="width: 5%">1</td>
-                                    <td style="width: 20%"><strong>Flavor</strong></td>
-                                    <td style="width: 75%">{{deployment.flavor}}</td>
-                                </tr>
                                 <tr ng-show="deployment.description">
                                     <td style="width: 5%">2</td>
                                     <td style="width: 20%"><strong>Description</strong></td>

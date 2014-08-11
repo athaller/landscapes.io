@@ -1,13 +1,12 @@
 <div class="header" ng-controller="NavbarCtrl">
-    <!--<img src="images/logo.jpeg" />-->
     <h3 class="text-muted" style="display: inline-block">
-        landscapes.io
+    <img ng-src="images/landscapes.io.png"/>
     </h3>
-
     <ul class="nav nav-pills pull-right">
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
+        <li ng-show="currentUser" ng-class="{active: isActive('/landscapes')}"><a href="/landscapes">Landscapes</a></li>
         <li ng-show="currentUser.role=='administrator'" ng-class="{active: isActive('/admin')}"><a href="/admin">Administrator</a></li>
         <li ng-show="currentUser" ng-class="{active: isActive('/settings')}"><a href="/settings">Settings</a></li>
         <li ng-hide="currentUser" ng-class="{active: isActive('/login')}"><a href="/login">Log in</a></li>
