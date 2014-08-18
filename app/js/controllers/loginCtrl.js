@@ -21,7 +21,7 @@ angular.module('landscapesApp')
             AuthService.logout()
                 .then(function() {
                     $cookieStore.remove('user');
-                    console.log("$cookieStore.remove('user')");
+//                    console.log("$cookieStore.remove('user')");
                 });
         });
 

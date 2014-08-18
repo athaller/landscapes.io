@@ -19,7 +19,7 @@ angular.module('landscapesApp')
 
         // Get currentUser from cookie
         $rootScope.currentUser = $cookieStore.get('user') || null;
-        console.log("$cookieStore.get('user') --> " + JSON.stringify($rootScope.currentUser));
+//        console.log("$cookieStore.get('user') --> " + JSON.stringify($rootScope.currentUser));
 
         return {
             login: function(user, callback) {

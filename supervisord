@@ -3,7 +3,6 @@
 # supervisord   This scripts turns supervisord on
 #
 # chkconfig:    345 83 04
-#
 # description:  supervisor is a process control utility.  It has a web based
 #               xmlrpc interface as well as a few other nifty features.
 #
@@ -30,7 +29,6 @@ WAIT_FOR_SUBPROCESSES=yes
 ulimit -n 96000
 
 RETVAL=0
-
 
 running_pid()
 {
