@@ -228,13 +228,7 @@ module.exports = function (grunt) {
             my_target: {
                 files: {
                     '<%= yeoman.app %>/js/landscapes.min.js': [
-                        '<%= yeoman.app %>/js/controllers/*.js',
-                        '<%= yeoman.app %>/js/controllers/admin/*.js',
-                        '<%= yeoman.app %>/js/controllers/deployment/*.js',
-                        '<%= yeoman.app %>/js/controllers/landscape/*.js',
-                        '<%= yeoman.app %>/js/directives/*.js',
-                        '<%= yeoman.app %>/js/directives/imageUpload/*.js',
-                        '<%= yeoman.app %>/js/services/*.js'
+                        '<%= yeoman.app %>/js/**/*.js'
                     ]
                 }
             }
