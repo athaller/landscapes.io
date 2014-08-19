@@ -220,6 +220,26 @@ module.exports = function (grunt) {
             }
         },
 
+        // Uglify all client-side javascript into a single minified file
+        uglify: {
+            options: {
+                mangle: false
+            },
+            my_target: {
+                files: {
+                    '<%= yeoman.app %>/js/landscapes.min.js': [
+                        '<%= yeoman.app %>/js/controllers/*.js',
+                        '<%= yeoman.app %>/js/controllers/admin/*.js',
+                        '<%= yeoman.app %>/js/controllers/deployment/*.js',
+                        '<%= yeoman.app %>/js/controllers/landscape/*.js',
+                        '<%= yeoman.app %>/js/directives/*.js',
+                        '<%= yeoman.app %>/js/directives/imageUpload/*.js',
+                        '<%= yeoman.app %>/js/services/*.js'
+                    ]
+                }
+            }
+        },
+
         // Reads HTML for usemin blocks to enable smart builds that automatically
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them

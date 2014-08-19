@@ -77,7 +77,8 @@
         "grunt-env": "*",
         "grunt-node-inspector": "*",
         "grunt-nodemon": "*",
-        "open": "*"
+        "open": "*",
+        "uglify-js": "*"
     },
     "engines": {
         "node": "*"
