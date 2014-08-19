@@ -60,6 +60,7 @@
         "grunt-express-server": "*",
         "grunt-google-cdn": "*",
         "grunt-karma": ">=0.5",
+        "grunt-mocha-test": "*",
         "grunt-newer": "*",
         "grunt-ngmin": "*",
         "grunt-node-inspector": "*",
