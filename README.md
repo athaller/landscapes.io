@@ -65,7 +65,9 @@ You can log into landscapes.io using `admin@admin.com` and `admin`.
 
 ###MongoDB
 
-landscapes.io requires MongoDB for data persistence. OOTB landscapes.io is configured to access a [MongoDB](http://www.mongodb.org) server on `localhost`.
+landscapes.io requires MongoDB for data persistence. OOTB landscapes.io is
+configured to access a [MongoDB](http://www.mongodb.org) server on `localhost`
+using the default port of `27017`.
 
 
 ###ImageMagick
