@@ -14,7 +14,7 @@ The [mailing list](https://groups.google.com/forum/#!forum/landscapes-io) is int
 we monitor these posts and ensure that they are properly answered.
 
 
-The [landscapes.io wiki](https://github.com/OpenWhere/landscapes.io/wiki) is a repository for detailed documentation. 
+The [landscapes.io wiki](https://github.com/OpenWhere/landscapes.io/wiki) is a repository for detailed documentation.
 
 
 
@@ -44,22 +44,22 @@ landscapes.io is available through several channels...
 **AWS AMI**
 
     coming soon!
-    
+
 
 landscapes.io depends depends on [node.js](http://nodejs.org/), [npm](https://www.npmjs.org/) and [Bower](http://bower.io/) for installation.
 
 Install client-side dependencies listed in `bower.json`.
 
     $ bower install
-    
+
 Install backend dependencies listed in `package.json`.
 
     $ npm install
-    
+
 Launch landscapes.io in development mode.
 
     $ node server.js
-    
+
 You can log into landscapes.io using `admin@admin.com` and `admin`.
 
 
@@ -119,8 +119,8 @@ landscapes.io requires an AWS IAM account with full access to AWS CloudFormation
 
 ####II. Enter Your AWS Service Account Data into landscapes.io configuration
 
-1. Open the "credentials.csv" file that you downloaded in step 7 above. 
-2. Open `/lib/config/aws/config.json` for editing.  
+1. Open the "credentials.csv" file that you downloaded in step 7 above.
+2. Open `/lib/config/aws/config.json` for editing.
 3. Copy and paste your AWS Service Account's **accessKeyId** and **secretAccessKey** into `config.json`.
 4. Save your changes to `/lib/config/aws/config.json`.
 
