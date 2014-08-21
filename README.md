@@ -56,6 +56,11 @@ Install backend dependencies listed in `package.json`.
 
     $ npm install
     
+
+Minify javascript files
+
+    $ grunt uglify
+
 Launch landscapes.io in development mode.
 
     $ node server.js
