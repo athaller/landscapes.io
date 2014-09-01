@@ -23,16 +23,24 @@ angular.module('landscapesApp')
             $scope.submitted = true;
 
             if(form.$valid) {
+                console.log('AuthService.createUser');
                 AuthService.createUser({
                     name: $scope.user.name,
                     email: $scope.user.email,
                     password: $scope.user.password
                 })
-                    .then( function() {
+                    .then(function(data) {
+                        console.log(data);
 
-                        // set groups and permissions!
-
-                        $location.path('/');
+                        console.log('AuthService.login');
+                        AuthService.login({
+                            email: $scope.user.email,
+                            password: $scope.user.password
+                        })
+                            .then( function() {
+                                console.log('$scope.go');
+                                $scope.go('/');
+                            })
                     })
                     .catch( function(err) {
                         err = err.data;

@@ -15,11 +15,11 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('UserService', function LandscapeService($location, $rootScope, User) {
+    .factory('TagService', function AccountService($location, $rootScope, Tag) {
         return {
-            create: function(user, callback) {
+            create: function(group, callback) {
                 var cb = callback || angular.noop;
-                return User.save(user,
+                return Tag.save(group,
                     function(data) {
                         return cb(data);
                     },
@@ -28,45 +28,37 @@ angular.module('landscapesApp')
                     }
                 ).$promise;
             },
-            retrieve: function(id, callback) {
+            retrieve: function(callback) {
                 var cb = callback || angular.noop;
 
-                return User.get({id:id},
-                    function(user) {
-                        return cb(user);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            },
-            retrieveAll: function(callback) {
-                var cb = callback || angular.noop;
-
-                return User.query({},
-                    function(user) {
-                        return cb(user);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            },
-            update: function (id, user, callback) {
-                var cb = callback || angular.noop;
-
-                return User.update({id: id}, user,
-                    function (data) {
+                return Tag.query({},
+                    function(data) {
                         return cb(data);
                     },
-                    function (err) {
+                    function(err) {
                         return cb(err);
                     }
                 ).$promise;
             },
-            delete: function(user, callback) {
+            retrieveOne: function(id) {
+                return Tag.get({id:id}, function(){});
+            },
+            update: function(id, account, callback) {
                 var cb = callback || angular.noop;
-                return User.delete(user,
+
+                return Tag.update({id:id}, account,
+                    function(data) {
+                        return cb(data);
+                    },
+                    function(err) {
+                        return cb(err);
+                    }
+                ).$promise;
+            },
+            delete: function(id, callback) {
+                var cb = callback || angular.noop;
+
+                return Tag.remove({id: id},
                     function(data) {
                         return cb(data);
                     },
@@ -78,21 +70,11 @@ angular.module('landscapesApp')
         }
     });
 
-
 angular.module('landscapesApp')
-    .factory('User', function ($resource) {
-        return $resource('/api/users/:id', {
+    .factory('Tag', function ($resource) {
+        return $resource('/api/tags/:id', {
             id: '@id'
         }, {
-            update: {
-                method: 'PUT'
-            },
-            get: {
-                method: 'GET',
-                params: {
-                    id:'me'
-                }
-            }
+            update: { method: 'PUT' }
         });
-    }
-);
+    });

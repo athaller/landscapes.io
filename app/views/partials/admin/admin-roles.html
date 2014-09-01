@@ -35,7 +35,7 @@
                     <span ng-repeat="permission in role.permissions | orderBy:'displayOrder'">
                         <span style="" class="badge alert-success"
                               popover="{{permission.name}}" popover-trigger="mouseenter"
-                              ng-class="{'alert-danger': permission.value=='F', 'alert-warning': permission.value=='C', 'alert-info': permission.value=='X'  }">
+                              ng-class="{ 'alert-info': permission.value=='U' || permission.value=='D', 'alert-danger': permission.value=='X' || permission.value=='F'  }">
                               {{permission.value}}
                         </span>
                     </span>

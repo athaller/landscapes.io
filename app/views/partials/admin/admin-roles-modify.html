@@ -1,82 +1,80 @@
 <div>
 
-    <form class="form" name="form" novalidate ng-submit="saveRole(form)" >
-        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="addingRole">
-            <span class="glyphicon glyphicon-plus-sign"></span> Add
-        </h4>
-        <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingRole">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-        </h4>
+  <form class="form" name="form" novalidate ng-submit="saveRole(form)" >
+    <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="addingRole">
+      <span class="glyphicon glyphicon-plus-sign"></span> Add
+    </h4>
+    <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingRole">
+      <span class="glyphicon glyphicon-edit"></span> Edit
+    </h4>
 
-        <div class="form-horizontal">
-            <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
-                <label class="col-md-2 control-label">Name</label>
-                <div class="col-md-10">
-                    <input type="text" name="name" class="form-control"
-                           ng-disabled=" role.name=='administrator' "
-                           ng-model="role.name" required/>
-                    <p class="help-block" ng-show="form.name.$error.required && submitted">
-                        Name is required.
-                    </p>
-                </div>
-            </div>
-            <div class="form-group"
-                 ng-class="{ 'has-success': form.description.$valid && submitted, 'has-error': form.description.$invalid && submitted }">
-                <label class="col-md-2 control-label">Description</label>
-                <div class="col-md-10">
-                    <textarea type="text" name="description" class="form-control" ng-model="role.description" required/>
-                    <p class="help-block" ng-show="form.description.$error.required && submitted">
-                        Description is required.
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label">Permissions</label>
-                <div class="col-md-10">
-                    <div class="checkbox col-xs-1" ng-repeat="permission in permissions">
-                        <label popover="{{permission.name}}" popover-trigger="mouseenter">
-                            <input type="checkbox"
-                                   ng-disabled=" role.name=='administrator' "
-                                   checklist-model="role.permissions" checklist-value="permission" /> {{permission.value}}
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label">Users</label>
-                <div class="col-md-10">
-
-                    <div class="checkbox col-xs-4" ng-repeat="user in users | orderBy:'name'">
-                        <label>
-                            <input type="checkbox" value="user.name"
-                                   ng-checked="roleUsers.indexOf(user._id) > -1"
-                                   ng-click="updateUser(user._id)" />
-                            {{user.name}}
-                        </label>
-                    </div>
-                </div>
-            </div>
+    <div class="form-horizontal">
+      <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+        <label class="col-md-2 control-label">Name</label>
+        <div class="col-md-10">
+          <input type="text" name="name" class="form-control"
+                 ng-disabled=" role.name=='administrator' "
+                 ng-model="role.name" required/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">
+            Name is required.
+          </p>
         </div>
-
-        <div class="pull-right">
-            <button type="button" class="btn btn-primary" ng-click="resetRoles()">
-                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-            </button>
-            <button type="button" class="btn btn-danger"
-                    ng-disabled=" role.name=='administrator' "
-                    ng-show="editingRole"
-                    ng-click="deleteRole()">
-                <span class="glyphicon glyphicon-remove"></span> Delete
-            </button>
-            <button class="btn btn-default" type="submit" ng-class="{'btn-success': form.$valid && submitted }" >
-                <span class="glyphicon glyphicon-save"></span> Save
-            </button>
+      </div>
+      <div class="form-group"
+           ng-class="{ 'has-success': form.description.$valid && submitted, 'has-error': form.description.$invalid && submitted }">
+        <label class="col-md-2 control-label">Description</label>
+        <div class="col-md-10">
+          <textarea type="text" name="description" class="form-control" ng-model="role.description" required/>
+          <p class="help-block" ng-show="form.description.$error.required && submitted">
+            Description is required.
+          </p>
         </div>
+      </div>
+      <div class="form-group">
+          <label class="col-md-2 control-label">Permissions</label>
+          <div class="col-md-10">
+            <div class="checkbox col-xs-1" ng-repeat="permission in permissions">
+              <label popover="{{permission.name}}" popover-trigger="mouseenter" >
+                <input type="checkbox" checklist-model="role.permissions" checklist-value="permission"> {{permission.value}}
+              </label>
+            </div>
+          </div>
+        </div>
+      <div class="form-group" ng-show="editingRole">
+        <label class="col-md-2 control-label">Users</label>
+        <div class="col-md-10">
+          <div class="checkbox col-xs-3" ng-repeat="user in users | orderBy:'name'">
+            <label>
+              <input type="checkbox"
+                     checklist-model="role.users"
+                     checklist-value="user._id" > {{user.name}}
+            </label>
+          </div>
+        </div>
+        <!--<div>originalRole.users: {{originalRole.users}}</div>-->
+        <!--<div>role.users: {{role.users}}</div>-->
+      </div>
+    </div>
 
-        <div style="margin-bottom: 0" class="text-center"
-             ng-class="{'alert alert-success': message}">{{ message }}</div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-primary" ng-click="resetRoles()">
+        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+      </button>
+      <button type="button" class="btn btn-danger"
+              ng-disabled=" role.name=='administrator' "
+              ng-show="editingRole"
+              ng-click="deleteRole()">
+        <span class="glyphicon glyphicon-remove"></span> Delete
+      </button>
+      <button class="btn btn-default" type="submit" ng-class="{'btn-success': form.$valid && submitted }" >
+        <span class="glyphicon glyphicon-save"></span> Save
+      </button>
+    </div>
 
-    </form>
+    <div style="margin-bottom: 0" class="text-center"
+         ng-class="{'alert alert-success': message}">{{ message }}</div>
+
+  </form>
 
 
 </div>

@@ -48,12 +48,24 @@ angular.module('landscapesApp')
                     }).$promise;
             },
 
+//            addUser: function(user, callback) {
+//                var cb = callback || angular.noop;
+//
+//                return User.save(user,
+//                    function(user) {
+//                        return cb(user);
+//                    },
+//                    function(err) {
+//                        return cb(err);
+//                    }).$promise;
+//            },
+
             createUser: function(user, callback) {
                 var cb = callback || angular.noop;
 
                 return User.save(user,
                     function(user) {
-                        $rootScope.currentUser = user;
+//                        $rootScope.currentUser = user;
                         return cb(user);
                     },
                     function(err) {

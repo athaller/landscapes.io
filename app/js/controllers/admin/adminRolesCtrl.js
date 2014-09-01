@@ -15,30 +15,82 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminRolesCtrl', function ($scope, RoleService, UserService) {
-        $scope.role = { permissions: [] };
-        $scope.roleUsers = [];
+    .controller('AdminRolesCtrl', function ($scope, RoleService, UserService, _) {
+        $scope.role = { };
+        $scope.originalRole = { };
+
+        $scope.addUsers = [];
+        $scope.removeUsers = [];
 
         $scope.addingRole = false;
         $scope.editingRole = false;
 
+        $scope.submitted = false;
+
+
+        function manageRoleUsers() {
+            $scope.$watchCollection("role.users", function (newValue, oldValue) {
+                if(newValue !== oldValue) {
+
+                    var updateThisUser = _.difference(newValue, oldValue);
+                    if(updateThisUser[0] !== undefined) {
+                        // add User to Role
+                        $scope.addUsers.push(updateThisUser[0]);
+                        $scope.addUsers = _.uniq($scope.addUsers);
+
+                        var index = _.indexOf($scope.removeUsers, updateThisUser[0]);
+                        if (index !== -1) {
+                            $scope.removeUsers.splice(index, 1);
+                        }
+                    } else {
+                        // remove User from Role
+                        updateThisUser = _.difference(oldValue, newValue);
+                        $scope.removeUsers.push(updateThisUser[0]);
+                        $scope.removeUsers = _.uniq($scope.removeUsers);
+
+                        var index = _.indexOf($scope.addUsers, updateThisUser[0]);
+                        if (index !== -1) {
+                            $scope.addUsers.splice(index, 1);
+                        }
+                    }
+
+                    console.log('$scope.addUsers: ' + $scope.addUsers);
+                    console.log('$scope.removeUsers: ' + $scope.removeUsers);
+                }
+            })
+        }
+
         $scope.editRole = function(id) {
-            console.log('editRole: ' + id);
+            console.log('editRole');
             $scope.editingRole = true;
-            $scope.role = RoleService.retrieveOne(id);
-            $scope.roleUsers = [];
-            RoleService.retrieveUsersInRole(id, function(data) {
-                $scope.roleUsers = data;
-                console.log('$scope.roleUsers: ' + $scope.roleUsers.length);
-                console.log(JSON.stringify($scope.users))
-            });
+
+            RoleService.retrieveOne(id)
+                .then(function(data) {
+                    $scope.role = data;
+                    angular.copy(data, $scope.originalRole);
+                })
+                .then(function(){
+                    manageRoleUsers();
+                });
         };
 
-        $scope.updateUserList = [];
-        $scope.updateUser = function(id) {
-            console.log('updateUser');
-            $scope.updateUserList.push(id);
-            console.log($scope.roleUsers);
+        $scope.resetRoles = function() {
+            console.log('resetRoles');
+
+            RoleService.retrieveAll()
+                .then(function(data){
+                    $scope.roles = data;
+
+                    $scope.role = { };
+                    $scope.originalRole = { };
+
+                    $scope.addUsers = [];
+                    $scope.removeUsers = [];
+
+                    $scope.addingRole = false;
+                    $scope.editingRole = false;
+                    $scope.submitted = false;
+                })
         };
 
         $scope.addRole = function() {
@@ -46,23 +98,11 @@ angular.module('landscapesApp')
             $scope.addingRole = true;
         };
 
-        $scope.resetRoles = function() {
-            console.log('resetRoles');
-            $scope.roles = RoleService.retrieve();
-            $scope.addingRole = false;
-            $scope.editingRole = false;
-            $scope.role = { permissions: [] };
-            $scope.roleUsers = [];
-            $scope.submitted = false;
-            console.log('$scope.roleUsers: ' + $scope.roleUsers.length);
-        };
-
         $scope.saveRole = function (form) {
             $scope.submitted = true;
 
             if (form.$invalid) {
                 console.log('form.$invalid: ' + JSON.stringify(form.$error));
-
             } else if ($scope.addingRole) {
 
                 RoleService.create({
@@ -72,6 +112,7 @@ angular.module('landscapesApp')
                 })
                     .then(function () {
                         $scope.resetRoles();
+                        $scope.setUserGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -87,29 +128,42 @@ angular.module('landscapesApp')
                     });
 
             } else if ($scope.editingRole) {
+                console.log('updating Role: ' + $scope.role.name);
 
-                console.log('editing role...')
-                console.log($scope.role)
-
+                // update Role properties
                 RoleService.update($scope.role._id, {
                     name: $scope.role.name,
                     permissions: $scope.role.permissions,
                     description: $scope.role.description
                 })
                     .then(function () {
-                        console.log('$scope.roleUsers: '+ $scope.roleUsers.length)
+                        // add Users to Role
+                        for(var i = 0; i < $scope.addUsers.length; i++) {
+                            console.log("UserService.update: " + $scope.addUsers[i]);
 
+                            UserService.update($scope.addUsers[i], {role: $scope.role.name})
+                                .then(function (data) {
+                                    console.log('User added to Role: ' + data.name);
+                                })
+                                .catch(function (err) {
+                                    console.log(err);
+                                })
+                        }
 
-                        for(var i = 0; i < $scope.roleUsers.length; i++) {
+                        // remove Users from role
+                        for(var i = 0; i < $scope.removeUsers.length; i++) {
+                            console.log("UserService.update: " + $scope.removeUsers[i]);
 
-
-//                            UserService.update($scope.updateUsers[i], {role: $scope.role.name})
-//                                .then(function () {
-//                                })
-//                                .catch(function (err) {
-//                                })
+                            UserService.update($scope.addUsers[i], {role: undefined})
+                                .then(function (data) {
+                                    console.log(data);
+                                })
+                                .catch(function (err) {
+                                    console.log(err);
+                                })
                         }
                         $scope.resetRoles();
+                        $scope.setUserGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -127,7 +181,7 @@ angular.module('landscapesApp')
         };
 
         $scope.deleteRole = function(){
-            console.log('deleteRole: ' + $scope.role._id)
+            console.log('delete Role: ' + $scope.role.name);
             RoleService.delete($scope.role._id)
                 .then(function() {
                     $scope.resetRoles();

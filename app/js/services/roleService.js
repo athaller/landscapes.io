@@ -28,10 +28,35 @@ angular.module('landscapesApp')
                     }
                 ).$promise;
             },
-            retrieve: function(callback) {
-                return Role.query(function(){});
+            retrieveOne: function(id, callback) {
+                    var cb = callback || angular.noop;
+
+                return Role.get({id:id},
+                        function(data) {
+                            return cb(data);
+                        },
+                        function(err) {
+                            return cb(err);
+                        }
+                    ).$promise;
+
             },
+            retrieveAll: function(callback) {
+                var cb = callback || angular.noop;
+
+                return Role.query({},
+                    function(data) {
+                        return cb(data);
+                    },
+                    function(err) {
+                        return cb(err);
+                    }
+                ).$promise;
+            },
+
             retrieveUsersInRole: function(id, callback) {
+                console.log(id)
+                console.log(callback)
                 var cb = callback || angular.noop;
 
                 return $http({method: 'GET', url: '/api/roles/'+id+'/users'})
@@ -40,14 +65,11 @@ angular.module('landscapesApp')
                         cb(data);
                     })
                     .error(function(data, status) {
-                        var error = data || 'ERROR: RoleService.retrieveUsersInRole('+id+')';
+                        var error = data || 'ERROR: RoleService.retrieveUsersInRole(' + id + ')';
                         cb(error);
-                    })
-                    .$promise;
+                    });
             },
-            retrieveOne: function(id) {
-                return Role.get({id:id}, function(){});
-            },
+
             update: function(id, role, callback) {
                 var cb = callback || angular.noop;
 

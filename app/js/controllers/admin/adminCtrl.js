@@ -34,17 +34,24 @@ angular.module('landscapesApp')
 
         $scope.errors = {};
 
-        $scope.roles = RoleService.retrieve();
         $scope.permissions = PermissionService.retrieveAll();
 
-        UserService.retrieveAll()
+        RoleService.retrieveAll()
             .then(function(data){
-                $scope.users = data;
+                $scope.roles = data;
             });
+
+//        UserService.retrieveAll()
+//            .then(function(data){
+//                $scope.users = data;
+//            });
 
         GroupService.retrieve()
             .then(function(data){
                 $scope.groups = data;
+                $scope.setUserGroups(function() {
+                    console.log('setUserGroups');
+                });
             });
 
         AccountService.retrieve()
@@ -57,11 +64,11 @@ angular.module('landscapesApp')
                 $scope.appSettings = data;
             });
 
-        $scope.setUserGroups = function() {
+        $scope.setUserGroups = function(callback) {
             $scope.users = [];
 
             GroupService.retrieve()
-                .then(function(groups){
+                .then(function(groups) {
                     $scope.groups = groups;
 
                     UserService.retrieveAll()
@@ -78,7 +85,10 @@ angular.module('landscapesApp')
                                     }
                                 }
                             }
-                        });
-                });
+                        }
+                    );
+                }
+            );
+            if(callback) callback();
         }
     });

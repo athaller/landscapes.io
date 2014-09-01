@@ -19,7 +19,7 @@ angular.module('landscapesApp')
 
         $scope._ = _;
 
-        $scope.roles = RoleService.retrieve();
+        $scope.roles = RoleService.retrieveAll();
         $scope.editingAccountSettings = false;
         $scope.changingPassword = false;
         $scope.errors = {};
