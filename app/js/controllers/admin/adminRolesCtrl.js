@@ -27,7 +27,6 @@ angular.module('landscapesApp')
 
         $scope.submitted = false;
 
-
         function manageRoleUsers() {
             $scope.$watchCollection("role.users", function (newValue, oldValue) {
                 if(newValue !== oldValue) {
@@ -60,20 +59,6 @@ angular.module('landscapesApp')
             })
         }
 
-        $scope.editRole = function(id) {
-            console.log('editRole');
-            $scope.editingRole = true;
-
-            RoleService.retrieveOne(id)
-                .then(function(data) {
-                    $scope.role = data;
-                    angular.copy(data, $scope.originalRole);
-                })
-                .then(function(){
-                    manageRoleUsers();
-                });
-        };
-
         $scope.resetRoles = function() {
             console.log('resetRoles');
 
@@ -91,6 +76,20 @@ angular.module('landscapesApp')
                     $scope.editingRole = false;
                     $scope.submitted = false;
                 })
+        };
+
+        $scope.editRole = function(id) {
+            console.log('editRole');
+            $scope.editingRole = true;
+
+            RoleService.retrieveOne(id)
+                .then(function(data) {
+                    $scope.role = data;
+                    angular.copy(data, $scope.originalRole);
+                })
+                .then(function(){
+                    manageRoleUsers();
+                });
         };
 
         $scope.addRole = function() {
@@ -180,7 +179,7 @@ angular.module('landscapesApp')
             }
         };
 
-        $scope.deleteRole = function(){
+        $scope.deleteRole = function() {
             console.log('delete Role: ' + $scope.role.name);
             RoleService.delete($scope.role._id)
                 .then(function() {

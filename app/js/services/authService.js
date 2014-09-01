@@ -19,7 +19,6 @@ angular.module('landscapesApp')
 
         // Get currentUser from cookie
         $rootScope.currentUser = $cookieStore.get('user') || null;
-//        console.log("$cookieStore.get('user') --> " + JSON.stringify($rootScope.currentUser));
 
         return {
             login: function(user, callback) {
@@ -48,24 +47,11 @@ angular.module('landscapesApp')
                     }).$promise;
             },
 
-//            addUser: function(user, callback) {
-//                var cb = callback || angular.noop;
-//
-//                return User.save(user,
-//                    function(user) {
-//                        return cb(user);
-//                    },
-//                    function(err) {
-//                        return cb(err);
-//                    }).$promise;
-//            },
-
             createUser: function(user, callback) {
                 var cb = callback || angular.noop;
 
                 return User.save(user,
                     function(user) {
-//                        $rootScope.currentUser = user;
                         return cb(user);
                     },
                     function(err) {
@@ -85,6 +71,7 @@ angular.module('landscapesApp')
                     return cb(err);
                 }).$promise;
             },
+
             isLoggedIn: function() {
                 var user = $rootScope.currentUser;
                 return !!user;

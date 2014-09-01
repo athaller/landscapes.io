@@ -20,40 +20,64 @@ angular.module('landscapesApp')
         $scope.editingUser = false;
         $scope.viewingUser = false;
 
-        $scope.user = {};
+        $scope.user = { email: '', password: ''};
         $scope.errors = {};
 
-        function retrieveUser(user){
+        function retrieveUser(user) {
             UserService.retrieve(user._id)
-                .then( function(data) {
+                .then(function(data) {
                     $scope.user = data;
-                    console.log($scope.user);
                 });
         }
 
+        $scope.resetUsers = function() {
+            $scope.addingUser = false;
+            $scope.editingUser = false;
+            $scope.viewingUser = false;
+
+            // value in input[email] and/or input[password] will not bind to model while !valid
+            $scope.user = { email: '', password: ''};
+            $scope.errors = {};
+
+            $scope.submitted = false;
+
+            // in adminCtrl
+            $scope.setUserGroups();
+        };
+
+
+        $scope.deleteUser = function(user) {
+            UserService.delete( user._id )
+                .then(function() {
+                    $scope.resetUsers();
+                })
+                .catch(function(err) {
+                    err = err.data || err;
+                    console.log(err)
+                });
+        };
+
 
         $scope.editUser = function(user) {
-            console.log('editUser');
             $scope.editingUser = true;
             retrieveUser(user);
         };
 
 
         $scope.viewUser = function(user) {
-            console.log('viewUser');
             $scope.viewingUser = true;
             retrieveUser(user);
         };
 
 
         $scope.addUser = function() {
-            console.log('addUser');
             $scope.addingUser = true;
         };
 
 
+        function formatMongooseErrors(err, form){}
+
         $scope.saveUser = function(form) {
-            console.log('saveUser');
 
             $scope.submitted = true;
 
@@ -68,6 +92,8 @@ angular.module('landscapesApp')
                         $scope.resetUsers()
                     })
                     .catch( function(err) {
+                        console.log('UserService.update Error: ' + JSON.stringify(err));
+
                         err = err.data;
                         $scope.errors = {};
 
@@ -88,6 +114,8 @@ angular.module('landscapesApp')
                         $scope.resetUsers()
                     })
                     .catch( function(err) {
+                        console.log('UserService.update Error: ' + JSON.stringify(err));
+
                         err = err.data;
                         $scope.errors = {};
 
@@ -99,19 +127,5 @@ angular.module('landscapesApp')
                         });
                     });
             }
-        };
-
-
-        $scope.resetUsers = function() {
-            $scope.addingUser = false;
-            $scope.editingUser = false;
-            $scope.viewingUser = false;
-
-            $scope.user = {};
-            $scope.errors = {};
-
-            $scope.submitted = false;
-
-            $scope.setUserGroups();
         };
     });

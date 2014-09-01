@@ -6,7 +6,13 @@
     </h4>
     <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="editingUser">
       <span class="glyphicon glyphicon-edit"></span> Edit
+      <small class="pull-right" style="margin: 10px 0 0 0; color: #cccccc; font-size: 12px;">{{user._id}}</small>
     </h4>
+    <h4 style="margin: 0 0 20px 0; font-size: 22px;" ng-show="viewingUser">
+      <span class="glyphicon glyphicon-share-alt"></span> View
+      <small class="pull-right" style="margin: 10px 0 0 0; color: #cccccc; font-size: 12px;">{{user._id}}</small>
+    </h4>
+
 
     <div class="row">
       <div class="col-md-12">
@@ -18,9 +24,10 @@
 
               <div class="col-md-10">
                 <input type="text" name="name" class="form-control"
-                       ng-disabled="viewingUser"
                        ng-model="user.name"
-                       required/>
+                       ng-disabled="viewingUser"
+                       required
+                       mongoose-error />
               </div>
               <div class="col-md-10 col-md-offset-2">
                 <p class="help-block" ng-show="form.name.$error.required && submitted">
@@ -31,12 +38,13 @@
 
             <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted, 'has-error': form.email.$invalid && submitted }">
               <label class="col-md-2 control-label">Email Address</label>
+
               <div class="col-md-10">
-                <input type="email" name="email" class="form-control"
-                       ng-disabled="viewingUser"
+                <input type="text" name="email" class="form-control"
                        ng-model="user.email"
+                       ng-disabled="viewingUser"
                        required
-                       mongoose-error/>
+                       mongoose-error />
               </div>
               <div class="col-md-10 col-md-offset-2">
                 <p class="help-block" ng-show="form.email.$error.email && submitted">
@@ -54,12 +62,13 @@
             <div class="form-group" ng-show="addingUser"
                  ng-class="{ 'has-success': form.password.$valid && submitted, 'has-error': form.password.$invalid && submitted }">
               <label class="col-md-2 control-label">Password</label>
+
               <div class="col-md-10">
                 <input type="password" name="password" class="form-control"
                        ng-model="user.password"
                        ng-required="addingUser"
                        ng-minlength="6"
-                       mongoose-error/>
+                       mongoose-error />
               </div>
               <div class="col-md-10 col-md-offset-2">
                 <p class="help-block"
@@ -83,10 +92,10 @@
               <label class="col-md-2 control-label">Role</label>
               <div class="col-md-10">
                 <div class="btn-group">
-                  <label class="btn btn-default"
-                         ng-repeat="role in roles | orderBy:'name'"
+                  <label class="btn btn-default" ng-repeat="role in roles | orderBy:'name'"
                          ng-model="user.role"
-                         btn-radio=role.name>{{role.name}}</label>
+                         btn-radio=role.name >
+                    {{role.name}}</label>
                 </div>
               </div>
             </div>
@@ -100,21 +109,20 @@
         <span class="glyphicon glyphicon-ban-circle"></span> Cancel
       </button>
       <button type="button" class="btn btn-danger"
-              ng-disabled=" role.name=='administrator' "
-              ng-show="editingUser"
-              ng-click="deleteUser()">
+              ng-click="deleteUser(user)"
+              ng-disabled="user.name==currentUser.name"
+              ng-show="editingUser">
         <span class="glyphicon glyphicon-remove"></span> Delete
       </button>
       <button class="btn btn-default" type="submit" ng-class="{'btn-success': form.$valid && submitted }" >
         <span class="glyphicon glyphicon-save"></span> Save
       </button>
-      </button>
+
     </div>
 
     <div style="margin-bottom: 0" class="text-center"
          ng-class="{'alert alert-success': message}">{{ message }}</div>
 
   </form>
-
 
 </div>

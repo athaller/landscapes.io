@@ -7,3 +7,4 @@ dist
 .idea
 *.ow
 lib/config/accountsKeyFile.json
+app/js/landscapes.min.js

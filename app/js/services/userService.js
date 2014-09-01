@@ -30,7 +30,6 @@ angular.module('landscapesApp')
             },
             retrieve: function(id, callback) {
                 var cb = callback || angular.noop;
-
                 return User.get({id:id},
                     function(user) {
                         return cb(user);
@@ -42,7 +41,6 @@ angular.module('landscapesApp')
             },
             retrieveAll: function(callback) {
                 var cb = callback || angular.noop;
-
                 return User.query({},
                     function(user) {
                         return cb(user);
@@ -54,7 +52,6 @@ angular.module('landscapesApp')
             },
             update: function (id, user, callback) {
                 var cb = callback || angular.noop;
-
                 return User.update({id: id}, user,
                     function (data) {
                         return cb(data);
@@ -64,9 +61,12 @@ angular.module('landscapesApp')
                     }
                 ).$promise;
             },
-            delete: function(user, callback) {
+            delete: function(id, callback) {
                 var cb = callback || angular.noop;
-                return User.delete(user,
+
+                console.log('delete User: ' + id);
+
+                return User.remove({id: id},
                     function(data) {
                         return cb(data);
                     },
