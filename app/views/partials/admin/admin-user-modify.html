@@ -91,8 +91,9 @@
             <div class="form-group" ng-show="addingUser || editingUser">
               <label class="col-md-2 control-label">Role</label>
               <div class="col-md-10">
-                <div class="btn-group">
+                <div class="btn-group" >
                   <label class="btn btn-default" ng-repeat="role in roles | orderBy:'name'"
+                         ng-disabled="user.name==currentUser.name"
                          ng-model="user.role"
                          btn-radio=role.name >
                     {{role.name}}</label>
