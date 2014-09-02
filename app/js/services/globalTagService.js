@@ -15,11 +15,11 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .factory('TagService', function AccountService($location, $rootScope, Tag) {
+    .factory('GlobalTagService', function GlobalTagService($location, GlobalTag) {
         return {
             create: function(group, callback) {
                 var cb = callback || angular.noop;
-                return Tag.save(group,
+                return GlobalTag.save(group,
                     function(data) {
                         return cb(data);
                     },
@@ -31,7 +31,7 @@ angular.module('landscapesApp')
             retrieve: function(callback) {
                 var cb = callback || angular.noop;
 
-                return Tag.query({},
+                return GlobalTag.query({},
                     function(data) {
                         return cb(data);
                     },
@@ -46,7 +46,7 @@ angular.module('landscapesApp')
             update: function(id, account, callback) {
                 var cb = callback || angular.noop;
 
-                return Tag.update({id:id}, account,
+                return GlobalTag.update({id:id}, account,
                     function(data) {
                         return cb(data);
                     },
@@ -58,7 +58,9 @@ angular.module('landscapesApp')
             delete: function(id, callback) {
                 var cb = callback || angular.noop;
 
-                return Tag.remove({id: id},
+                console.log('delete: ', id)
+
+                return GlobalTag.remove({id: id},
                     function(data) {
                         return cb(data);
                     },
@@ -71,8 +73,8 @@ angular.module('landscapesApp')
     });
 
 angular.module('landscapesApp')
-    .factory('Tag', function ($resource) {
-        return $resource('/api/tags/:id', {
+    .factory('GlobalTag', function ($resource) {
+        return $resource('/api/globalTags/:id', {
             id: '@id'
         }, {
             update: { method: 'PUT' }

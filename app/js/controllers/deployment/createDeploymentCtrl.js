@@ -15,12 +15,26 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('CreateDeploymentCtrl', function ($scope, $http, $location, $routeParams, AccountService, DeploymentService) {
+    .controller('CreateDeploymentCtrl', function ($scope, $http, $location, $routeParams, AccountService, DeploymentService, GlobalTagService) {
 
         $scope.deployment = { };
         $scope.errors = {};
         $scope.keys = [];
         $scope.accounts = [];
+        $scope.deployment = { tags:{} };
+
+        GlobalTagService.retrieve()
+            .then(function(data){
+                $scope.globalTags = data;
+
+                // set default values
+                for(var i=0; i<$scope.globalTags.length; i++) {
+                    if($scope.globalTags[i].defaultValue) {
+                        $scope.deployment.tags[$scope.globalTags[i].key] = $scope.globalTags[i].defaultValue
+                    }
+                }
+                console.log('$scope.deployment: ' + JSON.stringify($scope.deployment));
+            });
 
         $scope.changeAccount = function() {
             angular.forEach($scope.accounts, function(account) {
@@ -78,10 +92,9 @@ angular.module('landscapesApp')
                 $scope.cloudFormationParameters[$scope.keys[i]] = $scope.deployment[$scope.keys[i]];
             };
 
-            console.log (JSON.stringify($scope.cloudFormationParameters));
+            // TO DO: set form.$invalid if required GlobalTag is empty
 
             if(form.$valid) {
-                console.log('form.$valid');
 
                 var cleanStackName = $scope.deployment.stackName.replace(/ /g, '-');
                 console.log(cleanStackName);
@@ -106,6 +119,7 @@ angular.module('landscapesApp')
 
                     flavor: $scope.deployment.flavor,
                     billingCode: $scope.deployment.billingCode,
+                    tags: $scope.deployment.tags,
                     cloudFormationParameters: $scope.cloudFormationParameters
                 })
                     .then(function(data) {

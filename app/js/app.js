@@ -22,7 +22,8 @@ angular.module('landscapesApp', [
     'ui.bootstrap',
     'angularFileUpload',
     'underscore',
-    'checklist-model'
+    'checklist-model',
+    'trNgGrid'
 ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider

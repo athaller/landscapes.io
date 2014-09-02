@@ -73,19 +73,14 @@
                                 </tr>
                             </table>
                         </div>
-                        <div ng-show="deployment.description || deployment.billingCode">
+                        <div ng-show="deployment.description || deployment.billingCode || deployment.tags">
                             <p style="margin: 0 0 5px 0"><strong>Tags:</strong></p>
                             <table class="table table-striped table-condensed" style="margin-bottom: 30px; border: 1px solid #dddddd;">
-                                <tr ng-show="deployment.description">
-                                    <td style="width: 5%">2</td>
-                                    <td style="width: 20%"><strong>Description</strong></td>
-                                    <td style="width: 75%">{{deployment.description}}</td>
-                                </tr>
-                                <tr ng-show="deployment.billingCode">
-                                    <td style="width: 5%">3</td>
-                                    <td style="width: 20%"><strong>Billing Code</strong></td>
-                                    <td style="width: 75%">{{deployment.billingCode}}</td>
-                                </tr>
+                              <tr ng-repeat="tag in deployment.tags">
+                                <td style="width: 5%">{{$index+1}}</td>
+                                <td style="width: 20%"><strong>{{tag.Key}}</strong></td>
+                                <td style="width: 75%">{{tag.Value}}</td>
+                              </tr>
                             </table>
                         </div>
                         <div ng-show="deployment.notes.length">

@@ -28,10 +28,13 @@ angular.module('landscapesApp')
             DeploymentService.retrieveForLandscape($routeParams.id,
                 function (err, deployments) {
                     if (err) {
-                        err = err.data;
+                        err = err.data || err;
                         console.log(err)
                     } else {
                         $scope.deployments = deployments;
+
+                        console.log('$scope.deployments'+JSON.stringify($scope.deployments))
+
                         if(isOpenIndex !== undefined) {
                             $scope.deployments[isOpenIndex].open = true;
                         }

@@ -15,18 +15,18 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('AdminCtrl', function ($scope, UserService, RoleService, GroupService, PermissionService, AccountService, AppSettingsService) {
+    .controller('AdminCtrl', function ($scope, UserService, RoleService, GroupService, PermissionService,AccountService, AppSettingsService, GlobalTagService) {
 
         $scope.menu = [
             'Users',
             'Roles',
             'Groups',
-            'Globals',
+            'Global Tags',
             'Accounts',
             'App Settings'
         ];
 
-        $scope.selected = $scope.menu[0];
+        $scope.selected = $scope.menu[3];
 
         $scope.buttonClick = function(text){
             $scope.selected = text;
@@ -41,16 +41,16 @@ angular.module('landscapesApp')
                 $scope.roles = data;
             });
 
-//        UserService.retrieveAll()
-//            .then(function(data){
-//                $scope.users = data;
-//            });
+        GlobalTagService.retrieve()
+            .then(function(data){
+                $scope.globalTags = data;
+            });
 
         GroupService.retrieve()
             .then(function(data){
                 $scope.groups = data;
                 $scope.setUserGroups(function() {
-                    console.log('setUserGroups');
+//                    console.log('setUserGroups');
                 });
             });
 
