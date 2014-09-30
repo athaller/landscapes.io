@@ -26,7 +26,7 @@ angular.module('landscapesApp')
             'App Settings'
         ];
 
-        $scope.selected = $scope.menu[3];
+        $scope.selected = $scope.menu[5];
 
         $scope.buttonClick = function(text){
             $scope.selected = text;
