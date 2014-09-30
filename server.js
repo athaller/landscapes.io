@@ -18,7 +18,6 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
-var multer = require('multer');
 var config = require('./lib/config/config');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -45,19 +44,10 @@ var passport = require('./lib/config/passport');
 
 var app = express();
 
-// file upload configuration...
-app.configure(function () {
-    app.use(multer({
-        dest: './static/uploads/',
-        rename: function (fieldname, filename) {
-            return filename.replace(/\W+/g, '-').toLowerCase();
-        }
-    }));
-    app.use('/static', express.static(__dirname + '/static'));
-});
-
 require('./lib/config/express')(app);
 require('./lib/routes')(app);
+
+app.use(express.static('static'));
 
 app.listen(config.port, function () {
   console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));

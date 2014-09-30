@@ -1,96 +1,103 @@
 {
-    "name": "landscapes.io",
-    "version": "0.0.1",
-    "description": "Manage and deploy AWS CloudFormation templates.",
-    "homepage": "http://www.landscapes.io",
-    "bugs": {
-        "url": "http://github.com/openwhere/landscapes.io/issues"
+  "name": "landscapes.io",
+  "version": "0.0.1",
+  "description": "Manage and deploy AWS CloudFormation templates.",
+  "homepage": "http://www.landscapes.io",
+  "bugs": {
+    "url": "http://github.com/openwhere/landscapes.io/issues"
+  },
+  "license": "Apache-2.0",
+  "repository": "https://github.com/openwhere/landscapes",
+  "author": {
+    "name": "OpenWhere",
+    "url": "http://www.openwhere.com"
+  },
+  "contributors": [
+    {
+      "name": "Andy Heifetz",
+      "email": "aheifetz@openwhere.com"
     },
-    "license": "Apache-2.0",
-    "repository": "https://github.com/openwhere/landscapes",
-    "author": {
-        "name": "OpenWhere",
-        "url": "http://www.openwhere.com"
+    {
+      "name": "Andrew Pierce",
+      "email": "apierce@openwhere.com"
     },
-    "contributors": [
-        {
-            "name": "Andy Heifetz",
-            "email": "aheifetz@openwhere.com"
-        },
-        {
-            "name": "Andrew Pierce",
-            "email": "apierce@openwhere.com"
-        },
-        {
-            "name": "Matthew Fincher",
-            "email": "mfincher@openwhere.com"
-        }
-    ],
-    "dependencies": {
-        "async": "0.8.X",
-        "aws-sdk": "2.X.x",
-        "connect-mongo": "0.4.x",
-        "ejs": "0.8.X",
-        "express": "3.4.X",
-        "gm": "1.16.x",
-        "lodash": "2.4.x",
-        "mongoose": "3.8.x",
-        "multer": ">=0.0.7",
-        "node-uuid": "1.4.X",
-        "passport": "0.2.x",
-        "passport-local": "0.1.X",
-        "winston": "0.7.X"
-    },
-    "devDependencies": {
-        "bower": "*",
-        "connect-livereload": "*",
-        "grunt": "*",
-        "grunt-autoprefixer": "*",
-        "grunt-bower-install": "*",
-        "grunt-cli": "*",
-        "grunt-concurrent": "*",
-        "grunt-contrib-clean": "*",
-        "grunt-contrib-coffee": "*",
-        "grunt-contrib-compass": "*",
-        "grunt-contrib-concat": "*",
-        "grunt-contrib-copy": "*",
-        "grunt-contrib-cssmin": "*",
-        "grunt-contrib-htmlmin": "*",
-        "grunt-contrib-imagemin": "*",
-        "grunt-contrib-jshint": "*",
-        "grunt-contrib-uglify": "*",
-        "grunt-contrib-watch": "*",
-        "grunt-env": "*",
-        "grunt-express-server": "*",
-        "grunt-google-cdn": "*",
-        "grunt-karma": ">=0.5",
-        "grunt-mocha-test": "*",
-        "grunt-newer": "*",
-        "grunt-ngmin": "*",
-        "grunt-node-inspector": "*",
-        "grunt-nodemon": "*",
-        "grunt-open": "*",
-        "grunt-rev": "*",
-        "grunt-svgmin": "*",
-        "grunt-usemin": "*",
-        "jshint-stylish": "*",
-        "karma": "*",
-        "karma-chrome-launcher": "*",
-        "karma-coffee-preprocessor": ">=0.1.0",
-        "karma-firefox-launcher": "*",
-        "karma-jasmine": "*",
-        "load-grunt-tasks": "*",
-        "open": "*",
-        "phantomjs": "1.9.x",
-        "requirejs": "*",
-        "should": "*",
-        "supertest": "*",
-        "time-grunt": "*"
-    },
-    "engines": {
-        "node": "*"
-    },
-    "scripts": {
-        "test": "grunt test"
+    {
+      "name": "Matthew Fincher",
+      "email": "mfincher@openwhere.com"
     }
+  ],
+  "dependencies": {
+    "async": "0.8.x",
+    "aws-sdk": "2.X.x",
+    "body-parser": "^1.9.0",
+    "connect-mongo": "0.4.x",
+    "cookie-parser": "^1.3.3",
+    "ejs": "0.8.x",
+    "errorhandler": "^1.2.0",
+    "express": "4.9.x",
+    "express-session": "^1.8.2",
+    "gm": "1.16.x",
+    "lodash": "2.4.x",
+    "method-override": "^2.2.0",
+    "mongoose": "3.8.x",
+    "morgan": "^1.3.2",
+    "multer": "^0.1.4",
+    "node-uuid": "1.4.x",
+    "passport": "0.2.x",
+    "passport-local": "0.1.x",
+    "serve-static": "^1.6.3",
+    "winston": "0.7.x"
+  },
+  "devDependencies": {
+    "bower": "*",
+    "connect-livereload": "*",
+    "grunt": "*",
+    "grunt-autoprefixer": "*",
+    "grunt-bower-install": "*",
+    "grunt-cli": "*",
+    "grunt-concurrent": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-compass": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-htmlmin": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-env": "*",
+    "grunt-express-server": "*",
+    "grunt-google-cdn": "*",
+    "grunt-karma": ">=0.5",
+    "grunt-mocha-test": "*",
+    "grunt-newer": "*",
+    "grunt-ngmin": "*",
+    "grunt-node-inspector": "*",
+    "grunt-nodemon": "*",
+    "grunt-open": "*",
+    "grunt-rev": "*",
+    "grunt-svgmin": "*",
+    "grunt-usemin": "*",
+    "jshint-stylish": "*",
+    "karma": "*",
+    "karma-chrome-launcher": "*",
+    "karma-coffee-preprocessor": ">=0.1.0",
+    "karma-firefox-launcher": "*",
+    "karma-jasmine": "*",
+    "load-grunt-tasks": "*",
+    "open": "*",
+    "phantomjs": "1.9.x",
+    "requirejs": "*",
+    "should": "*",
+    "supertest": "*",
+    "time-grunt": "*"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
 }
