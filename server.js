@@ -47,8 +47,6 @@ var app = express();
 require('./lib/config/express')(app);
 require('./lib/routes')(app);
 
-app.use(express.static('static'));
-
 app.listen(config.port, function () {
   console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 });
