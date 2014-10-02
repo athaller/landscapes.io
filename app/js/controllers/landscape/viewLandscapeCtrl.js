@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('ViewLandscapeCtrl', function ($scope, $routeParams, AuthService, LandscapeService, UserService, PermissionService,  _) {
+    .controller('ViewLandscapeCtrl', function ($rootScope, $scope, $routeParams, AuthService, LandscapeService, UserService, PermissionService,  _) {
         $scope.isArray = angular.isArray;
         $scope._ = _;
 
@@ -30,7 +30,6 @@ angular.module('landscapesApp')
 
         $scope.buttonClick = function(text){
             $scope.selected = text;
-            console.log($scope.selected)
         };
 
         $scope.resourcesKeys = [];
@@ -43,22 +42,14 @@ angular.module('landscapesApp')
                 $scope.landscape = landscape;
                 $scope.landscape.createdBy = landscape.createdBy;
 
+                $scope.landscape.imageUri = '/api/landscapes/' + $scope.landscape._id + '/image' + $rootScope.randomQueryString();
+
                 $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
                 $scope.template.parametersLength = $scope.template.Parameters.length;
 
                 $scope.resourcesKeys = Object.keys($scope.template.Resources);
                 $scope.parametersKeys = Object.keys($scope.template.Parameters);
                 $scope.mappingsKeys = Object.keys($scope.template.Mappings);
-
-                UserService
-                    .retrieve(landscape.createdBy)
-                    .then(function(user) {
-                        $scope.user = user;
-                    })
-                    .catch(function (err) {
-                        err = err.data || err;
-                        console.log(err);
-                    })
             })
             .catch(function(err) {
                 err = err.data || err;

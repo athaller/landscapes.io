@@ -24,21 +24,16 @@
 
                     <div class="media">
                         <!--hide hyperlink-->
-                        <a class="pull-left" href="{{ '/landscapes/'}}"
-                           ng-show="!hasPermission(currentUser, 'R', landscape._id)">
-                            <img style="max-height: 128px; max-width: 192px" class="media-object" ng-src="{{landscape.imageUri}}" alt="...">
+                        <a class="pull-left" href="{{ '/landscapes/'}}" ng-show="!hasPermission(currentUser, 'R', landscape._id)">
+                          <img class="media-object" style="max-height: 128px; max-width: 192px" ng-src="{{landscape.imageUri}}" />
                         </a>
-
-
-                        <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}"
-                           ng-show="hasPermission(currentUser, 'R', landscape._id)">
-                            <img style="max-height: 128px; max-width: 192px" class="media-object" ng-src="{{landscape.imageUri}}" alt="...">
+                        <a class="pull-left" href="{{ '/landscapes/'+ landscape._id }}" ng-show="hasPermission(currentUser, 'R', landscape._id)">
+                         <img class="media-object" style="max-height: 128px; max-width: 192px"
+                              ng-src="{{landscape.imageUri}}" />
                         </a>
-
                         <div class="media-body" style="min-height: 128px">
                             <p>{{landscape.description}}</p>
                         </div>
-
                     </div>
                     <div style="position: relative">
                         <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">

@@ -111,6 +111,12 @@ angular.module('landscapesApp', [
             $location.path( path );
         };
 
+        $rootScope.randomQueryString = function() {
+            var r = Math.random() * 10000000;
+            r = '/?v=' + r.toString().substring(0, 6);
+            return r;
+        };
+
         $rootScope.hasPermission = function(user, permission, landscapeId) {
             if(!user) return false;
             if(!user.permissions) return false;

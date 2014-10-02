@@ -24,7 +24,6 @@ angular.module('landscapesApp')
         $scope.deployments = [];
 
         $scope.loadDeployments = function(isOpenIndex) {
-            //console.log(isOpenIndex)
             DeploymentService.retrieveForLandscape($routeParams.id,
                 function (err, deployments) {
                     if (err) {
@@ -32,9 +31,6 @@ angular.module('landscapesApp')
                         console.log(err)
                     } else {
                         $scope.deployments = deployments;
-
-                        console.log('$scope.deployments'+JSON.stringify($scope.deployments))
-
                         if(isOpenIndex !== undefined) {
                             $scope.deployments[isOpenIndex].open = true;
                         }
@@ -48,7 +44,7 @@ angular.module('landscapesApp')
             $scope.newNote.text = undefined;
             $scope.addNote = false;
             $scope.loadDeployments(index);
-        }
+        };
 
         $scope.saveNote = function(id, index) {
             console.log('saveNote: ' + id);

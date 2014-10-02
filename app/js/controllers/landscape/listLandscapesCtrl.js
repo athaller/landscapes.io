@@ -15,17 +15,18 @@
 'use strict';
 
 angular.module('landscapesApp')
-    .controller('ListLandscapesCtrl', function ($scope, $http, AuthService) {
+    .controller('ListLandscapesCtrl', function ($rootScope, $scope, $http) {
 
         $http.get('/api/landscapes')
             .success(function(data, status) {
                 $scope.landscapes = data;
 
                 // if 'description' is over 160 characters, get substring and add ellipsis
-                for(var i = 0; i < $scope.landscapes.length; i++){
+                for(var i = 0; i < $scope.landscapes.length; i++) {
                     if($scope.landscapes[i]['description'].length > 160){
                         $scope.landscapes[i]['description'] = $scope.landscapes[i]['description'].substring(0,157) + '...';
                     }
+                    $scope.landscapes[i]['imageUri'] = '/api/landscapes/' + $scope.landscapes[i]._id + '/image' + $rootScope.randomQueryString();
                 }
             })
             .error(function(data){

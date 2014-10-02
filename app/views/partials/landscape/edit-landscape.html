@@ -103,13 +103,13 @@
                         </div>
                         <div class="media" ng-show="!showUploadNewImage">
                             <div class="pull-right" style="min-height: 128px; min-width: 128px; margin-left: 25px">
-                                <img src="{{landscape.imageUri}}">
+                              <img ng-src={{imgSrc}} >
                             </div>
                             <div class="media-body">
                                 <div class="form-group" ng-class="{ 'has-success': form.imageUri.$valid && submitted, 'has-error': form.imageUri.$invalid && submitted }">
                                     <label for="landscapeImageUri" class="control-label">Image URI:</label>
 
-                                    <input type="text" id="landscapeImageUri" name="imageUri" class="form-control" ng-model="landscape.imageUri" required mongoose-error />
+                                    <input type="text" id="landscapeImageUri" name="imageUri" class="form-control" ng-model="imgSrc" required mongoose-error />
                                     <p class="help-block" ng-show="(form.imageUri.$error.required) && submitted">
                                         Image URI is required.
                                     </p>
