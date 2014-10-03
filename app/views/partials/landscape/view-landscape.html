@@ -66,12 +66,14 @@
 
         <div class="col-sm-12" ng-show="selected=='Overview'">
 
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="media" style="margin-bottom: 20px">
                         <a class="pull-left" href="{{ '/landscapes/' + landscape._id + '/history'}}">
-                            <img class="media-object" src="{{landscape.imageUri}}" alt="..." style="margin-right: 10px;">
+                            <!--<img  src="{{landscape.imageUri}}" alt="..." style="margin-right: 10px;">-->
+
+                          <img class="media-object" ng-src="{{landscape.imageUri}}" style="margin-right: 10px;" />
+
                         </a>
                         <div class="media-body well">
                             <div class="row">
@@ -80,7 +82,7 @@
                                 </div>
                                 <div class="col-md-9 hidden-sm hidden-xs">
                                     <div class="pull-right">
-                                        Created by <strong>{{user.profile.name}}</strong> at {{landscape.createdAt | date : 'short'}}
+                                        Created by <strong>{{landscape.createdBy.name}}</strong> at {{landscape.createdAt | date : 'short'}}
                                     </div>
                                 </div>
                                 <div class="col-md-12 visible-sm visible-xs">

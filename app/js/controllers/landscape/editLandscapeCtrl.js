@@ -16,7 +16,28 @@
 
 angular.module('landscapesApp')
     .controller('EditLandscapeCtrl',
-    function ($scope, $location, $modal, $upload, $filter, $routeParams, ValidationService, LandscapeService) {
+    function ($rootScope, $scope, $location, $modal, $upload, $filter, $routeParams, ValidationService, LandscapeService) {
+
+        $scope.showUploadNewImage = false;
+        $scope.showUploadNewTemplate = false;
+        $scope.newImg = null;
+
+        LandscapeService.retrieve($routeParams.id)
+            .then(function(landscape) {
+                $scope.landscape = landscape;
+                $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
+                $scope.imgSrc = '/api/landscapes/' + landscape._id + '/image';
+            })
+            .catch(function(err) {
+                err = err.data;
+                console.log(err)
+            });
+
+
+        $scope.$watchCollection('newImg', function( ) {
+            if($scope.newImg)
+                $scope.imgSrc = $scope.newImg;
+        });
 
         $scope.confirmDelete = function (msg, callback) {
             var modalInstance = $modal.open( {
@@ -37,22 +58,16 @@ angular.module('landscapesApp')
             $scope.imageError = false;
         };
 
-        $scope.showUploadNewImage = false;
-        $scope.showUploadNewTemplate = false;
-
         $scope.incrementVersion = function() {
             $scope.landscape.version = (Number($scope.landscape.version) + 0.1).toFixed(1);
             $scope.form.$dirty = true;
         };
 
         $scope.deleteLandscape = function(name) {
-            console.log('name: ' + name);
             $scope.confirmDelete(name, function(deleteConfirmed) {
-                console.log('deleteLandscape.deleteConfirmed: ' + deleteConfirmed);
                 if(deleteConfirmed === true) {
                     LandscapeService.delete($routeParams.id)
                         .then(function (data) {
-                            console.log(data);
                             $scope.go('/');
                         })
                         .catch(function (err) {
@@ -63,24 +78,12 @@ angular.module('landscapesApp')
             });
         };
 
-        LandscapeService.retrieve($routeParams.id)
-            .then(function(landscape) {
-                $scope.landscape = landscape;
-                $scope.template = JSON.parse($scope.landscape.cloudFormationTemplate);
-            })
-            .catch(function(err) {
-                err = err.data;
-                console.log(err)
-            });
-
         $scope.updateLandscape = function(form) {
             $scope.submitted = true;
 
-            console.log($scope.landscape.cloudFormationTemplate);
             // validate cloudFormationTemplate here?
 
             if ($scope.landscape.cloudFormationTemplate === undefined || $scope.templateSelected === false) {
-                console.log($scope.templateSelected)
                 form.$valid = false;
             }
 
@@ -100,7 +103,6 @@ angular.module('landscapesApp')
                     .catch( function(err) {
                         err = err.data;
                         console.log(err);
-
                         $scope.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
@@ -116,7 +118,7 @@ angular.module('landscapesApp')
 
         $scope.readFile = function() {
             console.log('readFile()');
-        }
+        };
 
         $scope.onFileSelect = function($files) {
             console.log('onFileSelect()');
@@ -148,15 +150,16 @@ angular.module('landscapesApp')
                     url: '/api/upload/image',
                     method: 'POST',
                     withCredentials: true,
-                    data: {myObj: $scope.myModelObj},
+                    data: { myObj: $scope.myModelObj },
                     file: file
                 })
-                    .success(function (data, status, headers, config) {
+                    .success(function (data) {
                         data = JSON.parse($filter('json')(data));
                         $scope.landscape.imageUri = data.imageUri;
                         $scope.imageSelected = true;
                         $scope.showUploadNewImage = false;
                         $scope.form.$dirty = true;
+                        $scope.newImg = data.imageUri;
                     })
                     .error(function(err, status, headers){
                         if(status == 400) {

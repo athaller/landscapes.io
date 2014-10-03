@@ -16,10 +16,17 @@
 
 angular.module('landscapesApp')
     .controller('CreateLandscapeCtrl', function ($scope, $upload, LandscapeService, ValidationService, $http, $location, $routeParams, $filter) {
-        $scope.landscape = {'version':'1.0', 'imageUri': 'images/AWS.png'};
+        $scope.landscape = {'version':'1.0', 'imageUri': 'uploads/aws.png'};
         $scope.errors = {};
         $scope.selectFile = true;
         $scope.templateSelected = false;
+
+        $scope.imgSrc = $scope.landscape.imageUri;
+
+        $scope.$watchCollection('landscape', function( ) {
+                $scope.imgSrc = $scope.landscape.imageUri;
+            }
+        );
 
         $scope.toggleUploadNewImage = function() {
             $scope.showUploadNewImage = !$scope.showUploadNewImage;
