@@ -14,6 +14,7 @@
 
 'use strict';
 
+var winston = require('winston');
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
@@ -48,7 +49,7 @@ require('./lib/config/express')(app);
 require('./lib/routes')(app);
 
 app.listen(config.port, function () {
-  console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
+    winston.info('Express server listening on port %d in %s mode.', config.port, app.get('env'));
 });
 
-exports = module.exports = app;
+var exports = module.exports = app;
