@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion":"2010-09-09",
-    "Description":"Schwerpunkt Server",
+    "Description":"MongoDB Server",
     "Parameters":{
         "vpcId":{
             "Description":"Id of the VPC to run your instance",
