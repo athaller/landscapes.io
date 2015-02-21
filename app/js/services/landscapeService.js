@@ -32,8 +32,7 @@ angular.module('landscapesApp')
             retrieve: function(id, callback) {
                 var cb = callback || angular.noop;
 
-                return Landscape.get({id:id},
-                    function(landscape) {
+                return Landscape.get({id:id}, function(landscape) {
                         return cb(landscape);
                     },
                     function(err) {

@@ -33,15 +33,14 @@ angular.module('landscapesApp')
                         $scope.deployment.tags[$scope.globalTags[i].key] = $scope.globalTags[i].defaultValue
                     }
                 }
-                console.log('$scope.deployment: ' + JSON.stringify($scope.deployment));
             });
 
         $scope.changeAccount = function() {
-            angular.forEach($scope.accounts, function(account) {
-                if(account.id == $scope.deployment.account) {
-                    $scope.deployment.location = account.region;
+            for(var i = 0; i < $scope.accounts.length; i++) {
+                if($scope.accounts[i].id == $scope.deployment.account) {
+                    $scope.deployment.location = $scope.accounts[i].region;
                 }
-            });
+            }
         };
 
         AccountService.retrieve()
@@ -84,28 +83,26 @@ angular.module('landscapesApp')
 
         $scope.createNewDeployment = function(form){
             $scope.submitted = true;
-            // console.log('createNewDeployment: ' + JSON.stringify($scope.deployment));
 
             $scope.cloudFormationParameters = {};
 
-            for (var i = 0; i < $scope.keys.length; i++) {
-                $scope.cloudFormationParameters[$scope.keys[i]] = $scope.deployment[$scope.keys[i]];
-            };
+            for (var x = 0; x < $scope.keys.length; x++) {
+                $scope.cloudFormationParameters[$scope.keys[x]] = $scope.deployment[$scope.keys[x]];
+            }
 
             // TO DO: set form.$invalid if required GlobalTag is empty
 
             if(form.$valid) {
 
                 var cleanStackName = $scope.deployment.stackName.replace(/ /g, '-');
-                console.log(cleanStackName);
 
-                if($scope.accounts.length != 0) {
-                    angular.forEach($scope.accounts, function(account) {
-                        if(account.id = $scope.deployment.account) {
-                            $scope.deployment.accessKeyId = account.accessKeyId;
-                            $scope.deployment.secretAccessKey = account.secretAccessKey;
+                if($scope.accounts.length !== 0) {
+                    for(var i = 0; i < $scope.accounts.length; i++) {
+                        if($scope.accounts[i].id === $scope.deployment.account) {
+                            $scope.deployment.accessKeyId = $scope.accounts[i].accessKeyId;
+                            $scope.deployment.secretAccessKey = $scope.accounts[i].secretAccessKey;
                         }
-                    });
+                    }
                 }
 
                 DeploymentService.create({
