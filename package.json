@@ -44,6 +44,7 @@
     "morgan": "^1.3.2",
     "multer": "^0.1.4",
     "node-uuid": "1.4.x",
+    "openclient": "https://github.com/aheifetz/js-openclient/tarball/master",
     "passport": "0.2.x",
     "passport-local": "0.1.x",
     "serve-static": "^1.6.3",
