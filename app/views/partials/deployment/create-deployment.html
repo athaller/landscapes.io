@@ -152,7 +152,7 @@
               <div class="form-group" ng-hide="template.Parameters[key]['AllowedValues'].length">
                 <label class="col-md-3 control-label">{{key}}</label>
                 <div class="col-md-6">
-                  <input type="text" name="{{key}}" class="form-control" ng-model="deployment[key]">
+                  <input type="text" name="{{key}}" class="form-control" ng-model="deployment[key]">{{value.Default}}
                 </div>
                 <div class="col-md-3"></div>
               </div>

@@ -65,10 +65,11 @@ angular.module('landscapesApp')
                     $scope.deployment[$scope.keys[i]] = '';
 
                     // add AllowedValues
-                    if($scope.template.Parameters[$scope.keys[i]].hasOwnProperty('AllowedValues')){
-                        $scope.deployment[$scope.keys[i]].AllowedValues = $scope.template.Parameters[$scope.keys[i]].AllowedValues;
-                        console.log('AllowedValues: ' + $scope.template.Parameters[$scope.keys[i]].AllowedValues);
-                    }
+                    // This isn't used; the view uses $scope.template.Parameters.AllowedValues
+                    //if($scope.template.Parameters[$scope.keys[i]].hasOwnProperty('AllowedValues')){
+                    //    $scope.deployment[$scope.keys[i]].AllowedValues = $scope.template.Parameters[$scope.keys[i]].AllowedValues;
+                    //    console.log('AllowedValues: ' + $scope.template.Parameters[$scope.keys[i]].AllowedValues);
+                    //}
 
                     // set Default
                     if($scope.template.Parameters[$scope.keys[i]].hasOwnProperty('Default')) {
