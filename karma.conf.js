@@ -1,42 +1,77 @@
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+var _ = require('lodash'),
+  defaultAssets = require('./config/assets/default'),
+  testAssets = require('./config/assets/test'),
+  testConfig = require('./config/env/test'),
+  karmaReporters = ['progress'];
+
+if (testConfig.coverage) {
+  karmaReporters.push('coverage');
+}
+
 // Karma configuration
-// http://karma-runner.github.io/0.10/config/configuration-file.html
-
-module.exports = function(config) {
-  config.set({
-    // base path, that will be used to resolve files and exclude
-    basePath: '',
-
-    // testing framework to use (jasmine/mocha/qunit/...)
+module.exports = function (karmaConfig) {
+  karmaConfig.set({
+    // Frameworks to use
     frameworks: ['jasmine'],
 
-    // list of files / patterns to load in the browser
-    files: [
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/angular-resource/angular-resource.js',
-      'app/bower_components/angular-cookies/angular-cookies.js',
-      'app/bower_components/angular-sanitize/angular-sanitize.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/js/*.js',
-      'app/js/**/*.js',
-      'test/client/mock/**/*.js',
-      'test/client/spec/**/*.js'
-    ],
+    preprocessors: {
+      'modules/*/client/views/**/*.html': ['ng-html2js'],
+      'modules/core/client/app/config.js': ['coverage'],
+      'modules/core/client/app/init.js': ['coverage'],
+      'modules/*/client/*.js': ['coverage'],
+      'modules/*/client/config/*.js': ['coverage'],
+      'modules/*/client/controllers/*.js': ['coverage'],
+      'modules/*/client/directives/*.js': ['coverage'],
+      'modules/*/client/services/*.js': ['coverage']
+    },
 
-    // list of files / patterns to exclude
-    exclude: [],
+    ngHtml2JsPreprocessor: {
+      moduleName: 'mean',
 
-    // web server port
-    port: 8080,
+      cacheIdFromPath: function (filepath) {
+        return filepath;
+      },
+    },
 
-    // level of logging
-    // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    // List of files / patterns to load in the browser
+    files: _.union(defaultAssets.client.lib.js, defaultAssets.client.lib.tests, defaultAssets.client.js, testAssets.tests.client, defaultAssets.client.views),
 
+    // Test results reporter to use
+    // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
+    reporters: karmaReporters,
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    // Configure the coverage reporter
+    coverageReporter: {
+      dir : 'coverage/client',
+      reporters: [
+        // Reporters not supporting the `file` property
+        { type: 'html', subdir: 'report-html' },
+        { type: 'lcov', subdir: 'report-lcov' },
+        // Output coverage to console
+        { type: 'text' }
+      ],
+      instrumenterOptions: {
+        istanbul: { noCompact: true }
+      }
+    },
 
+    // Web server port
+    port: 9876,
+
+    // Enable / disable colors in the output (reporters and logs)
+    colors: true,
+
+    // Level of logging
+    // Possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
+    logLevel: karmaConfig.LOG_INFO,
+
+    // Enable / disable watching file and executing tests whenever any file changes
+    autoWatch: true,
 
     // Start these browsers, currently available:
     // - Chrome
@@ -46,11 +81,13 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout: 60000,
 
     // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
-    singleRun: false
+    // If true, it capture browsers, run tests and exit
+    singleRun: true
   });
 };

@@ -1,0 +1,8 @@
+<div ng-show="true">
+    <div class="drop-box" ng-file-drop="vm.onImageSelect($files)" ng-file-drag-over-class="dragover">
+        drop file here
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': templateSelected && submitted, 'has-error': !templateSelected && submitted }">
+        <input type="file" id="imageUpload" ngf-select="vm.onImageSelect($files)" >
+    </div>
+</div>
