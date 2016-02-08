@@ -15,34 +15,21 @@ acl = new acl(new acl.memoryBackend());
  * Invoke Articles Permissions
  */
 exports.invokeRolesPolicies = function () {
-  acl.allow([{
-    roles: ['admin'],
-    allows: [{
-      resources: '/api/landscapes',
-      permissions: '*'
-    }, {
-      resources: '/api/landscapes/:landscapesId',
-      permissions: '*'
-    }]
-  }, {
-    roles: ['user'],
-    allows: [{
-      resources: '/api/landscapes',
-      permissions: ['get', 'post']
-    }, {
-      resources: '/api/landscapes/:landscapesId',
-      permissions: ['get']
-    }]
-  }, {
-    roles: ['guest'],
-    allows: [{
-      resources: '/api/landscapes',
-      permissions: ['get']
-    }, {
-      resources: '/api/landscapes/:landscapesId',
-      permissions: ['get']
-    }]
-  }]);
+    acl.allow([
+        {
+            roles: ['admin'],
+            allows: [
+                {
+                    resources: '/api/landscapes',
+                    permissions: '*'
+                }, 
+                {
+                    resources: '/api/landscapes/:landscapesId',
+                    permissions: '*'
+                }
+            ]
+        }
+    ]);
 };
 
 /**

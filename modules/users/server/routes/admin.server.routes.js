@@ -4,7 +4,9 @@
  * Module dependencies
  */
 var adminPolicy = require('../policies/admin.server.policy'),
-  admin = require('../controllers/admin.server.controller');
+  admin = require('../controllers/admin.server.controller'),
+  group = require('../controllers/group.server.controller'),
+  role = require('../controllers/role.server.controller');
 
 module.exports = function (app) {
   // User route registration first. Ref: #713
@@ -22,4 +24,10 @@ module.exports = function (app) {
 
   // Finish by binding the user middleware
   app.param('userId', admin.userByID);
+  
+  //Role Routes
+  
+  //Group Routes
+  
+  
 };

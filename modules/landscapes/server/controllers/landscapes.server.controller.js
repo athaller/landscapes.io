@@ -25,20 +25,19 @@ var path = require('path'),
     winston = require('winston'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-exports.read = function (req, res) {
-    res.json(req.landscapes);
-};
+
 
 
 // GET /api/landscapes
-exports.list = function (req, res) {
+exports.list = function(req, res) {
     winston.info('Retrieving Landscapes');
-    Landscape.find().sort('-created').populate('user', 'displayName').exec(function (err, landscapes) {
+    Landscape.find().sort('-created').populate('user', 'displayName').exec(function(err, landscapes) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
+        }
+        else {
             winston.info('Retrieved landscapes: ' + landscapes.length);
             res.json(landscapes);
         }
@@ -47,17 +46,13 @@ exports.list = function (req, res) {
 
 
 // GET /api/landscapes/<id>
-/**
- * Show the current article
- */
-exports.read = function (req, res) {
+exports.read = function(req, res) {
     res.json(req.landscape);
 };
 
 
-
-
-exports.landscapesByID = function (req, res, next, id) {
+//Middleware Call - Reuse find by one function
+exports.landscapesByID = function(req, res, next, id) {
     winston.info(' ---> retrieving Landscape');
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
@@ -65,11 +60,12 @@ exports.landscapesByID = function (req, res, next, id) {
         });
     }
 
-    Landscape.findById(id).populate('createdBy', 'name email').exec(function (err, landscape) {
+    Landscape.findById(id).populate('createdBy', 'name email').exec(function(err, landscape) {
         if (err) {
             winston.log('error', err);
             return next(err);
-        } else if (!landscape) {
+        }
+        else if (!landscape) {
             return res.status(404).send({
                 message: 'No landscape with that identifier has been found'
             });
@@ -83,16 +79,20 @@ exports.landscapesByID = function (req, res, next, id) {
 
 
 // GET /api/landscapes/<id>/image
-exports.retrieveImage = function (req, res) {
+exports.retrieveImage = function(req, res) {
     winston.info(' ---> retrieving image');
     var id = req.params.id;
-    Landscape.findOne({_id: id}, function (err, landscape) {
+    Landscape.findOne({
+        _id: id
+    }, function(err, landscape) {
         if (err) {
             winston.log('error', err);
             return res.json(400, err);
-        } else if ( !landscape || !landscape.img.data || !landscape.img.contentType ) {
-                res.send(404);
-        } else {
+        }
+        else if (!landscape || !landscape.img.data || !landscape.img.contentType) {
+            res.send(404);
+        }
+        else {
             winston.info(' ---> retrieved image for: ' + req.params.id);
             res.contentType(landscape.img.contentType);
             return res.send(new Buffer(landscape.img.data, 'binary'));
@@ -101,24 +101,19 @@ exports.retrieveImage = function (req, res) {
 };
 
 
-
-
-
-/**
- * Create an landscapes
- */
 // POST /api/landscapes
-exports.create = function (req, res) {
+exports.create = function(req, res) {
     winston.info(' ---> creating Landscape');
     var newLandscape = new Landscape(req.body);
     newLandscape.createdBy = req.user;
 
-    newLandscape.save(function (err) {
+    newLandscape.save(function(err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
+        }
+        else {
             winston.info(' ---> created: ' + newLandscape._id);
             res.json(newLandscape);
         }
@@ -127,19 +122,18 @@ exports.create = function (req, res) {
 
 
 // DELETE /api/landscapes/<id>
-/**
- * Delete an article
- */
-exports.delete = function (req, res) {
+
+exports.delete = function(req, res) {
     winston.info(' ---> deleting Landscape');
     var article = req.landscape;
 
-    landscape.remove(function (err) {
+    landscape.remove(function(err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
+        }
+        else {
             winston.info(' ---> deleted: ' + landscape._id);
             res.send(200);
         }
@@ -148,10 +142,8 @@ exports.delete = function (req, res) {
 
 
 // PUT /api/landscapes/<id>
-/**
- * Update an article
- */
-exports.update = function (req, res) {
+
+exports.update = function(req, res) {
     winston.info(' ---> updating Landscape');
     var landscape = req.landscape;
 
@@ -170,12 +162,13 @@ exports.update = function (req, res) {
 
 
 
-    landscape.save(function (err) {
+    landscape.save(function(err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
+        }
+        else {
             res.json(landscape);
         }
     });
@@ -183,13 +176,16 @@ exports.update = function (req, res) {
 
 
 // GET /api/landscapes/<id>/deployments
-exports.retrieveDeployments = function (req, res) {
+exports.retrieveDeployments = function(req, res) {
     var id = req.params.id;
-    return Deployment.find({landscapeId: id}, function (err, deployments) {
+    return Deployment.find({
+        landscapeId: id
+    }, function(err, deployments) {
         if (err) {
             winston.log('error', err);
             return res.json(400, err);
-        } else {
+        }
+        else {
             return res.json(deployments);
         }
     });
@@ -197,13 +193,16 @@ exports.retrieveDeployments = function (req, res) {
 
 
 // WIP!
-exports.retrieveHistory = function (req, res) {
+exports.retrieveHistory = function(req, res) {
     var id = req.params.id;
-    return Deployment.find({landscapeId: id}, function (err, deployments) {
+    return Deployment.find({
+        landscapeId: id
+    }, function(err, deployments) {
         if (err) {
             winston.log('error', err);
             return res.send(err);
-        } else {
+        }
+        else {
             return res.json(deployments);
         }
     });

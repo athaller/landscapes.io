@@ -33,13 +33,15 @@ var DeploymentSchema = new Schema({
     flavor: String,
 
     cloudFormationTemplate: String,
-    cloudFormationParameters: { type : Array , "default" : [] },
+    cloudFormationParameters: { type : Array , 'default' : [] },
 
-    tags: { type : Array , "default" : [] },
+    tags: { type : Array , 'default' : [] },
 
-    notes: { type : Array , "default" : [] },
+    notes: { type : Array , 'default' : [] },
 
     stackId: String,
+    stackStatus: String,
+    stackLastUpdate: Date,
     awsErrors: String
 });
 
