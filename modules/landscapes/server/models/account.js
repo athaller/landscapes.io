@@ -14,13 +14,13 @@
 
 'use strict';
 
-var winston = require('winston');
-var config = require('../config/config');
-var fs = require('fs');
-var path = require('path');
-var crypto = require('crypto');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var winston = require('winston'),
+    path = require('path'),
+    config = require(path.resolve('./config/config')),
+    fs = require('fs'),
+    crypto = require('crypto'),
+    mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 var _cryptoKey;
 var _algorithm = 'aes-256-cbc';
@@ -61,14 +61,17 @@ var AccountSchema = new Schema({
         region: { type: String, required: true},
         accessKeyId: { type: String, required: true},
         secretAccessKey : { type: String, required: true, set: encrypt, get: decrypt }
-    },
+    }
+    /*
+    TODO Need to fix the encryption of files - AH
+    ,
     config.getCryptoKey(function(err, key) {
         if (err) {
             winston.log('error', err);
         } else {
             _cryptoKey = key;
         }
-    })
+    })*/
 );
 
 AccountSchema.set('toObject', { getters: true });

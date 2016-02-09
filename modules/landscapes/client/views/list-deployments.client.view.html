@@ -1,16 +1,16 @@
-<div class="col-md-12" ng-controller="ListLandscapeDeployments">
-    <div class="panel panel-default" ng-show="vm.deployments.length">
+<div class="col-md-12" ng-controller="ListDeployments as app">
+    <div class="panel panel-default" ng-show="app.deployments.length">
         <div class="panel-heading title-heading">
             <h2 class="panel-title">Deployments</h2>
         </div>
         <div class="panel-body">
             <div>
-                <accordion>
-                    <accordion-group ng-repeat="deployment in vm.deployments | orderBy: '-createdAt'"
-                                     is-open="deployment.open"
-                                     ng-class="{'panel-primary': deployment.open, 'panel-danger': deployment.awsErrors}">
+                <uib-accordion>
 
-                        <accordion-heading>
+                    <uib-accordion-group ng-repeat="deployment in app.deployments | orderBy: '-createdAt'" is-open="deployment.open"
+                        class="{{app.headerColor(deployment)}}">
+
+                        <uib-accordion-heading>
                             {{deployment.stackName}}
                             <div class="pull-right" ng-show="!deployment.open">
                                 {{deployment.createdAt | date : 'MM/dd/yyyy @ HH:mm'}}
@@ -23,7 +23,7 @@
                                     <span class="glyphicon glyphicon-share-alt"></span> View in AWS
                                 </button>
                             </div>
-                        </accordion-heading>
+                        </uib-accordion-heading>
 
                         <table class="deploymentsTable">
                             <tr ng-show="deployment.awsErrors" style="color: #a94442;">
@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Landscape:</strong></td>
-                                <td>{{landscape.name}} v{{landscape.version}}</td>
+                                <td>{{vm.landscape.name}} v{{vm.landscape.version}}</td>
                             </tr>
                             <tr>
                                 <td><strong>Location:</strong></td>
@@ -96,18 +96,19 @@
                                 <div class="form-group">
                                     <textarea class="form-control" name="noteText" rows="3" ng-model="newNote.text" />
                                 </div>
-                                <button type="button" class="btn btn-sm btn-danger" ng-click="cancelNote($index)">
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="vm.cancelNote($index)">
                                     <span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
-                                <button type="button" class="btn btn-sm btn-default" ng-click="saveNote(deployment._id, $index)">
+                                <button type="button" class="btn btn-sm btn-default" ng-click="vm.saveNote(deployment._id, $index)">
                                     <span class="glyphicon glyphicon-save"></span> Save</button>
                             </div>
 
-                            <button type="button" class="btn btn-sm btn-default" ng-show="!addNote" ng-click="addNote = true">
+                            <button type="button" class="btn btn-sm btn-default" ng-show="!addNote" ng-click="vm.addNote = true">
                                 <span class="glyphicon glyphicon-pencil"></span> Add Note</button>
                         </div>
 
-                    </accordion-group>
-                </accordion>
+                    </uib-accordion-group>
+
+                </uib-accordion>
             </div>
 
         </div>

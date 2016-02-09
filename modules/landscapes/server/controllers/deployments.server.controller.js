@@ -68,7 +68,7 @@ exports.create = function(req, res) {
                 winston.info(' ---> async.series >> saving deployment data...');
                 try {
                     newDeployment = new Deployment(data);
-                    newDeployment.createdBy = user.name; // TODO Should this by user._id ? 
+                    newDeployment.createdBy = user.displayName; // TODO Should this by user._id  AH?
 
                     var tags = Object.keys(data.tags);
 
@@ -83,7 +83,7 @@ exports.create = function(req, res) {
                     }
 
                     winston.debug('## ## newDeployment.tags: ' + JSON.stringify(newDeployment.tags));
-
+                    newDeployment.cloudFormationParameters = []; //
                     var keys = Object.keys(data.cloudFormationParameters);
                     for (var i = 0; i < keys.length; i++) {
                         var cloudFormationParameter = {
@@ -227,9 +227,24 @@ exports.create = function(req, res) {
 
 
 // GET /api/deployments
+// Gets all deployments for a landscape ID
 exports.retrieve = function(req, res) {
     var id = req.params.id;
     return Deployment.find(function(err, deployments) {
+        if (!err) {
+            return res.json(deployments);
+        }
+        else {
+            return res.send(err);
+        }
+    });
+};
+
+// GET /api/deployments
+// Gets all deployments for a landscape ID
+exports.retrieveByLandscapes = function(req, res) {
+    var id = req.params.landscapesId;
+    return Deployment.find({landscapeId:id},function(err, deployments) {
         if (!err) {
             return res.json(deployments);
         }

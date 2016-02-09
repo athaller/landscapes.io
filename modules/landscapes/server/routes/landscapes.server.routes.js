@@ -6,7 +6,7 @@
 var landscapesPolicy = require('../policies/landscapes.server.policy'),
     landscapes = require('../controllers/landscapes.server.controller'),
     deployments = require('../controllers/deployments.server.controller'),
-    globalTags = require('../controllers/globaltags.server.controller'),
+    globalTags = require('../controllers/globaltags.server.contoller'),
     cloudaccounts = require('../controllers/cloudaccounts.server.controller'),
     appSettings = require('../controllers/appSettings.server.controller'),
     Upload = require('../controllers/upload.server.controller');
@@ -22,6 +22,10 @@ module.exports = function (app) {
       .get(landscapes.read)
       .put(landscapes.update)
       .delete(landscapes.delete);
+
+    app.route('/api/landscapes/:landscapesId/deployments').all(landscapesPolicy.isAllowed)
+        .get(deployments.retrieveByLandscapes);
+
 
     // Finish by binding the landscapes middleware
     app.param('landscapesId', landscapes.landscapesByID);

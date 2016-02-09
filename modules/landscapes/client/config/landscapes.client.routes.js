@@ -37,8 +37,19 @@
         resolve: {
           landscapesResolve: getLandscape
         }
-      });
+      })
+      .state('landscapes.createdeploy', {
+          url: '/deploy/:landscapeId',
+          templateUrl: 'modules/landscapes/client/views/create-deployment.client.view.html',
+          controller: 'CreateDeploymentController',
+          controllerAs: 'vm',
+          resolve: {
+            landscapesResolve: getLandscape
+          }
+        });
   }
+
+
 
   getLandscape.$inject = ['$stateParams', 'LandscapesService'];
 
