@@ -8,12 +8,14 @@
   LandscapesService.$inject = ['$resource'];
 
   function LandscapesService($resource) {
-    return $resource('api/landscapes/:landscapeId', {
-      landscapesId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
+    return $resource('api/landscapes/:landscapeId',
+        {
+          landscapesId: '@_id'
+        },
+        {
+          update: {
+          method: 'PUT'
+        }
     });
   }
 })();

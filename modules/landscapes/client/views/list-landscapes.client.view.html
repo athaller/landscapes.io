@@ -39,12 +39,12 @@
                         <div style="position: absolute; right: 0px; bottom: 0px;" class="pull-right">
                             <button type="button" class="btn btn-default"
                                     ng-show="vm.hasPermission(vm.currentUser, 'R', landscape._id)"
-                                    ui-sref="landscapes.view">
+                                    ui-sref="landscapes.view({ landscapeId: landscape._id })">
                                 <span class="glyphicon glyphicon-share-alt"></span> View
                             </button>
                             <button type="button" class="btn btn-default"
                                     ng-show="vm.hasPermission(vm.currentUser, 'X', landscape._id)"
-                                    ui-sref="landscapes.view({ landscapeId: landscape._id })">
+                                    ui-sref="landscapes.createdeploy({ landscapeId: landscape._id })">
                                 <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
                             </button>
                         </div>

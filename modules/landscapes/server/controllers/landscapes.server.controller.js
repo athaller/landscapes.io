@@ -30,7 +30,7 @@ var path = require('path'),
 
 // GET /api/landscapes
 exports.list = function(req, res) {
-    winston.info('Retrieving Landscapes');
+    winston.info('list for GET /api/landscapes');
     Landscape.find().sort('-created').populate('user', 'displayName').exec(function(err, landscapes) {
         if (err) {
             return res.status(400).send({

@@ -9,7 +9,7 @@
           <button type="button" class="btn btn-primary" ui-sref="landscapes.list">
             <span class="glyphicon glyphicon-ban-circle"></span> Cancel
           </button>
-          <button class="btn btn-default" type="submit" ng-class="{ 'btn-success': form.$valid && submitted }">
+          <button class="btn btn-default" type="submit" ng-class="{ 'btn-success': vm.form.$valid && vm.submitted }">
             <span class="glyphicon glyphicon-save"></span> Save
           </button>
         </div>
@@ -129,10 +129,10 @@
                  CloudFormation Template is not valid JSON.
                </p>
                <div ng-show="!vm.templateSelected">
-                 <div class="drop-box" ng-file-drop="vm.onFileSelect($files, form)" ng-file-drag-over-class="dragover">
+                 <div class="drop-box" ngf-drop="vm.onFileSelect($files, vm.form)" ng-file-drag-over-class="dragover">
                    drop file here
                  </div>
-                 <div class="form-group" ng-class="{ 'has-success': vm.templateSelected && submitted, 'has-error': !vm.templateSelected && submitted }">
+                 <div class="form-group" ng-class="{ 'has-success': vm.templateSelected && vm.submitted, 'has-error': !vm.templateSelected && submitted }">
                    <input type="file" ngf-select="vm.onFileSelect($files, vm.form)" >
                  </div>
                </div>
