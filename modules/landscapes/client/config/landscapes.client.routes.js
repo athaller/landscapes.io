@@ -65,22 +65,18 @@
             resolve: {
               landscapesResolve: getLandscape
             }
-          }).state('settings', {
-            url: '/settings',
+          }).state('landscapes.settings', {
+            url: '/landscapes/settings/',
             templateUrl: 'modules/landscapes/client/views/settings.client.view.html',
             controller: 'SettingsController',
-            controllerAs: 'vm',
-            resolve: {
-              landscapesResolve: getLandscape
-            }
-          }).state('', {
-            url: '/landscapes/admin',
+            controllerAs: 'vm'
+
+          }).state('landscapes.admin', {
+            url: '/landscapes/admin/',
             templateUrl: 'modules/landscapes/client/views/admin-main.client.view.html',
             controller: 'AdminController',
-            controllerAs: 'vm',
-            resolve: {
-              landscapesResolve: getLandscape
-            }
+            controllerAs: 'vm'
+
           }) ;
 
   }

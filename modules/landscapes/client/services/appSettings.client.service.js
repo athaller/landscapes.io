@@ -14,7 +14,7 @@
 
 'use strict';
 
-angular.module('landscapesApp')
+angular.module('landscapes')
     .factory('AppSettingsService', function AppSettingsService($location, $rootScope, AppSettings) {
         return {
             create: function(appSettings, callback) {
@@ -70,7 +70,7 @@ angular.module('landscapesApp')
         }
     });
 
-angular.module('landscapesApp')
+angular.module('landscapes')
     .factory('AppSettings', function ($resource) {
         return $resource('/api/appSettings/:id', {
             id: '@id'

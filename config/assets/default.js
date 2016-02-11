@@ -19,7 +19,8 @@ module.exports = {
         'public/lib/ng-file-upload/ng-file-upload.js',
         'public/lib/angular-elastic/elastic.js',
         'public/lib/ng-lodash/build/ng-lodash.min.js',
-          'public/lib/angular-ui-bootstrap/index.js',
+        'public/lib/angular-ui-bootstrap/index.js',
+        'public/lib/checklist-model/checklist-model.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

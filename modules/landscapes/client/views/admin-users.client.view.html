@@ -1,9 +1,9 @@
-<div class="panel panel-default" ng-controller="AdminUsersCtrl">
+<div class="panel panel-default" ng-controller="AdminUsersController">
   <div class="panel-heading title-heading">
     <h2 class="panel-title pull-left">Users</h2>
     <button type="button" class="btn btn-default pull-right"
             ng-hide="addingUser || editingUser || viewingUser"
-            ng-click="addUser()">
+            ng-click="vm.addUser()">
       <span class="glyphicon glyphicon-plus-sign"></span> Add
     </button>
     <button type="button" class="btn btn-default pull-right"

@@ -7,15 +7,17 @@
 //     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+(function () {
+    'use strict';
 
-'use strict';
+    angular
+        .module('landscapes')
+        .controller('SettingsController', SettingsController);
 
-angular.module('landscapesApp')
-    .controller('SettingsCtrl', function ($scope, UserService, AuthService, RoleService, _) {
+    SettingsController.$inject = ['$scope', '$state','UserService', 'RoleService','GroupService','PermissionService','AccountService', 'AppSettingsService','GlobalTagService', 'Authentication'];
+
+    function SettingsController($scope, $state, UserService, RoleService, Authentication) {
+
 
         $scope._ = _;
 
@@ -91,4 +93,6 @@ angular.module('landscapesApp')
                 console.log(JSON.stringify(form.$error));
             }
         };
-    });
+    };
+
+})();

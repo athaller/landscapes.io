@@ -1,21 +1,14 @@
-// Copyright 2014 OpenWhere, Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+(function () {
+    'use strict';
 
-'use strict';
+    angular
+        .module('landscapes')
+        .controller('AdminController', AdminController);
 
-angular.module('landscapes')
-    .controller('AdminController', function ($scope, UserService, RoleService, GroupService, PermissionService,AccountService, AppSettingsService, GlobalTagService) {
+    AdminController.$inject = ['$scope', '$state','UserService', 'RoleService','GroupService','PermissionService','CloudAccountService', 'AppSettingsService','GlobalTagService', 'Authentication'];
+
+    function AdminController($scope, $state, UserService, RoleService, GroupService, PermissionService,CloudAccountService, AppSettingsService, GlobalTagService, Authentication) {
+
 
         var vm = this;
 
@@ -30,7 +23,7 @@ angular.module('landscapes')
 
         vm.selected = vm.menu[5];
 
-        $scope.buttonClick = function(text){
+        vm.buttonClick = function(text){
             vm.selected = text;
         };
 
@@ -38,10 +31,7 @@ angular.module('landscapes')
 
         vm.permissions = PermissionService.retrieveAll();
 
-        RoleService.retrieveAll()
-            .then(function(data){
-                vm.roles = data;
-            });
+        vm.roles = RoleService.query();
 
         GlobalTagService.retrieve()
             .then(function(data){
@@ -56,7 +46,7 @@ angular.module('landscapes')
                 });
             });
 
-        AccountService.retrieve()
+        CloudAccountService.retrieve()
             .then(function(data){
                 vm.accounts = data;
             });
@@ -66,10 +56,10 @@ angular.module('landscapes')
                 vm.appSettings = data;
             });
 
-        $scope.setUserGroups = function(callback) {
+        vm.setUserGroups = function(callback) {
             vm.users = [];
 
-            GroupService.retrieve()
+          /*  GroupService.retrieve()
                 .then(function(groups) {
                     vm.groups = groups;
 
@@ -92,5 +82,7 @@ angular.module('landscapes')
                 }
             );
             if(callback) callback();
+            */
         }
-    });
+    };
+})();

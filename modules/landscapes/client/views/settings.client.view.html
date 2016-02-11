@@ -57,7 +57,7 @@
     <!--</div>-->
 
     <div class="col-sm-6">
-        <form class="form" name="form" novalidate ng-submit="updateUser(form)">
+        <form class="form" name="form" novalidate ng-submit="vm.updateUser(vm.form)">
 
             <div class="panel panel-default"  ng-class="{ 'panel-primary': editingAccountSettings, 'panel-danger': form.$invalid && submitted }">
                 <div class="panel-heading title-heading">

@@ -19,7 +19,8 @@
     "angular-elastic": "^2.5.1",
     "angular-lodash": "^0.1.2",
     "ng-lodash": "^0.4.0",
-    "angular-ui-bootstrap": "^1.1.2"
+    "angular-ui-bootstrap": "^1.1.2",
+    "checklist-model": "^0.9.0"
   },
   "resolutions": {
     "angular": "~1.3",
