@@ -65,10 +65,25 @@
             resolve: {
               landscapesResolve: getLandscape
             }
-          });
+          }).state('settings', {
+            url: '/settings',
+            templateUrl: 'modules/landscapes/client/views/settings.client.view.html',
+            controller: 'SettingsController',
+            controllerAs: 'vm',
+            resolve: {
+              landscapesResolve: getLandscape
+            }
+          }).state('', {
+            url: '/landscapes/admin',
+            templateUrl: 'modules/landscapes/client/views/admin-main.client.view.html',
+            controller: 'AdminController',
+            controllerAs: 'vm',
+            resolve: {
+              landscapesResolve: getLandscape
+            }
+          }) ;
 
   }
-
 
 
   getLandscape.$inject = ['$stateParams', 'LandscapesService'];
