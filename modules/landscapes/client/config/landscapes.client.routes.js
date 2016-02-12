@@ -72,11 +72,10 @@
             controllerAs: 'vm'
 
           }).state('landscapes.admin', {
-            url: '/landscapes/admin/',
+            url: '/landscapesadmin/',
             templateUrl: 'modules/landscapes/client/views/admin-main.client.view.html',
             controller: 'AdminController',
             controllerAs: 'vm'
-
           }) ;
 
   }

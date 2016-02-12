@@ -21,7 +21,9 @@ module.exports = {
         'public/lib/ng-lodash/build/ng-lodash.min.js',
         'public/lib/angular-ui-bootstrap/index.js',
         'public/lib/checklist-model/checklist-model.js',
-        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js'
+        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/angular-modal-service/dst/angular-modal-service.js',
+        'public/lib/tr-ng-grid/trNgGrid.min.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

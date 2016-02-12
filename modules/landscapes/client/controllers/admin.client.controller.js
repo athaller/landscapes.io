@@ -18,7 +18,7 @@
             'Groups',
             'Global Tags',
             'Accounts',
-            'App Settings'
+            'AppSettings'
         ];
 
         vm.selected = vm.menu[5];
@@ -33,10 +33,7 @@
 
         vm.roles = RoleService.query();
 
-        GlobalTagService.retrieve()
-            .then(function(data){
-                vm.globalTags = data;
-            });
+        vm.globalTags = GlobalTagService.query();
 
         GroupService.retrieve()
             .then(function(data){

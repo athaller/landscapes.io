@@ -17,41 +17,48 @@
 
 
 angular.module('landscapes')
-    .controller('AdminGlobalTagsCtrl', function ($scope, GlobalTagService) {
+    .controller('AdminGlobalTagsCtrl', function ($scope, $state,GlobalTagService, ModalService) {
 
-        $scope.errorMessage = undefined;
-        $scope.infoMessage = undefined;
-        $scope.globalTag = {key:'', defaultValue:'', required:false};
+        var vm = this;
+
+        vm.errorMessage = undefined;
+        vm.infoMessage = undefined;
+        vm.globalTag = {key:'', defaultValue:'', required:false};
+        
+        if(!vm.globalTags ){
+            vm.globalTags = GlobalTagService.query();
+        }
 
         function resetGlobalTags() {
             console.log('resetGlobalTag');
 
-            GlobalTagService.retrieve()
-                .then(function(data){
-                    $scope.globalTags = data;
-                });
+            vm.globalTags = GlobalTagService.query();
 
-            $scope.errorMessage = undefined;
+            vm.errorMessage = undefined;
 
-            $scope.globalTag = {key:'', defaultValue:'', required:false};
-            $scope.submitted = false;
-            $scope.errorMessage = undefined;
-            $scope.infoMessage = undefined;
+            vm.globalTag = {key:'', defaultValue:'', required:false};
+            vm.submitted = false;
+            vm.errorMessage = undefined;
+            vm.infoMessage = undefined;
         };
 
-        $scope.saveGlobalTag = function (form) {
-            console.log('saveGlobalTag: ', $scope.globalTag);
+        vm.saveGlobalTag = function (form) {
+            console.log('saveGlobalTag: ', vm.globalTag);
 
-            $scope.submitted = true;
+            vm.form = form;
 
-            if (form.$invalid) {
-                console.log('form.$invalid: ' + JSON.stringify(form.$error));
+            vm.submitted = true;
+
+            if (vm.form.$invalid) {
+                console.log('form.$invalid: ' + JSON.stringify(vm.form.$error));
+                
+                //TODO - why no error handling - AH 
             } else {
 
                 GlobalTagService.create({
-                    key: $scope.globalTag.key,
-                    defaultValue: $scope.globalTag.defaultValue,
-                    required: $scope.globalTag.required
+                    key: vm.globalTag.key,
+                    defaultValue: vm.globalTag.defaultValue,
+                    required: vm.globalTag.required
                 })
                     .then(function () {
                         resetGlobalTags();
@@ -60,58 +67,80 @@ angular.module('landscapes')
                         err = err.data || err;
                         console.log('GlobalTagService.create Error:', err);
 
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     }
                 );
             }
         }
 
-        $scope.deleteGlobalTag = function(globalTag){
+        vm.deleteGlobalTag = function(globalTag){
             console.log('deleteGlobalTag:', globalTag._id);
 
-            $scope.confirmDelete(globalTag.key, function(deleteConfirmed) {
+            vm.confirmDelete(globalTag.key, function(deleteConfirmed) {
                 console.log('deleteGlobalTag.deleteConfirmed: ' + deleteConfirmed);
                 if (deleteConfirmed === true) {
 
                     GlobalTagService.delete(globalTag._id)
                         .then(function (data) {
-                            resetGlobalTags();
-                            $scope.infoMessage = 'Global Tag "' + globalTag.key + '" was deleted.';
+                            vm.resetGlobalTags();
+                            vm.infoMessage = 'Global Tag "' + vm.globalTag.key + '" was deleted.';
                         })
                         .catch(function (err) {
                             err = err.data || err;
                             console.log('GlobalTagService.delete Error:', err);
-                            $scope.errorMessage = err
+                            vm.errorMessage = err
                         });
                 }
             });
         };
 
-        $scope.confirmDelete = function (msg, callback) {
-            var modalInstance = $modal.open( {
+        vm.confirmDelete = function (msg, callback) {
+            ModalService.showModal({
+                templateUrl: "confirmGlobalTagDeleteModal.html",
+                controller: DeleteGlobalTagModalInstanceCtrl
+            }).then(function(modal) {
+                modal.element.modal();
+                modal.close.then(function(deleteIsConfirmed) {
+                    //$scope.yesNoResult = result ? "You said Yes" : "You said No";
+                    return callback(deleteIsConfirmed);
+                    
+                });
+            });
+
+            /*
+            var modalInstance = ModalService.open( {
                 templateUrl: 'confirmGlobalTagDeleteModal.html',
                 controller: DeleteGlobalTagModalInstanceCtrl,
                 size: 'sm',
                 resolve: { msg: function () { return msg; } }
             });
-
             modalInstance.result
                 .then(function(deleteIsConfirmed) {
                     return callback(deleteIsConfirmed);
                 });
-        };
-    });
+            };
+            */
+    };
 
     var DeleteGlobalTagModalInstanceCtrl = function ($scope, $modalInstance, msg) {
-    $scope.msg = msg;
-
-    $scope.confirmDeleteButtonClick = function (deleteConfirmed) {
-        $modalInstance.close(deleteConfirmed);
+        vm.msg = msg;
+        $scope.confirmDeleteButtonClick = function (deleteConfirmed) {
+            $modalInstance.close(deleteConfirmed);
+        };
     };
-};
+});
+
+angular.module('landscapes')
+    .controller('DeleteGlobalTagModalInstanceCtrl', ['$scope', 'close', function($scope, close) {
+
+  $scope.close = function(result) {
+ 	  close(result, 500); // close, but give 500ms for bootstrap to animate
+  };
+
+}]);

@@ -27,27 +27,27 @@
 
       <div class="col-md-10" style="padding:0;">
 
-        <div class="col-md-12" ng-show="selected=='Users'">
+        <div class="col-md-12" ng-show="vm.selected=='Users'">
           <div ng-include="'/modules/landscapes/client/views/admin-users.client.view.html'"></div>
         </div>
 
-        <div class="col-md-12" ng-show="selected=='Roles'">
+        <div class="col-md-12" ng-show="vm.selected=='Roles'">
           <div ng-include="'partials/admin/modules/landscapes/client/views/admin-roles.client.view.html'"></div>
         </div>
 
-        <div class="col-md-12" ng-show="selected=='Groups'">
+        <div class="col-md-12" ng-show="vm.selected=='Groups'">
           <div ng-include="'/modules/landscapes/client/views/admin-groups.client.view.html'"></div>
         </div>
 
-        <div class="col-md-12" ng-show="selected=='Global Tags'">
+        <div class="col-md-12" ng-show="vm.selected=='Global Tags'">
           <div ng-include="'/modules/landscapes/client/views/admin-globalTags.client.view.html'"></div>
         </div>
 
-        <div class="col-md-12" ng-show="selected=='Accounts'">
+        <div class="col-md-12" ng-show="vm.selected=='Accounts'">
           <div ng-include="'/modules/landscapes/client/views/admin-accounts.client.view.html'"></div>
         </div>
 
-        <div class="col-md-12" ng-show="selected=='App Settings'">
+        <div class="col-md-12" ng-show="vm.selected=='AppSettings'">
           <div class="panel panel-default">
             <div class="panel-heading title-heading">
               <h2 class="panel-title pull-left">App Settings</h2>

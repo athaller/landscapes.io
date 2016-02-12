@@ -12,71 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('landscapes')
-    .factory('GlobalTagService', function GlobalTagService($location, GlobalTag) {
-        return {
-            create: function(group, callback) {
-                var cb = callback || angular.noop;
-                return GlobalTag.save(group,
-                    function(data) {
-                        return cb(data);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            },
-            retrieve: function(callback) {
-                var cb = callback || angular.noop;
+    angular
+        .module('landscapes.services')
+        .factory('GlobalTagService', GlobalTagService);
 
-                return GlobalTag.query({},
-                    function(data) {
-                        return cb(data);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            },
-            retrieveOne: function(id) {
-                return Tag.get({id:id}, function(){});
-            },
-            update: function(id, account, callback) {
-                var cb = callback || angular.noop;
+    GlobalTagService.$inject = ['$resource'];
 
-                return GlobalTag.update({id:id}, account,
-                    function(data) {
-                        return cb(data);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            },
-            delete: function(id, callback) {
-                var cb = callback || angular.noop;
-
-                console.log('delete: ', id)
-
-                return GlobalTag.remove({id: id},
-                    function(data) {
-                        return cb(data);
-                    },
-                    function(err) {
-                        return cb(err);
-                    }
-                ).$promise;
-            }
-        }
-    });
-
-angular.module('landscapes')
-    .factory('GlobalTag', function ($resource) {
+    function GlobalTagService($resource) {
         return $resource('/api/globalTags/:id', {
-            id: '@id'
+            id: '@_id'
         }, {
-            update: { method: 'PUT' }
+            update: {
+                method: 'PUT'
+            }
         });
-    });
+    }
+})();
+

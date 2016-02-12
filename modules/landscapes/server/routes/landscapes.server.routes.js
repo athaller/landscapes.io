@@ -25,7 +25,7 @@ module.exports = function (app) {
 
     app.route('/api/landscapes/:landscapesId/deployments').all(landscapesPolicy.isAllowed)
         .get(deployments.retrieveByLandscapes);
-
+        
 
     // Finish by binding the landscapes middleware
     app.param('landscapesId', landscapes.landscapesByID);
