@@ -8,7 +8,8 @@ var path = require('path'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   winston = require('winston'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Role = mongoose.model('Role')  ;
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -28,26 +29,42 @@ exports.signup = function (req, res) {
   user.provider = 'local';
   user.displayName = user.firstName + ' ' + user.lastName;
 
-  // Then save the user
-  user.save(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
+  //Set default Role
 
-      req.login(user, function (err) {
+    Role.findOne({name:'user'}).exec( function(err,data){
+      if(err){
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      user.roles.push(data);
+      user.save(function (err) {
         if (err) {
-          res.status(400).send(err);
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
         } else {
-          res.json(user);
+          // Remove sensitive data before login
+          user.password = undefined;
+          user.salt = undefined;
+
+          req.login(user, function (err) {
+            if (err) {
+              res.status(400).send(err);
+            } else {
+              res.json(user);
+            }
+          });
         }
       });
-    }
-  });
+
+    });
+
+
+
+
+  // Then save the user
+
 };
 
 /**
