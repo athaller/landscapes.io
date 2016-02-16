@@ -16,17 +16,27 @@
 
 var winston = require('winston'),
     path = require('path'),
-    config = require('../config/landscapes.server.config'),
     fs = require('fs'),
     crypto = require('crypto'),
     mongoose = require('mongoose'),
+    uuid = require('uuid'),
     Schema = mongoose.Schema;
 
 
 
 var getCryptoKey = function(callback){
-
+    
+    winston.info('Starting to get account key');
     var filePath = path.resolve('./config/accountsKeyFile.json');
+    if(!fs.existsSync(filePath)){
+      try {
+        var data = '{ "key": "' + uuid.v4() + '" }';
+        fs.writeFileSync(filePath, data);
+      } catch (err) {
+        winston.error('Err Seeding Encryption Key' + err);
+      }
+      winston.log('created account crypto key');
+    }
     fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
         if (err) {
             callback(err);
@@ -36,7 +46,6 @@ var getCryptoKey = function(callback){
         }
     });
 };
-
 
 
 

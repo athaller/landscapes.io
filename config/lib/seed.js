@@ -1,10 +1,12 @@
 'use strict';
 
 var _ = require('lodash'),
+  path = require('path'),
   config = require('../config'),
   mongoose = require('mongoose'),
   chalk = require('chalk'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  winston = require('winston');
 
 // global seed options object
 var seedOptions = {};
@@ -138,17 +140,7 @@ function reportError (reject) {
 }
 
 
-var createCryptoKey =  function(callback){
-  var filePath = path.resolve('./config/accountsKeyFile.json');
-  try {
-    var data = '{ "key": "' + uuid.v4() + '" }';
-    fs.writeFileSync(filePath, data, 'utf8');
-    callback();
-  } catch (err) {
-    callback(err);
-  }
-  winston.log('Encryption key file -> ' + filePath);
-};
+
 
 
 
@@ -170,6 +162,8 @@ module.exports.start = function start(options) {
     seedOptions.seedAdmin = options.seedAdmin;
   }
 
+
+
   var User = mongoose.model('User');
   var Role = mongoose.model('Role');
   return new Promise(function (resolve, reject) {
@@ -182,8 +176,7 @@ module.exports.start = function start(options) {
     var userRole = new Role(config.defaultRoles[1]);
     var managerRole = new Role(config.defaultRoles[2]);
 
-    // Seed key
-    createCryptoKey();
+
 
     //If production only seed admin if it does not exist
     if (process.env.NODE_ENV === 'production') {
@@ -206,11 +199,6 @@ module.exports.start = function start(options) {
           resolve();
         })
         .catch(reportError(reject));
-
-
     }
-
-
-
   });
 };
