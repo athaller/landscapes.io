@@ -18,8 +18,8 @@
           <div class="btn-group-vertical col-md-12 hidden-sm hidden-xs">
             <!-- switch to horizontal in xs && sm -->
             <button type="button" class="btn btn-default "
-                    ng-class="{active: selected == item}"
-                    ng-repeat="item in menu"
+                    ng-class="{active: vm.selected == item}"
+                    ng-repeat="item in vm.menu"
                     ng-click="vm.buttonClick(item)">{{item}}</button>
           </div>
         </div>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="col-md-12" ng-show="vm.selected=='Roles'">
-          <div ng-include="'partials/admin/modules/landscapes/client/views/admin-roles.client.view.html'"></div>
+          <div ng-include="'/modules/landscapes/client/views/admin-roles.client.view.html'"></div>
         </div>
 
         <div class="col-md-12" ng-show="vm.selected=='Groups'">

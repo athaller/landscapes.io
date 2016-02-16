@@ -15,7 +15,7 @@
 'use strict';
 
 angular.module('landscapes')
-    .controller('AdminAccountsCtrl', function ($scope, ModalService, CloudAccountService) {
+    .controller('AdminAccountsCtrl', function ($scope, $state,$uibModal, CloudAccountService) {
         
         var vm = this;
         vm.account = { };
@@ -26,12 +26,13 @@ angular.module('landscapes')
         vm.editAccount = function(id) {
             console.log('editAccount: ' + id);
             vm.editingAccount = true;
-            vm.account = AccountService.retrieveOne(id);
+            vm.account = CloudAccountService.retrieveOne(id);
         };
 
-        $scope.updateAccount = function(id) {
+        vm.updateAccount = function(id) {
             console.log('updateAccount');
             console.log(vm.account);
+            //Whys is this empty - AH?
         };
 
         vm.addAccount = function() {
@@ -45,7 +46,7 @@ angular.module('landscapes')
 
             CloudAccountService.retrieve()
                 .then(function(data){
-                    $scope.accounts = data;
+                    $scope.$parent.vm.accounts = data;
                 });
 
             vm.addingAccount = false;
@@ -56,31 +57,32 @@ angular.module('landscapes')
 
         vm.saveAccount = function (form) {
             vm.submitted = true;
+            vm.form  = form;
 
-            if (form.vm) {
-                console.log('form.$invalid: ' + JSON.stringify(vm.form.$error));
+            if (vm.form.$invalid) {
+                console.log('form.$invalid: ' + (vm.form.$error)); //TODO fix error logging
 
             } else if (vm.addingAccount) {
 
                 CloudAccountService.create({
                     name: vm.account.name,
-                    region: $scope.account.region,
-                    accessKeyId: $scope.account.accessKeyId,
-                    secretAccessKey: $scope.account.secretAccessKey
+                    region: vm.account.region,
+                    accessKeyId: vm.account.accessKeyId,
+                    secretAccessKey: vm.account.secretAccessKey
                 })
                     .then(function () {
-                        $scope.resetAccounts();
+                        vm.resetAccounts();
                     })
                     .catch(function (err) {
                         err = err.data || err;
                         console.log(err);
 
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     });
 
@@ -91,7 +93,7 @@ angular.module('landscapes')
 
                 CloudAccountService.update(vm.account._id, {
                     name: vm.account.name,
-                    region: $scope.account.region,
+                    region: vm.account.region,
                     accessKeyId: vm.account.accessKeyId,
                     secretAccessKey: vm.account.secretAccessKey
                 })
@@ -133,24 +135,27 @@ angular.module('landscapes')
         };
 
         vm.confirmDelete = function (msg, callback) {
-            var modalInstance = ModalService.open( {
+            var modalInstance = $uibModal.open( {
                 templateUrl: 'confirmDeleteModal.html',
-                controller: DeleteModalInstanceCtrl,
+                controller: 'DeleteModalInstanceCtrl as vm',
                 size: 'sm',
                 resolve: { msg: function () { return msg; } }
             });
 
-            modalInstance.result
-                .then(function(deleteIsConfirmed) {
-                    return callback(deleteIsConfirmed);
+            modalInstance.result.then(function(result) {
+                    return callback(result);
                 });
         };
     });
 
-var DeleteModalInstanceCtrl = function ($scope, $modalInstance, msg) {
-    vm.msg = msg;
 
-    $scope.confirmDeleteButtonClick = function (deleteConfirmed) {
-        $modalInstance.close(deleteConfirmed);
+angular.module('landscapes')
+    .controller('DeleteModalInstanceCtrl', function($scope, $uibModalInstance, msg) {
+
+        var vm = this;
+        vm.msg = msg;
+
+        vm.close = function(result) {
+            $uibModalInstance.close(result); // close, but give 500ms for bootstrap to animate
     };
-};
+});

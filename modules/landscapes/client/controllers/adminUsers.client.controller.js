@@ -16,39 +16,38 @@
 
 angular.module('landscapes')
     .controller('AdminUsersController', function ($scope, UserService, Authentication) {
-        $scope.addingUser = false;
-        $scope.editingUser = false;
-        $scope.viewingUser = false;
+        var vm = this;
+        vm.addingUser = false;
+        vm.editingUser = false;
+        vm.viewingUser = false;
 
-        $scope.user = { email: '', password: ''};
-        $scope.errors = {};
+        vm.user = { email: '', password: ''};
+        vm.errors = {};
 
-        function retrieveUser(user) {
-            UserService.retrieve(user._id)
-                .then(function(data) {
-                    $scope.user = data;
-                });
+        vm.retrieveUser =  function(user) {
+            vm.user = UserService.get({id:user._id});
+
         }
 
-        $scope.resetUsers = function() {
-            $scope.addingUser = false;
-            $scope.editingUser = false;
-            $scope.viewingUser = false;
+        vm.resetUsers = function() {
+            vm.addingUser = false;
+            vm.editingUser = false;
+            vm.viewingUser = false;
 
             // value in input[email] and/or input[password] will not bind to model while !valid
-            $scope.user = { email: '', password: ''};
-            $scope.errors = {};
+            vm.user = { email: '', password: ''};
+            vm.errors = {};
 
-            $scope.submitted = false;
+            vm.submitted = false;
 
             // in adminCtrl
             $scope.setUserGroups();
         };
 
 
-        $scope.deleteUser = function(user) {
-            UserService.delete( user._id )
-                .then(function() {
+        vm.deleteUser = function(user) {
+            UserService.delete( {id:user._id} )
+            $.promise.then(function() {
                     $scope.resetUsers();
                 })
                 .catch(function(err) {
@@ -58,71 +57,75 @@ angular.module('landscapes')
         };
 
 
-        $scope.editUser = function(user) {
-            $scope.editingUser = true;
-            retrieveUser(user);
+        vm.editUser = function(user) {
+            vm.editingUser = true;
+            vm.retrieveUser(user);
         };
 
 
-        $scope.viewUser = function(user) {
-            $scope.viewingUser = true;
-            retrieveUser(user);
+        vm.viewUser = function(user) {
+            vm.viewingUser = true;
+            vm.retrieveUser(user);
         };
 
 
-        $scope.addUser = function() {
-            $scope.addingUser = true;
+        vm.addUser = function() {
+            vm.addingUser = true;
         };
 
 
         function formatMongooseErrors(err, form){}
 
-        $scope.saveUser = function(form) {
+        vm.saveUser = function(form) {
+            vm.form = form;
+            vm.submitted = true;
 
-            $scope.submitted = true;
-
-            if(form.$valid && $scope.addingUser) {
-                AuthService.createUser({
-                    name: $scope.user.name,
-                    email: $scope.user.email,
-                    password: $scope.user.password,
-                    role: $scope.user.role || 'user'
+            if(vm.form.$valid && vm.addingUser) {
+                UserService.save({
+                    username: vm.user.username,
+                    displayName: vm.user.username,
+                    email: vm.user.email,
+                    password: vm.user.password,
+                    role: vm.user.role
                 })
-                    .then( function() {
-                        $scope.resetUsers()
+                    .$promise.then( function() {
+                        vm.resetUsers()
                     })
                     .catch( function(err) {
                         console.log('UserService.update Error: ' + JSON.stringify(err));
 
                         err = err.data;
-                        $scope.errors = {};
+                        vm.message = err;
+                        vm.form.$invald = true;
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function(error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                             console.log(error.message)
                         });
                     });
-            } else if(form.$valid && $scope.editingUser) {
-                UserService.update($scope.user._id, {
-                    name: $scope.user.name,
-                    email: $scope.user.email,
-                    role: $scope.user.role
+            } else if(vm.form.$valid && vm.editingUser) {
+                UserService.update({id:vm.user._id}, {
+                    username: vm.user.username,
+                    displayName: vm.user.username,
+                    email: vm.user.email,
+                    role: vm.user.role
                 })
-                    .then( function() {
-                        $scope.resetUsers()
+                    .$promise.then( function() {
+                        vm.resetUsers()
                     })
                     .catch( function(err) {
                         console.log('UserService.update Error: ' + JSON.stringify(err));
 
                         err = err.data;
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function(error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                             console.log(error.message)
                         });
                     });

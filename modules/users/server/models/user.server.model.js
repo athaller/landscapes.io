@@ -31,14 +31,12 @@ var UserSchema = new Schema({
   firstName: {
     type: String,
     trim: true,
-    default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your first name']
+    default: ''
   },
   lastName: {
     type: String,
     trim: true,
-    default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your last name']
+    default: ''
   },
   displayName: {
     type: String,
@@ -81,8 +79,7 @@ var UserSchema = new Schema({
       type: Schema.ObjectId, ref: 'Role',
     }],
   //  default: ['user'],
-    required: 'Please provide at least one role',
-    lowercase: true, trim: true
+    required: 'Please provide at least one role'
   },
   permissions: { type : Array , "default" : [] },
   groups: { type : Array , "default" : [] },

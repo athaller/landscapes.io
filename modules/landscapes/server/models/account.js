@@ -16,13 +16,38 @@
 
 var winston = require('winston'),
     path = require('path'),
-    config = require(path.resolve('./config/config')),
+    config = require('../config/landscapes.server.config'),
     fs = require('fs'),
     crypto = require('crypto'),
     mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var _cryptoKey;
+
+
+var getCryptoKey = function(callback){
+
+    var filePath = path.resolve('./config/accountsKeyFile.json');
+    fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
+        if (err) {
+            callback(err);
+        } else {
+            var key = JSON.parse(data);
+            callback(null, key.key);
+        }
+    });
+};
+
+
+
+
+var _cryptoKey = getCryptoKey(function(err, key) {
+    if (err) {
+        winston.log('error', err);
+    } else {
+        _cryptoKey = key;
+    }
+});
+
 var _algorithm = 'aes-256-cbc';
 
 var encrypt = function(secret) {
@@ -62,17 +87,10 @@ var AccountSchema = new Schema({
         accessKeyId: { type: String, required: true},
         secretAccessKey : { type: String, required: true, set: encrypt, get: decrypt }
     }
-    /*
-    TODO Need to fix the encryption of files - AH
-    ,
-    config.getCryptoKey(function(err, key) {
-        if (err) {
-            winston.log('error', err);
-        } else {
-            _cryptoKey = key;
-        }
-    })*/
+
 );
+
+//UserSchema.methods.hashPassword
 
 AccountSchema.set('toObject', { getters: true });
 AccountSchema.set('toJSON', { getters: true });

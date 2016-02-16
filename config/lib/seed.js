@@ -27,7 +27,7 @@ function saveUser (user) {
       // Then save the user
       user.save(function (err, theuser) {
         if (err) {
-          reject(new Error('Failed to add local ' + user.username));
+          reject(new Error('Failed to add local ' + user.username + ' for error' + err));
         } else {
           resolve(theuser);
         }
@@ -137,6 +137,21 @@ function reportError (reject) {
   };
 }
 
+
+var createCryptoKey =  function(callback){
+  var filePath = path.resolve('./config/accountsKeyFile.json');
+  try {
+    var data = '{ "key": "' + uuid.v4() + '" }';
+    fs.writeFileSync(filePath, data, 'utf8');
+    callback();
+  } catch (err) {
+    callback(err);
+  }
+  winston.log('Encryption key file -> ' + filePath);
+};
+
+
+
 module.exports.start = function start(options) {
   // Initialize the default seed options
   seedOptions = _.clone(config.seedDB.options, true);
@@ -167,7 +182,8 @@ module.exports.start = function start(options) {
     var userRole = new Role(config.defaultRoles[1]);
     var managerRole = new Role(config.defaultRoles[2]);
 
-
+    // Seed key
+    createCryptoKey();
 
     //If production only seed admin if it does not exist
     if (process.env.NODE_ENV === 'production') {

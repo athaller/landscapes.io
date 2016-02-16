@@ -15,6 +15,9 @@ exports.read = function (req, res) {
   res.json(req.model);
 };
 
+
+
+
 /**
  * Update a User
  */
@@ -22,10 +25,13 @@ exports.update = function (req, res) {
   var user = req.model;
 
   //For security purposes only merge these parameters
-  user.firstName = req.body.firstName;
-  user.lastName = req.body.lastName;
-  user.displayName = user.firstName + ' ' + user.lastName;
-  user.roles = req.body.roles;
+  user.username = req.body.username;
+  user.displayName = req.body.displayName;
+  user.email = req.body.email;
+  user.roles =[];
+  if(req.body.role) {
+    user.roles.push(req.body.role);
+  }
 
   user.save(function (err) {
     if (err) {
@@ -59,7 +65,10 @@ exports.delete = function (req, res) {
  * List of Users
  */
 exports.list = function (req, res) {
-  User.find({}, '-salt -password').sort('-created').populate('user', 'displayName').exec(function (err, users) {
+  User.find({}, '-salt -password').sort('-created')
+      .populate('user', 'displayName')
+      .populate('roles','name description permissions')
+      .exec(function (err, users) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -69,6 +78,31 @@ exports.list = function (req, res) {
     res.json(users);
   });
 };
+
+exports.save = function (req,res){
+
+
+  // Init user and add missing fields
+  var user = new User(req.body);
+  user.roles.push(req.body.role);
+  user.provider = 'local';
+
+  // Then save the user
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      // Remove sensitive data before login
+      user.password = undefined;
+      user.salt = undefined;
+
+      res.json(user);
+    }
+  });
+};
+
 
 /**
  * User middleware
@@ -80,7 +114,10 @@ exports.userByID = function (req, res, next, id) {
     });
   }
 
-  User.findById(id, '-salt -password').exec(function (err, user) {
+  User.findById(id, '-salt -password')
+      .populate('user', 'displayName')
+      .populate('roles','name description permissions')
+      .exec(function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {

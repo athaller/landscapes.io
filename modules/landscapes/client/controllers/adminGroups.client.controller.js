@@ -15,88 +15,88 @@
 'use strict';
 
 angular.module('landscapes')
-    .controller('AdminGroupsCtrl', function ($scope, $rootScope, $http, User, GroupService) {
+    .controller('AdminGroupsCtrl', function ($scope, UserService, GroupService, LandscapesService, PermissionService) {
 
-        $scope.group = { permissions: [] };
-//        $scope.errors = {};
+        var vm = this;
 
-        $http.get('/api/landscapes')
-            .success(function(data, status) {
-                $scope.landscapes = data;
-            });
+        vm.group = { permissions: [] };
+//       $scope.errors = {};
 
-        $scope.addingGroup = false;
-        $scope.editingGroup = false;
-        $scope.viewingGroup = false;
 
-        $scope.viewGroup = function(group){
-            $scope.group = group;
-            $scope.viewingGroup = true;
+        vm.addingGroup = false;
+        vm.editingGroup = false;
+        vm.viewingGroup = false;
+
+        vm.viewGroup = function(group){
+            vm.group = group;
+            vm.viewingGroup = true;
         };
 
-        $scope.editGroup = function(id) {
+        vm.editGroup = function(id) {
             console.log('editGroup: ' + id);
-            $scope.editingGroup = true;
-            $scope.group = GroupService.retrieveOne(id);
+            vm.editingGroup = true;
+            vm.group = GroupService.retrieveOne(id);
         };
 
-        $scope.addGroup = function() {
+        vm.addGroup = function() {
             console.log('addGroup');
-            $scope.addingGroup = true;
+            vm.addingGroup = true;
         };
 
-        $scope.resetGroups = function() {
+        vm.resetGroups = function() {
             console.log('resetGroups');
-            $scope.setUserGroups();
+            //vm.setUserGroups();
 
-            $scope.addingGroup = false;
-            $scope.editingGroup = false;
-            $scope.viewingGroup = false;
-            $scope.group = {};
-            $scope.submitted = false;
+            vm.addingGroup = false;
+            vm.editingGroup = false;
+            vm.viewingGroup = false;
+            vm.group = {};
+            vm.submitted = false;
+            $scope.setUserGroups();
         };
 
-        $scope.saveGroup = function (form) {
-            $scope.submitted = true;
+        vm.saveGroup = function (form) {
+            vm.form = form;
+            vm.submitted = true;
 
-            if (form.$invalid) {
-                console.log('form.$invalid: ' + JSON.stringify(form.$error));
-            } else if ($scope.addingGroup) {
+            if (vm.form.$invalid) {
+                console.log('form.$invalid: ' + JSON.stringify(vm.form.$error));
+            } else if (vm.addingGroup) {
 
                 GroupService.create({
-                    name: $scope.group.name,
-                    description: $scope.group.description,
-                    users: $scope.group.users,
-                    permissions: $scope.group.permissions,
-                    landscapes: $scope.group.landscapes
+                    name: vm.group.name,
+                    description: vm.group.description,
+                    users: vm.group.users,
+                    permissions: vm.group.permissions,
+                    landscapes: vm.group.landscapes
                 })
                     .then(function () {
-                        $scope.resetGroups();
+                        vm.resetGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
                         console.log(err);
 
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     });
 
-            } else if ($scope.editingGroup) {
+            } else if (vm.editingGroup) {
 
-                GroupService.update($scope.group._id, {
-                    name: $scope.group.name,
-                    description: $scope.group.description,
-                    users: $scope.group.users,
-                    permissions: $scope.group.permissions,
-                    landscapes: $scope.group.landscapes
+                GroupService.update(vm.group._id, {
+                    name: vm.group.name,
+                    description: vm.group.description,
+                    users: vm.group.users,
+                    permissions: vm.group.permissions,
+                    landscapes: vm.group.landscapes
                 })
                     .then(function () {
-                        $scope.resetGroups();
+                        vm.resetGroups();
                     })
                     .catch(function (err) {
                         err = err.data || err;
@@ -106,18 +106,18 @@ angular.module('landscapes')
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     });
             }
         };
 
-        $scope.deleteGroup = function(){
-            console.log('deleteGroup: ' + $scope.group._id)
-            GroupService.delete($scope.group._id)
+        vm.deleteGroup = function(){
+            console.log('deleteGroup: ' + vm.group._id)
+            GroupService.delete(vm.group._id)
                 .then(function() {
-                    $scope.resetGroups();
+                    vm.resetGroups();
                 })
                 .catch(function(err) {
                     err = err.data || err;

@@ -64,7 +64,7 @@ module.exports = function (app) {
        .post(cloudaccounts.create);
 
     app.route('/api/accounts/:id').all(landscapesPolicy.isAllowed)
-       .get(cloudaccounts.retrieve)
+       .get(cloudaccounts.retrieveOne)
        .put(cloudaccounts.update)
        .delete(cloudaccounts.delete);
 

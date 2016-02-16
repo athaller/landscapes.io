@@ -22,7 +22,7 @@
                 <th>Access Key ID</th>
                 <th>Secret Access Key</th>
             </tr>
-            <tr ng-repeat="account in app.accounts | orderBy: 'name'">
+            <tr ng-repeat="account in vm.accounts | orderBy: 'name'">
                 <td>
                     <button type="button" class="btn btn-primary btn-xs"
                             popover="Edit" popover-trigger="mouseenter"
@@ -38,7 +38,7 @@
         </table>
 
         <div ng-show="app.addingAccount || app.editingAccount">
-            <div ng-include="'partials/admin/admin-accounts-modify'"></div>
+            <div ng-include="'/modules/landscapes/client/views/admin-accounts-modify.html'"></div>
         </div>
 
     </div>

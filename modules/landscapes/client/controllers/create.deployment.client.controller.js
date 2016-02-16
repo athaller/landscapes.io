@@ -28,7 +28,7 @@
                 }
             });
 
-        GlobalTagService.retrieve()
+        GlobalTagService.query().$promise
             .then(function(data){
                 vm.globalTags = data;
 

@@ -44,12 +44,9 @@ exports.retrieve = function (req, res) {
 
 // GET /api/accounts/<id>
 exports.retrieveOne = function (req, res, next) {
+    winston.info(' ---> retrieving Single Account');
     var accountId = req.params.id;
 
-    var user = req.user || undefined;
-    if(user === undefined) {
-        return res.send(401);
-    }
 
     Account.findById(accountId, function (err, group) {
         if (err) {
@@ -68,16 +65,11 @@ exports.retrieveOne = function (req, res, next) {
 exports.create = function (req, res) {
     winston.info(' ---> creating Account');
 
-    var user = req.user || undefined;
-    if(user === undefined) {
-        return res.send(401);
-    }
-
     var data = req.body;
-    console.log(data);
+   // console.log(data);
 
     var newAccount = new Account(req.body);
-    newAccount.createdBy = user._id;
+    newAccount.createdBy = req.user._id;
     newAccount.save(function(err) {
         if (err) {
             winston.log('error', err);

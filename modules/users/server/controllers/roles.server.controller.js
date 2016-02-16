@@ -94,7 +94,7 @@ exports.retrieveOne = function (req, res) {
                 }
                 winston.info(' ---> Role found: ' + role.name);
 
-                User.find({role: role.name}, function (err, users) {
+                User.find({roles: role._id}, '-salt -password', function (err, users) {
                     if (err){
                         callback(err);
                         return;
@@ -102,7 +102,8 @@ exports.retrieveOne = function (req, res) {
 
                     var userList = [];
                     for (var i = 0; i < users.length; i++) {
-                        userList.push(users[i].userInfo._id);
+                       // userList.push(users[i].userInfo._id);
+                        userList.push(users[i]);
                     }
                     role.users = userList;
                     callback(null, role);

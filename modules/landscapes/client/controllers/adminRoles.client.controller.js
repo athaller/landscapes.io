@@ -15,175 +15,211 @@
 'use strict';
 
 angular.module('landscapes')
-    .controller('AdminRolesCtrl', function ($scope, RoleService, UserService, _) {
-        $scope.role = { };
-        $scope.originalRole = { };
+    .controller('AdminRolesCtrl', function ($scope, RoleService, UserService, lodash) {
+        var vm = this;
+        vm.role = { };
+        vm.originalRole = { };
 
-        $scope.addUsers = [];
-        $scope.removeUsers = [];
+        //vm.users = UserService.query();
 
-        $scope.addingRole = false;
-        $scope.editingRole = false;
+        vm.addUsers = [];
+        vm.removeUsers = [];
 
-        $scope.submitted = false;
+        vm.addingRole = false;
+        vm.editingRole = false;
 
+        vm.submitted = false;
+
+        vm.compareUsers = function(obj1,obj2){
+            return obj1._id === obj2._id;
+        }
+
+        // Refactor
         function manageRoleUsers() {
-            $scope.$watchCollection("role.users", function (newValue, oldValue) {
+            $scope.$watchCollection("vm.role.users", function (newValue, oldValue) {
                 if(newValue !== oldValue) {
 
                     var updateThisUser = _.difference(newValue, oldValue);
                     if(updateThisUser[0] !== undefined) {
                         // add User to Role
-                        $scope.addUsers.push(updateThisUser[0]);
-                        $scope.addUsers = _.uniq($scope.addUsers);
+                        vm.addUsers.push(updateThisUser[0]);
+                        vm.addUsers = _.uniq(vm.addUsers);
 
-                        var index = _.indexOf($scope.removeUsers, updateThisUser[0]);
+                        var index = _.indexOf(vm.removeUsers, updateThisUser[0]);
                         if (index !== -1) {
-                            $scope.removeUsers.splice(index, 1);
+                            vm.removeUsers.splice(index, 1);
                         }
                     } else {
                         // remove User from Role
                         updateThisUser = _.difference(oldValue, newValue);
-                        $scope.removeUsers.push(updateThisUser[0]);
-                        $scope.removeUsers = _.uniq($scope.removeUsers);
+                        vm.removeUsers.push(updateThisUser[0]);
+                        vm.removeUsers = _.uniq(vm.removeUsers);
 
-                        var index = _.indexOf($scope.addUsers, updateThisUser[0]);
+                        var index = _.indexOf(vm.addUsers, updateThisUser[0]);
                         if (index !== -1) {
-                            $scope.addUsers.splice(index, 1);
+                            vm.addUsers.splice(index, 1);
                         }
                     }
 
-                    console.log('$scope.addUsers: ' + $scope.addUsers);
-                    console.log('$scope.removeUsers: ' + $scope.removeUsers);
+                    console.log('vm.addUsers: ' + vm.addUsers);
+                    console.log('vm.removeUsers: ' + vm.removeUsers);
                 }
             })
         }
 
-        $scope.resetRoles = function() {
+        vm.resetRoles = function() {
             console.log('resetRoles');
 
-            RoleService.retrieveAll()
-                .then(function(data){
-                    $scope.roles = data;
+            $scope.$parent.vm.roles =  RoleService.query();
+            $scope.$parent.vm.setUserGroups(); //Hack - fix AH
 
-                    $scope.role = { };
-                    $scope.originalRole = { };
+                vm.role = { };
+                vm.originalRole = { };
 
-                    $scope.addUsers = [];
-                    $scope.removeUsers = [];
+                vm.addUsers = [];
+                vm.removeUsers = [];
 
-                    $scope.addingRole = false;
-                    $scope.editingRole = false;
-                    $scope.submitted = false;
-                })
+                vm.addingRole = false;
+                vm.editingRole = false;
+                vm.submitted = false;
+
         };
 
-        $scope.editRole = function(id) {
+        vm.editRole = function(id) {
             console.log('editRole');
-            $scope.editingRole = true;
+            vm.editingRole = true;
 
-            RoleService.retrieveOne(id)
-                .then(function(data) {
-                    $scope.role = data;
-                    angular.copy(data, $scope.originalRole);
+            RoleService.get({id:id})
+                .$promise.then(function(data) {
+                    vm.role = data;
+                    angular.copy(data, vm.originalRole);
                 })
                 .then(function(){
                     manageRoleUsers();
                 });
         };
 
-        $scope.addRole = function() {
+        vm.addRole = function() {
             console.log('addRole');
-            $scope.addingRole = true;
+            vm.addingRole = true;
         };
 
-        $scope.saveRole = function (form) {
-            $scope.submitted = true;
+        vm.saveRole = function (form) {
+            vm.submitted = true;
+            vm.form = form;
 
-            if (form.$invalid) {
+            if (vm.form.$invalid) {
                 console.log('form.$invalid: ' + JSON.stringify(form.$error));
-            } else if ($scope.addingRole) {
+            } else if (vm.addingRole) {
 
-                RoleService.create({
-                    name: $scope.role.name,
-                    description: $scope.role.description,
-                    permissions: $scope.role.permissions
+                RoleService.save({
+                    name: vm.role.name,
+                    description: vm.role.description,
+                    permissions: vm.role.permissions
                 })
+                    .$promise
                     .then(function () {
-                        $scope.resetRoles();
-                        $scope.setUserGroups();
+                        vm.resetRoles();
+
                     })
                     .catch(function (err) {
                         err = err.data || err;
                         console.log(err);
 
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     });
 
-            } else if ($scope.editingRole) {
-                console.log('updating Role: ' + $scope.role.name);
+            } else if (vm.editingRole) {
+                console.log('updating Role: ' + vm.role.name);
 
                 // update Role properties
-                RoleService.update($scope.role._id, {
-                    name: $scope.role.name,
-                    permissions: $scope.role.permissions,
-                    description: $scope.role.description
+                RoleService.update({id:vm.role._id}, {
+                    name: vm.role.name,
+                    permissions: vm.role.permissions,
+                    description: vm.role.description
                 })
+                    .$promise
                     .then(function () {
-                        // add Users to Role
-                        for(var i = 0; i < $scope.addUsers.length; i++) {
-                            console.log("UserService.update: " + $scope.addUsers[i]);
+                        //Find new role
+                        var newUsers = lodash.differenceWith(vm.role.users,vm.originalRole.users, function(a,b){
+                            return a._id === b._id;
+                        });
+                        // Find Deleted Roles
+                        var deletedUsers = lodash.differenceWith(vm.originalRole.users, vm.role.users, function(a,b){
+                            return a._id === b._id;
+                        });
 
-                            UserService.update($scope.addUsers[i], {role: $scope.role.name})
-                                .then(function (data) {
+                        console.log('new users role ' + newUsers);
+                        console.log('deleted users role ' + deletedUsers);
+
+                        //really need an async here ...
+                        for(var i = 0; i < newUsers.length; i++) {
+                            console.log("UserService.update: " + newUsers[i]);
+                            UserService.update({id:newUsers[i]._id}, {
+                                username: newUsers[i].username,
+                                displayName: newUsers[i].username,
+                                email: newUsers[i].email,
+                                role: vm.role
+                            },function(err,data){
+                                if(err){
+                                    console.log(err);
+                                    vm.message = err.data;
+                                }else{
+                                    vm.resetRoles();
                                     console.log('User added to Role: ' + data.name);
-                                })
-                                .catch(function (err) {
-                                    console.log(err);
-                                })
+                                }
+                            });
+
                         }
 
-                        // remove Users from role
-                        for(var i = 0; i < $scope.removeUsers.length; i++) {
-                            console.log("UserService.update: " + $scope.removeUsers[i]);
+                        //  Users from role
+                        for(var i = 0; i < deletedUsers.length; i++) {
+                            console.log("UserService.update: " + deletedUsers[i]);
 
-                            UserService.update($scope.addUsers[i], {role: undefined})
-                                .then(function (data) {
-                                    console.log(data);
-                                })
-                                .catch(function (err) {
+                            UserService.update({id:deletedUsers[i]._id}, {
+                                username: deletedUsers[i].username,
+                                displayName: deletedUsers[i].username,
+                                email: deletedUsers[i].email,
+                                role: undefined
+                            },function(err,data){
+                                if(err){
                                     console.log(err);
-                                })
+                                    vm.message = err.data;
+                                }else{
+                                    vm.resetRoles();
+                                    console.log('User removed from Role: ' + data.name);
+                                }
+                            });
                         }
-                        $scope.resetRoles();
-                        $scope.setUserGroups();
+                        vm.resetRoles();
                     })
                     .catch(function (err) {
                         err = err.data || err;
                         console.log(err);
 
-                        $scope.errors = {};
+                        vm.errors = {};
 
                         // Update validity of form fields that match the mongoose errors
                         angular.forEach(err.errors, function (error, field) {
-                            form[field].$setValidity('mongoose', false);
-                            $scope.errors[field] = error.message;
+                            vm.form[field].$setValidity('mongoose', false);
+                            vm.errors[field] = error.message;
                         });
                     });
             }
         };
 
-        $scope.deleteRole = function() {
-            console.log('delete Role: ' + $scope.role.name);
-            RoleService.delete($scope.role._id)
+        vm.deleteRole = function() {
+            console.log('delete Role: ' + vm.role.name);
+            RoleService.delete({id:vm.role._id})
+                .$promise
                 .then(function() {
-                    $scope.resetRoles();
+                    vm.resetRoles();
                 })
                 .catch(function(err) {
                     err = err.data || err;

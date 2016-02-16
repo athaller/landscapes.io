@@ -29,20 +29,5 @@ module.exports = function () {
           return done(null, user);
         });
 
-
-    /*User.findOne({
-      username: username.toLowerCase()
-    }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user || !user.authenticate(password)) {
-        return done(null, false, {
-          message: 'Invalid username or password'
-        });
-      }
-
-      return done(null, user);
-    });*/
   }));
 };
