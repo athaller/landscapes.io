@@ -6,12 +6,12 @@
         <li ng-repeat="item in menu" ng-class="{active: vm.isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
-        <li ng-show="authentication.user" ng-class="{active: isActive('/landscapes')}"><a href="/landscapes">Landscapes</a></li>
-        <li ng-show="authentication.user.roles[0].name=='admin'" ng-class="{active: isActive('/landscapesadmin')}"><a href="/landscapesadmin">Administrator</a></li>
-        <li ng-show="authentication.user" ng-class="{active: isActive('/settings')}"><a href="/settings">Settings</a></li>
-        <li ng-hide="authentication.user" ng-class="{active: isActive('/login')}"> <a ui-sref="authentication.signin">Log In</a></li>
-        <li ng-hide="authentication.user" ng-class="{active: isActive('/signup')}"> <a ui-sref="authentication.signup">Sign Up</a></li>
-        <li ng-show="authentication.user" ng-class="{active: isActive('/logout')}"> <a href="/api/auth/signout" target="_self">Log Out</a>
+        <li ng-show="authentication.user" ng-class="{active: isActive('/landscapes/')}"><a href="/landscapes">Landscapes</a></li>
+        <li ng-show="authentication.user.roles[0].name=='admin'" ng-class="{active: isActive('/landscapesadmin/')}"><a href="/landscapesadmin">Administrator</a></li>
+        <li ng-show="authentication.user" ng-class="{active: isActive('/settings/')}"><a href="/settings">Settings</a></li>
+        <li ng-hide="authentication.user" ng-class="{active: isActive('/login/')}"> <a ui-sref="authentication.signin">Log In</a></li>
+        <li ng-hide="authentication.user" ng-class="{active: isActive('/signup/')}"> <a ui-sref="authentication.signup">Sign Up</a></li>
+        <li ng-show="authentication.user" ng-class="{active: isActive('/logout/')}"> <a href="/api/auth/signout" target="_self">Log Out</a>
 
 
           <!-- <a href="" ng-click="vm.logout()">Log out</a>
