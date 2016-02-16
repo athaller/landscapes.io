@@ -28,10 +28,14 @@
                 }
             });
 
-        GlobalTagService.query().$promise
+        GlobalTagService.query()
+            .$promise
             .then(function(data){
                 vm.globalTags = data;
-
+                if(vm.globalTags)
+                {
+                    vm.deployment.tags ={}; //set default
+                }
                 // set default values
                 for(var i=0; i<vm.globalTags.length; i++) {
                     if(vm.globalTags[i].defaultValue) {
@@ -117,7 +121,8 @@
                 })
                     .then(function(data) {
                         console.log(JSON.stringify(data));
-                        $location.path('/landscapes/'+ $routeParams.id);
+                        $state.go('landscapes.view',{ landscapeId: vm.landscapeId });
+                        //$location.path('/landscapes/'+ vm.landscapeId);
                     })
                     .catch(function(err) {
                         console.log(JSON.stringify(err));
