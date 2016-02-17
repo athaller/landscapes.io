@@ -30,7 +30,9 @@ var isRoleinPermission = function (roles,level){
   var fullAccessRole = _.find(roles, function(role) {
       var permissions = role.permissions;
       for(var i=0;i < permissions.length;i++){
-        return permissions[i].value == level;
+        if(permissions[i].value == level){
+          return permissions[i].value == level;
+        }
       }
   });
   if(fullAccessRole){
