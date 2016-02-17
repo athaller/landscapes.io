@@ -13,66 +13,85 @@ var landscapesPolicy = require('../policies/landscapes.server.policy'),
 
 module.exports = function (app) {
     // landscapes collection routes
-    app.route('/api/landscapes').all(landscapesPolicy.isAllowed)
-      .get(landscapes.list)
+    app.route('/api/landscapes')
+      .get(landscapes.list);
+      
+   app.route('/api/landscapes').all(landscapesPolicy.isCreateAllowed)
       .post(landscapes.create);
 
     // Single landscapes routes
-    app.route('/api/landscapes/:landscapesId').all(landscapesPolicy.isAllowed)
-      .get(landscapes.read)
-      .put(landscapes.update)
+    app.route('/api/landscapes/:landscapesId').all(landscapesPolicy.isReadAllowed)
+      .get(landscapes.read);
+      
+    app.route('/api/landscapes/:landscapesId').all(landscapesPolicy.isUpdateAllowed)
+      .put(landscapes.update);
+      
+    app.route('/api/landscapes/:landscapesId').all(landscapesPolicy.isDeleteAllowed)
       .delete(landscapes.delete);
+      
 
-    app.route('/api/landscapes/:landscapesId/deployments').all(landscapesPolicy.isAllowed)
+
+
+    app.route('/api/landscapes/:landscapesId/deployments').all(landscapesPolicy.isReadAllowed)
         .get(deployments.retrieveByLandscapes);
+        
         
 
     // Finish by binding the landscapes middleware
     app.param('landscapesId', landscapes.landscapesByID);
 
     // Upload routes
-    app.route('/api/upload/image').all(landscapesPolicy.isAllowed)
+    app.route('/api/upload/image').all(landscapesPolicy.isCreateAllowed)
       .post(Upload.postImage);
-    app.route('/api/upload/template').all(landscapesPolicy.isAllowed)
+    app.route('/api/upload/template').all(landscapesPolicy.isCreateAllowed)
       .post(Upload.postCloudFormationTemplate);
 
 
     // Deployment Routes
-    app.route('/api/deployments').all(landscapesPolicy.isAllowed)
-      .get(deployments.retrieve)
+    app.route('/api/deployments').all(landscapesPolicy.isReadAllowed)
+      .get(deployments.retrieve);
+    
+    app.route('/api/deployments').all(landscapesPolicy.isDeployAllowed)
       .post(deployments.create);
-      
-    app.route('/api/deployments/:id').all(landscapesPolicy.isAllowed)
+    
+   app.route('/api/deployments/:id').all(landscapesPolicy.isDeployAllowed)
       .get(deployments.retrieveOne)
       .put(deployments.update);
       
+    app.route('/api/deployments/:id').all(landscapesPolicy.isDeployAllowed)
+      .put(deployments.update);
+      
     
+    
+    /*
+    * Admin Routes 
+    */
     //Global tags routes
-    app.route('/api/globaltags').all(landscapesPolicy.isAllowed)
+    app.route('/api/globaltags').all(landscapesPolicy.isAdminAllowed)
       .get(globalTags.retrieve)
       .post(globalTags.create);
       
-    app.route('/api/globaltags/:id').all(landscapesPolicy.isAllowed)
+    app.route('/api/globaltags/:id').all(landscapesPolicy.isAdminAllowed)
       .get(globalTags.retrieveOne)
       .put(globalTags.update)
       .delete(globalTags.delete);
     
     
     //Cloud Accounts routes
-    app.route('/api/accounts').all(landscapesPolicy.isAllowed)
+    app.route('/api/accounts').all(landscapesPolicy.isAdminAllowed)
        .get(cloudaccounts.retrieve)
        .post(cloudaccounts.create);
 
-    app.route('/api/accounts/:id').all(landscapesPolicy.isAllowed)
+    app.route('/api/accounts/:id').all(landscapesPolicy.isAdminAllowed)
        .get(cloudaccounts.retrieveOne)
        .put(cloudaccounts.update)
        .delete(cloudaccounts.delete);
 
     // App Settings
-    app.route('/api/appSettings').all(landscapesPolicy.isAllowed)
+    app.route('/api/appSettings').all(landscapesPolicy.isAdminAllowed)
       .get(appSettings.retrieve);
       
-    app.route('/api/appSettings/:id').all(landscapesPolicy.isAllowed)
+    app.route('/api/appSettings/:id').all(landscapesPolicy.isAdminAllowed)
       .put(appSettings.update);
     
 };

@@ -4,7 +4,9 @@ module.exports = function (app) {
   // User Routes
     var users = require('../controllers/users.server.controller'),
         roles = require('../controllers/roles.server.controller'),
-        groups = require('../controllers/groups.server.controller');
+        groups = require('../controllers/groups.server.controller'),
+        path = require('path'),
+        landscapesPolicy = require(path.resolve('./modules/landscapes/server/policies/landscapes.server.policy'));
 
     // Setting up the users profile api
     app.route('/api/users/me').get(users.me);
@@ -16,6 +18,9 @@ module.exports = function (app) {
     // Finish by binding the user middleware
     app.param('userId', users.userByID);
   
+  
+  
+  // admin routes
     app.get('/api/roles', roles.retrieve);
     app.post('/api/roles', roles.create);
     app.get('/api/roles/:id', roles.retrieveOne);

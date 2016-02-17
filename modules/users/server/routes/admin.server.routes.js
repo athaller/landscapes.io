@@ -15,12 +15,12 @@ module.exports = function (app) {
   require('./users.server.routes.js')(app);
 
   // Users collection routes
-  app.route('/api/users').all(landscapesPolicy.isAllowed)
-      .post(admin.save)
+  app.route('/api/users').all(landscapesPolicy.isAdminAllowed)
+    .post(admin.save)
     .get(admin.list);
 
   // Single user routes
-  app.route('/api/users/:userId').all(landscapesPolicy.isAllowed)
+  app.route('/api/users/:userId').all(landscapesPolicy.isAdminAllowed)
     .get(admin.read)
     .put(admin.update)
     .delete(admin.delete);
