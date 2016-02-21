@@ -1,6 +1,6 @@
 {
   "name": "landscapes.io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Manage and deploy AWS CloudFormation templates.",
   "homepage": "http://www.landscapes.io",
   "bugs": {
