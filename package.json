@@ -12,6 +12,11 @@
     "name": "OpenWhere",
     "url": "http://www.openwhere.com"
   },
+  "scripts": {
+    "postversion": "git push origin master && git push origin --tags",
+    "start": "grunt",
+    "test": "grunt test"
+  },
   "contributors": [
     {
       "name": "Andy Heifetz",
@@ -98,8 +103,5 @@
   },
   "engines": {
     "node": "*"
-  },
-  "scripts": {
-    "test": "grunt test"
   }
 }
