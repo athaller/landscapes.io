@@ -13,7 +13,7 @@ var landscapesPolicy = require('../policies/landscapes.server.policy'),
 
 module.exports = function (app) {
     // landscapes collection routes
-    app.route('/api/landscapes')
+    app.route('/api/landscapes').all(landscapesPolicy.isLoggedIn)
       .get(landscapes.list);
       
    app.route('/api/landscapes').all(landscapesPolicy.isCreateAllowed)

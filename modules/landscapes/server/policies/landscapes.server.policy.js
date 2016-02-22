@@ -60,15 +60,11 @@ var isGroupinPermission = function(userId, level, landscapeId, callback){
           if(permissions[i].value == level){
             return callback(true);
           }
-
         }
-
       }
       return callback(false);
     }
   });
-
-
 };
 
 
@@ -98,6 +94,15 @@ exports.isAdminAllowed = function (req, res, next) {
 };
 
 
+exports.isLoggedIn = function(req,res,next){
+  if(!req.user ) {
+    return res.status(403).json({message: 'User is not authorized'});
+  }else{
+    return next();
+  }
+}
+
+
 exports.isReadAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
@@ -112,7 +117,6 @@ exports.isReadAllowed = function (req, res, next) {
       return next();
     }
   }
-
 
   isGroupinPermission(req.user._id, 'R', req.landscape._id, function(result){
        if(result){
