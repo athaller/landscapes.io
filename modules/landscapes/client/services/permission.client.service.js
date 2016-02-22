@@ -26,6 +26,8 @@
                 if(!user) {
                     return false;
                 };
+                
+                var result = false;
                 if(user.roles && user.roles.length > 0 && user.roles[0] != null) {
                     var adminRoles = _.find(user.roles, function (role) {
                         return role.name == 'admin'
@@ -33,24 +35,23 @@
                     if (adminRoles) {
                         return true;
                     } else {
-                        var found = false;
                         _.each(user.roles, function (role, key) {
                             _.each(role.permissions, function (p, key) {
                                 if (p.value === permission) {
-                                    return true;
+                                    result = true;
                                 }
                             });
                         });
                     }
                 }
                 // check group permisions
-                if(landscapeId){
+                if(landscapeId && !result){
                     _.each(user.groups, function(group, key){    //check each group
                         _.each(group.permissions, function (p, key) { //check permission
                             if (p.value === permission) {
                                 _.each(group.landscapes, function (l, key) {
-                                    if (l == landscapeId) {
-                                        return true;
+                                    if (l === landscapeId) {
+                                        result = true;
                                     }
                                 });
 
@@ -60,7 +61,7 @@
 
                     })
                 }
-                return false;
+                return result;
 
 
 
