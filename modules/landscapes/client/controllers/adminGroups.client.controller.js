@@ -36,8 +36,16 @@ angular.module('landscapes')
         vm.editGroup = function(id) {
             console.log('editGroup: ' + id);
             vm.editingGroup = true;
-            vm.group = GroupService.get({id:id});
-            angular.copy(vm.group, vm.originalGroup);
+            vm.group = GroupService.get({id:id})
+                .$promise
+                .then(function(data){
+                    vm.group = data;
+                    angular.copy(vm.group, vm.originalGroup);
+
+                });
+
+
+
         };
 
         vm.addGroup = function() {
@@ -100,11 +108,11 @@ angular.module('landscapes')
                     landscapes: vm.group.landscapes
                 })
                     .$promise.then(function () {
-                        //Find new role
+                        //Find new users
                         var newUsers = lodash.differenceWith(vm.group.users,vm.originalGroup.users, function(a,b){
                             return a._id === b._id;
                         });
-                        // Find Deleted Roles
+                        // Find Deleted users
                         var deletedUsers = lodash.differenceWith(vm.originalGroup.users, vm.group.users, function(a,b){
                             return a._id === b._id;
                         });

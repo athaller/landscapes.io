@@ -22,6 +22,7 @@ module.exports = function (app, db) {
 
     User.findOne({_id: id},'-salt -password')
         .populate('roles','name description permissions')
+        .populate('groups','name description permissions landscapes')
         .exec(function (err, user) {
           done(err, user);
         });

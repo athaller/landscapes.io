@@ -41,51 +41,28 @@
                                 }
                             });
                         });
-
-                        return found;
                     }
                 }
                 // check group permisions
+                if(landscapeId){
+                    _.each(user.groups, function(group, key){    //check each group
+                        _.each(group.permissions, function (p, key) { //check permission
+                            if (p.value === permission) {
+                                _.each(group.landscapes, function (l, key) {
+                                    if (l == landscapeId) {
+                                        return true;
+                                    }
+                                });
 
 
-
-                /*
-
-                 _.each(user.roles, function(value, key){
-                 if(value.name === 'admin')
-                 {
-                 return true;
-                 }else if(value.permissions.value === permission){
-                 return true;
-                 }else{
-                 //check groups
-
-                 return false;
-
-                 }
-
-
-                 });
-
-
-
-                if(landscapeId) {
-                    _.each(user.permissions, function (e, i) {
-                        if (e[landscapeId]) {
-                            if (_.contains(e[landscapeId], permission)) {
-                                found = true;
                             }
-                        }
-                    });
-                } else {
-                    _.each(user.permissions, function (e, i) {
-                        var p = _.values(e)[0];
-                        if(_.contains(p, permission)) {
-                            found = true;
-                        }
-                    });
+                        });
+
+                    })
                 }
-                */
+                return false;
+
+
 
             }
 

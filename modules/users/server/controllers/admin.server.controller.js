@@ -142,6 +142,7 @@ exports.list = function (req, res) {
   User.find({}, '-salt -password').sort('-created')
       .populate('user', 'displayName')
       .populate('roles','name description permissions')
+      .populate('groups','name description permissions landscapes')
       .exec(function (err, users) {
     if (err) {
       return res.status(400).send({
@@ -195,6 +196,7 @@ exports.userByID = function (req, res, next, id) {
   User.findById(id, '-salt -password')
       .populate('user', 'displayName')
       .populate('roles','name description permissions')
+      .populate('groups','name description permissions landscapes')
       .exec(function (err, user) {
     if (err) {
       return next(err);

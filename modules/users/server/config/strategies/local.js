@@ -17,6 +17,7 @@ module.exports = function () {
   function (username, password, done) {
     User.findOne({ username: username.toLowerCase()})
         .populate('roles','name description permissions')
+        .populate('groups','name description permissions landscapes')
         .exec(function (err, user) {
           if (err) {
             return done(err);
