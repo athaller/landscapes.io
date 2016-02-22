@@ -25,6 +25,15 @@ module.exports = function (app) {
     .put(admin.update)
     .delete(admin.delete);
 
+  app.route('/api/users/:userId/:roleId').all(landscapesPolicy.isAdminAllowed)
+      .post(admin.addRole)
+      .delete(admin.removeRole);
+
+  app.route('/api/users/:userId/group/:groupId').all(landscapesPolicy.isAdminAllowed)
+      .post(admin.addGroup)
+      .delete(admin.removeGroup);
+
+
   // Finish by binding the user middleware
   app.param('userId', admin.userByID);
   

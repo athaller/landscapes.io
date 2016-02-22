@@ -4,6 +4,7 @@
  * Module dependencies
  */
 var _ = require("lodash"),
+  Group = require('mongoose').model('Group'),
   util = require('util');
 
 
@@ -40,7 +41,34 @@ var isRoleinPermission = function (roles,level){
   }else{
     return false;
   }
-  
+};
+
+var isGroupinPermission = function(userId, level, landscapeId, callback){
+
+  //May need to add groups to user vs. quering Groups each time
+
+  Group.find({ users: userId, landscapes:  landscapeId}, function (err, groups) {
+    if (err) {
+      winston.log('error', err);
+      return callback(false);
+    } else if (!groups) {
+      return callback(false);
+    } else {
+      for(var i = 0;i <groups.length;i++){
+        var permissions = groups[i].permissions;
+        for(var j =0;j < permissions.length;j++){
+          if(permissions[i].value == level){
+            return callback(true);
+          }
+
+        }
+
+      }
+      return callback(false);
+    }
+  });
+
+
 };
 
 
@@ -55,7 +83,7 @@ exports.isAdminAllowed = function (req, res, next) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   var roles = req.user.roles;
-  console.log(JSON.stringify(roles, null, 4));
+  //console.log(JSON.stringify(roles, null, 4));
   
   /* Approve admin default role */
   if(isAdmin(roles))
@@ -71,72 +99,98 @@ exports.isAdminAllowed = function (req, res, next) {
 
 
 exports.isReadAllowed = function (req, res, next) {
-  if(!req.user && req.user.roles ) {
+  if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   /* Approve admin default role */
-  if(isAdmin(req.user.roles))
-  {
-    return next();
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null ) {
+    if (isAdmin(req.user.roles)) {
+      return next();
+    }
+    //check Roles with Full Access
+    if (isRoleinPermission(req.user.roles, 'R')) {
+      return next();
+    }
   }
-  //check Roles with Full Access
-  if(isRoleinPermission(req.user.roles,'R')){
-    return next();
-  }
-  return res.status(403).json({message: 'User is not authorized'});
+
+
+  isGroupinPermission(req.user._id, 'R', req.landscape._id, function(result){
+       if(result){
+         return next();
+       } else{
+         return res.status(403).json({message: 'User is not authorized'});
+
+       }
+
+      });
+
+
+
 };
 
 
 exports.isCreateAllowed = function (req, res, next) {
-  if(!req.user && req.user.roles ) {
+  if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   /* Approve admin default role */
-  if(isAdmin(req.user.roles))
-  {
-    return next();
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+    if (isAdmin(req.user.roles)) {
+      return next();
+    }
+    //check Roles with Full Access
+    if (isRoleinPermission(req.user.roles, 'C')) {
+      return next();
+    }
+  }else {
+    if (isGroupinPermission(req.user._id, 'C')) {
+      return next();
+    }
   }
-  //check Roles with Full Access
-  if(isRoleinPermission(req.user.roles,'C')){
-    return next();
-  }
-  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
 
 exports.isUpdateAllowed = function (req, res, next) {
-  if(!req.user && req.user.roles ) {
+  if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   /* Approve admin default role */
-  if(isAdmin(req.user.roles))
-  {
-    return next();
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+    if (isAdmin(req.user.roles)) {
+      return next();
+    }
+    //check Roles with Full Access
+    if (isRoleinPermission(req.user.roles, 'U')) {
+      return next();
+    }
+  }else {
+    if (isGroupinPermission(req.user._id, 'U')) {
+      return next();
+    }
   }
-  //check Roles with Full Access
-  if(isRoleinPermission(req.user.roles,'U')){
-    return next();
-  }
-  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
 
 exports.isDeleteAllowed = function (req, res, next) {
-  if(!req.user && req.user.roles ) {
+  if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   /* Approve admin default role */
-  if(isAdmin(req.user.roles))
-  {
-    return next();
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+    if (isAdmin(req.user.roles)) {
+      return next();
+    }
+    //check Roles with Full Access
+    if (isRoleinPermission(req.user.roles, 'D')) {
+      return next();
+    }
+  }else {
+    if (isGroupinPermission(req.user._id, 'D')) {
+      return next();
+    }
   }
-  //check Roles with Full Access
-  if(isRoleinPermission(req.user.roles,'D')){
-    return next();
-  }
-  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
@@ -145,19 +199,23 @@ exports.isDeleteAllowed = function (req, res, next) {
 
 
 exports.isDeployAllowed = function (req, res, next) {
-  if(!req.user && req.user.roles ) {
+  if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
   };
   /* Approve admin default role */
-  if(isAdmin(req.user.roles))
-  {
-    return next();
+  if(req.user.roles) {
+    if (isAdmin(req.user.roles && req.user.roles.length && req.user.roles[0] != null)) {
+      return next();
+    }
+    //check Roles with Full Access
+    if (isRoleinPermission(req.user.roles, 'X')) {
+      return next();
+    }
+  }else {
+    if (isGroupinPermission(req.user._id, 'X')) {
+      return next();
+    }
   }
-  //check Roles with Full Access
-  if(isRoleinPermission(req.user.roles,'X')){
-    return next();
-  }
-  return res.status(403).json({message: 'User is not authorized'});
 };
 
 

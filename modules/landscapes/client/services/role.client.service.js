@@ -11,7 +11,7 @@
 
     function RoleService($resource) {
         return $resource('/api/roles/:id', {
-            articleId: '@_id'
+            id: '@id'
         }, {
             update: {
                 method: 'PUT'

@@ -15,13 +15,14 @@
 'use strict';
 
 angular.module('landscapes')
-    .controller('AdminGroupsCtrl', function ($scope, UserService, GroupService, LandscapesService, PermissionService) {
+    .controller('AdminGroupsCtrl', function ($scope, UserService, GroupService, LandscapesService, PermissionService, lodash) {
 
         var vm = this;
-
         vm.group = { permissions: [] };
-//       $scope.errors = {};
+        vm.originalGroup = { permissions: []};
 
+        vm.errors = {};
+        vm.submitted = false;
 
         vm.addingGroup = false;
         vm.editingGroup = false;
@@ -35,7 +36,8 @@ angular.module('landscapes')
         vm.editGroup = function(id) {
             console.log('editGroup: ' + id);
             vm.editingGroup = true;
-            vm.group = GroupService.retrieveOne(id);
+            vm.group = GroupService.get({id:id});
+            angular.copy(vm.group, vm.originalGroup);
         };
 
         vm.addGroup = function() {
@@ -43,16 +45,20 @@ angular.module('landscapes')
             vm.addingGroup = true;
         };
 
+        vm.compareUsers = function(obj1,obj2){
+            return obj1._id === obj2._id;
+        };
+
         vm.resetGroups = function() {
             console.log('resetGroups');
-            //vm.setUserGroups();
-
+            vm.originalGroup = { permissions: []};
             vm.addingGroup = false;
             vm.editingGroup = false;
             vm.viewingGroup = false;
-            vm.group = {};
+            vm.group = {permissions: []};
             vm.submitted = false;
-            $scope.setUserGroups();
+            $scope.$parent.vm.groups =  GroupService.query();
+            $scope.$parent.vm.users =  UserService.query();
         };
 
         vm.saveGroup = function (form) {
@@ -63,14 +69,13 @@ angular.module('landscapes')
                 console.log('form.$invalid: ' + JSON.stringify(vm.form.$error));
             } else if (vm.addingGroup) {
 
-                GroupService.create({
+                GroupService.save({
                     name: vm.group.name,
                     description: vm.group.description,
-                    users: vm.group.users,
                     permissions: vm.group.permissions,
                     landscapes: vm.group.landscapes
                 })
-                    .then(function () {
+                    .$promise.then(function () {
                         vm.resetGroups();
                     })
                     .catch(function (err) {
@@ -88,14 +93,45 @@ angular.module('landscapes')
 
             } else if (vm.editingGroup) {
 
-                GroupService.update(vm.group._id, {
+                GroupService.update({id:vm.group._id}, {
                     name: vm.group.name,
                     description: vm.group.description,
-                    users: vm.group.users,
                     permissions: vm.group.permissions,
                     landscapes: vm.group.landscapes
                 })
-                    .then(function () {
+                    .$promise.then(function () {
+                        //Find new role
+                        var newUsers = lodash.differenceWith(vm.group.users,vm.originalGroup.users, function(a,b){
+                            return a._id === b._id;
+                        });
+                        // Find Deleted Roles
+                        var deletedUsers = lodash.differenceWith(vm.originalGroup.users, vm.group.users, function(a,b){
+                            return a._id === b._id;
+                        });
+
+                        console.log('new users group ' + newUsers.length);
+                        console.log('deleted users group ' + deletedUsers.length);
+
+                        //really need an async here ...
+                        for(var i = 0; i < newUsers.length; i++) {
+                            console.log("UserService.update: " + newUsers[i]);
+                            UserService.addGroup({id:newUsers[i]._id,roleId:null,groupId:vm.group._id})
+                                .$promise
+                                .then(function (data){
+                                    vm.resetGroups();
+                                });
+
+                        }
+
+                        //  Users from role
+                        for(var i = 0; i < deletedUsers.length; i++) {
+                            console.log("UserService.update: " + deletedUsers[i]);
+                            UserService.deleteGroup({id:deletedUsers[i]._id,roleId:null,groupId:vm.group._id})
+                                .$promise
+                                .then(function (data){
+                                    vm.resetGroups();
+                                });
+                        }
                         vm.resetGroups();
                     })
                     .catch(function (err) {
@@ -114,9 +150,9 @@ angular.module('landscapes')
         };
 
         vm.deleteGroup = function(){
-            console.log('deleteGroup: ' + vm.group._id)
+            console.log('deleteGroup: ' + vm.group._id);
             GroupService.delete(vm.group._id)
-                .then(function() {
+                .$promise.then(function() {
                     vm.resetGroups();
                 })
                 .catch(function(err) {

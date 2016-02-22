@@ -27,12 +27,11 @@ angular.module('landscapes')
 
         vm.addingRole = false;
         vm.editingRole = false;
-
         vm.submitted = false;
 
         vm.compareUsers = function(obj1,obj2){
             return obj1._id === obj2._id;
-        }
+        };
 
         // Refactor
         function manageRoleUsers() {
@@ -71,7 +70,7 @@ angular.module('landscapes')
             console.log('resetRoles');
 
             $scope.$parent.vm.roles =  RoleService.query();
-            $scope.$parent.vm.setUserGroups(); //Hack - fix AH
+            $scope.$parent.vm.users =  UserService.query();
 
                 vm.role = { };
                 vm.originalRole = { };
@@ -95,7 +94,7 @@ angular.module('landscapes')
                     angular.copy(data, vm.originalRole);
                 })
                 .then(function(){
-                    manageRoleUsers();
+                    manageRoleUsers(); // TODO Is this still needed - AH
                 });
         };
 
@@ -161,43 +160,22 @@ angular.module('landscapes')
                         //really need an async here ...
                         for(var i = 0; i < newUsers.length; i++) {
                             console.log("UserService.update: " + newUsers[i]);
-                            UserService.update({id:newUsers[i]._id}, {
-                                username: newUsers[i].username,
-                                displayName: newUsers[i].username,
-                                email: newUsers[i].email,
-                                role: vm.role
-                            },function(err,data){
-                                if(err){
-                                    console.log(err);
-                                    vm.message = err.data;
-                                }else{
+                            UserService.addRole({id:newUsers[i]._id,roleId:vm.role._id})
+                                .$promise
+                                .then(function (data){
                                     vm.resetRoles();
-                                    console.log('User added to Role: ' + data.name);
-                                }
-                            });
-
+                                });
                         }
 
                         //  Users from role
                         for(var i = 0; i < deletedUsers.length; i++) {
                             console.log("UserService.update: " + deletedUsers[i]);
-
-                            UserService.update({id:deletedUsers[i]._id}, {
-                                username: deletedUsers[i].username,
-                                displayName: deletedUsers[i].username,
-                                email: deletedUsers[i].email,
-                                role: undefined
-                            },function(err,data){
-                                if(err){
-                                    console.log(err);
-                                    vm.message = err.data;
-                                }else{
+                            UserService.deleteRole({id:deletedUsers[i]._id,roleId:vm.role._id})
+                                .$promise
+                                .then(function (data){
                                     vm.resetRoles();
-                                    console.log('User removed from Role: ' + data.name);
-                                }
-                            });
+                                });
                         }
-                        vm.resetRoles();
                     })
                     .catch(function (err) {
                         err = err.data || err;

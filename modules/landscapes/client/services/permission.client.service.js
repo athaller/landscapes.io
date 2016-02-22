@@ -26,23 +26,26 @@
                 if(!user) {
                     return false;
                 };
-
-                var adminRoles = _.find(user.roles,function(role){return role.name == 'admin'});
-                if(adminRoles){
-                    return true;
-                }else{
-                    var found =false;
-                    _.each(user.roles, function(role,key){
-                        _.each(role.permissions, function(p,key){
-                            if(p.value === permission){
-                                found=true;
-                            }
-                        });
+                if(user.roles && user.roles.length > 0 && user.roles[0] != null) {
+                    var adminRoles = _.find(user.roles, function (role) {
+                        return role.name == 'admin'
                     });
+                    if (adminRoles) {
+                        return true;
+                    } else {
+                        var found = false;
+                        _.each(user.roles, function (role, key) {
+                            _.each(role.permissions, function (p, key) {
+                                if (p.value === permission) {
+                                    return true;
+                                }
+                            });
+                        });
 
-                    return found;
+                        return found;
+                    }
                 }
-
+                // check group permisions
 
 
 

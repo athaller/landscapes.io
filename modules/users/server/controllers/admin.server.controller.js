@@ -15,6 +15,84 @@ exports.read = function (req, res) {
   res.json(req.model);
 };
 
+/**
+ *   Role Helpers
+ */
+
+exports.addRole = function(req,res){
+  var user = req.model;
+  if(req.body.roleId) {
+    //user.roles =[]; // TODO fix null first
+    user.roles.push(req.body.roleId);
+  }
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(user);
+  });
+
+};
+
+exports.removeRole = function(req,res){
+  var user = req.model;
+  if(req.params.roleId) {
+    //user.roles =[]; // TODO fix null first
+    user.roles.pop(req.params.roleId);
+  }
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(user);
+  });
+
+};
+
+
+/**
+ *   Group Helpers
+ */
+
+exports.addGroup = function(req,res){
+  var user = req.model;
+  if(req.body.groupId) {
+    user.groups.push(req.body.groupId);
+  }
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(user);
+  });
+
+};
+
+exports.removeGroup = function(req,res){
+  var user = req.model;
+  if(req.params.groupId) {
+    user.groups.pop(req.params.groupId);
+  }
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(user);
+  });
+
+};
 
 
 
@@ -28,10 +106,6 @@ exports.update = function (req, res) {
   user.username = req.body.username;
   user.displayName = req.body.displayName;
   user.email = req.body.email;
-  user.roles =[];
-  if(req.body.role) {
-    user.roles.push(req.body.role);
-  }
 
   user.save(function (err) {
     if (err) {
@@ -84,7 +158,11 @@ exports.save = function (req,res){
 
   // Init user and add missing fields
   var user = new User(req.body);
-  user.roles.push(req.body.role);
+
+  //logic to save one role as convience - may move out
+  if(req.body.role) {
+    user.roles.push(req.body.role);
+  }
   user.provider = 'local';
 
   // Then save the user

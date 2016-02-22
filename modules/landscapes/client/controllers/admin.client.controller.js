@@ -33,17 +33,13 @@
 
         vm.permissions = PermissionService.retrieveAll();
 
-        vm.roles = RoleService.query();
-
         vm.globalTags = GlobalTagService.query();
 
-        GroupService.retrieve()
-            .then(function(data){
-                vm.groups = data;
-                vm.setUserGroups(function() {
-                   console.log('setUserGroups');
-                });
-            });
+        //TODO condolidate under users
+        vm.users = UserService.query();
+        vm.roles = RoleService.query();
+        vm.groups = GroupService.query();
+
 
         CloudAccountService.retrieve()
             .then(function(data){
@@ -55,35 +51,5 @@
                 vm.appSettings = data;
             });
 
-        vm.setUserGroups = function(callback) {
-            vm.users = [];
-
-            GroupService.retrieve()
-                .then(function(groups) {
-                    vm.groups = groups;
-
-                    UserService.query()
-                        .$promise.then(function(users) {
-                            vm.users = users;
-                            for (var i = 0; i < vm.groups.length; i++) {
-                                var group = vm.groups[i];
-
-                                for (var q = 0; q < vm.users.length; q++) {
-                                    var usr = vm.users[q];
-
-                                    if (lodash.indexOf(group.users, usr._id) >-1 ) {
-                                        vm.users[q].groups.push(group.name);
-                                    }
-                                }
-                            }
-                        }
-                    );
-                }
-            );
-            if(callback) callback();
-
-        }
-
-        $scope.setUserGroups = vm.setUserGroups; // Tmp BACK
     };
 })();

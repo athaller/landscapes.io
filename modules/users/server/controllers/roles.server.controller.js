@@ -22,12 +22,7 @@ var winston = require('winston'),
 
 // GET /api/roles
 exports.retrieve = function (req, res) {
-    winston.info(' ---> retrieving Roles');
-
-    var user = req.user || undefined;
-    if(user === undefined) {
-        return res.send(401);
-    }
+    winston.info('GET /api/roles ---> retrieving Roles');
 
     return Role.find(function (err, roles) {
         if (err) {
@@ -39,7 +34,7 @@ exports.retrieve = function (req, res) {
             async.eachSeries(roles, function(role, callback) {
                 console.log('> > retrieving Users for Role "' + role.name + '"');
 
-                User.find({role: role._id}, function (err, users) {
+                User.find({roles: role._id},  '-salt -password',function (err, users) {
                     if (err) {
                         callback(err);
                     } else {

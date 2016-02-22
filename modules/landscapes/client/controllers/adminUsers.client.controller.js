@@ -41,7 +41,8 @@ angular.module('landscapes')
             vm.submitted = false;
 
             // in adminCtrl
-            $scope.setUserGroups();
+            $scope.$parent.vm.users =  UserService.query();
+
         };
 
 

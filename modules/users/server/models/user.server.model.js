@@ -76,13 +76,13 @@ var UserSchema = new Schema({
   additionalProvidersData: {},
   roles: {
     type: [{
-      type: Schema.ObjectId, ref: 'Role',
-    }],
-  //  default: ['user'],
-    required: 'Please provide at least one role'
+      type: Schema.ObjectId, ref: 'Role'
+    }]
   },
   permissions: { type : Array , "default" : [] },
-  groups: { type : Array , "default" : [] },
+  groups: { type: [{
+    type: Schema.ObjectId, ref: 'Group'
+  }]},
   updated: {
     type: Date
   },
