@@ -1,6 +1,6 @@
 {
   "name": "landscapes.io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Manage and deploy AWS CloudFormation templates.",
   "homepage": "http://www.landscapes.io",
   "bugs": {
@@ -11,6 +11,11 @@
   "author": {
     "name": "OpenWhere",
     "url": "http://www.openwhere.com"
+  },
+  "scripts": {
+    "postversion": "git push origin master && git push origin --tags",
+    "start": "grunt",
+    "test": "grunt test"
   },
   "contributors": [
     {
@@ -98,8 +103,5 @@
   },
   "engines": {
     "node": "*"
-  },
-  "scripts": {
-    "test": "grunt test"
   }
 }
