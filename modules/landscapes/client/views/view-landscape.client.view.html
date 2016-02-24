@@ -6,7 +6,7 @@
         <div class="pull-right hidden-sm hidden-xs">
             <button type="button" class="btn btn-default"
                     ng-show="vm.hasPermission(vm.currentUser, 'U', vm.landscape._id)"
-                    ng-click="go('/landscapes/' + landscape._id + '/edit')">
+                    ui-sref="landscapes.edit({ landscapeId: vm.landscape._id })">
                 <span class="glyphicon glyphicon-edit"></span> Edit
             </button>
           <button type="button" class="btn btn-primary"
@@ -14,15 +14,6 @@
                   ui-sref="landscapes.createdeploy({ landscapeId: vm.landscape._id })">
             <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
           </button>
-          <button type="button" class="btn btn-primary"
-                    ng-show="false"
-                    ng-click="go('/deploy/' + landscape._id)">
-                <span class="glyphicon glyphicon-cloud-upload"></span> Deploy
-            </button>
-
-
-
-
         </div>
     </div>
 </div>

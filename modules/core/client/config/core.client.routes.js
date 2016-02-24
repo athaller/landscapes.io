@@ -11,12 +11,16 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       });
     });
 
+    // Redirect to main lanscapes view
+    $urlRouterProvider.when('/', '/landscapes');
+
     // Home state routing
     $stateProvider
-    .state('home', {
+   /* .state('home', {
       url: '/',
       templateUrl: 'modules/core/client/views/home.client.view.html'
-    })
+    })*/
+
     .state('not-found', {
       url: '/not-found',
       templateUrl: 'modules/core/client/views/404.client.view.html',

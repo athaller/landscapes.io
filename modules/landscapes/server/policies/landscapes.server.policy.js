@@ -43,28 +43,22 @@ var isRoleinPermission = function (roles,level){
   }
 };
 
-var isGroupinPermission = function(userId, level, landscapeId, callback){
+var isGroupinPermission = function(groups, level, landscapeId){
 
-  //May need to add groups to user vs. quering Groups each time
-
-  Group.find({ users: userId, landscapes:  landscapeId}, function (err, groups) {
-    if (err) {
-      winston.log('error', err);
-      return callback(false);
-    } else if (!groups) {
-      return callback(false);
-    } else {
-      for(var i = 0;i <groups.length;i++){
-        var permissions = groups[i].permissions;
-        for(var j =0;j < permissions.length;j++){
-          if(permissions[i].value == level){
-            return callback(true);
+  for(var i = 0;i <groups.length;i++){
+    var permissions = groups[i].permissions;
+    for(var j =0;j < permissions.length;j++){
+      if(permissions[j].value == level){
+        var landscapes = groups[i].landscapes;
+        for(var k= 0; k < landscapes.length; k++){
+          if(landscapes[k].id == landscapeId.id){
+            return true;
           }
         }
       }
-      return callback(false);
     }
-  });
+  }
+  return false;
 };
 
 
@@ -118,17 +112,11 @@ exports.isReadAllowed = function (req, res, next) {
     }
   }
 
-  isGroupinPermission(req.user._id, 'R', req.landscape._id, function(result){
-       if(result){
-         return next();
-       } else{
-         return res.status(403).json({message: 'User is not authorized'});
+  if(isGroupinPermission(req.user.groups, 'R', req.landscape._id)) {
+      return next();
+  }
 
-       }
-
-      });
-
-
+  return res.status(403).json({message: 'User is not authorized'});
 
 };
 
@@ -146,11 +134,12 @@ exports.isCreateAllowed = function (req, res, next) {
     if (isRoleinPermission(req.user.roles, 'C')) {
       return next();
     }
-  }else {
-    if (isGroupinPermission(req.user._id, 'C')) {
-      return next();
-    }
   }
+  if(isGroupinPermission(req.user.groups, 'C', req.landscape._id)) {
+    return next();
+  }
+
+  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
@@ -168,11 +157,12 @@ exports.isUpdateAllowed = function (req, res, next) {
     if (isRoleinPermission(req.user.roles, 'U')) {
       return next();
     }
-  }else {
-    if (isGroupinPermission(req.user._id, 'U')) {
-      return next();
-    }
   }
+  if(isGroupinPermission(req.user.groups, 'U', req.landscape._id)) {
+    return next();
+  }
+
+  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
@@ -190,11 +180,12 @@ exports.isDeleteAllowed = function (req, res, next) {
     if (isRoleinPermission(req.user.roles, 'D')) {
       return next();
     }
-  }else {
-    if (isGroupinPermission(req.user._id, 'D')) {
-      return next();
-    }
   }
+  if(isGroupinPermission(req.user.groups, 'D', req.landscape._id)) {
+    return next();
+  }
+
+  return res.status(403).json({message: 'User is not authorized'});
 };
 
 
@@ -215,11 +206,12 @@ exports.isDeployAllowed = function (req, res, next) {
     if (isRoleinPermission(req.user.roles, 'X')) {
       return next();
     }
-  }else {
-    if (isGroupinPermission(req.user._id, 'X')) {
-      return next();
-    }
   }
+  if(isGroupinPermission(req.user.groups, 'X', req.landscape._id)) {
+    return next();
+  }
+
+  return res.status(403).json({message: 'User is not authorized'});
 };
 
 

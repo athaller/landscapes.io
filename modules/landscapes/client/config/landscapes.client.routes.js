@@ -57,6 +57,15 @@
               landscapesResolve: getLandscape
             }
           })
+          .state('landscapes.edit', {
+              url: '/landscapes/:landscapeId/edit/',
+              templateUrl: 'modules/landscapes/client/views/edit-landscape.client.view.html',
+              controller: 'LandscapeEditController',
+              controllerAs: 'vm',
+              resolve: {
+                  landscapesResolve: getLandscape
+              }
+          })
           .state('landscapes.createdeploy', {
             url: '/landscapes/deploy/:landscapeId/',
             templateUrl: 'modules/landscapes/client/views/create-deployment.client.view.html',
