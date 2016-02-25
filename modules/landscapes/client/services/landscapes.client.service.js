@@ -8,7 +8,7 @@
   LandscapesService.$inject = ['$resource'];
 
   function LandscapesService($resource) {
-    return $resource('api/landscapes/:landscapeId',
+    return $resource('/api/landscapes/:landscapeId',
         {
           landscapesId: '@_id'
         },

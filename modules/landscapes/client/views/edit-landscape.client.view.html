@@ -193,13 +193,13 @@
     <strong style="font-size: 18px;">Delete Landscape?</strong>
   </div>
   <div class="modal-body" style="padding: 10px 15px 10px 15px">
-    <h4 style="font-size: 14px;">{{ msg }}</h4>
+    <h4 style="font-size: 14px;">{{ vm.msg }}</h4>
   </div>
   <div class="modal-footer" style="margin-top: 0; padding: 15px">
-    <button class="btn btn-primary" ng-click="confirmDeleteButtonClick(false)">
+    <button class="btn btn-primary" ng-click="vm.close(false)">
       <span class="glyphicon glyphicon-ban-circle"></span> Cancel
     </button>
-    <button class="btn btn-danger" ng-click="confirmDeleteButtonClick(true)">
+    <button class="btn btn-danger" ng-click="vm.close(true)">
       <span class="glyphicon glyphicon-remove"></span> Delete
     </button>
   </div>

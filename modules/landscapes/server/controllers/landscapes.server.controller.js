@@ -124,8 +124,8 @@ exports.create = function(req, res) {
 // DELETE /api/landscapes/<id>
 
 exports.delete = function(req, res) {
-    winston.info(' ---> deleting Landscape');
-    var article = req.landscape;
+    winston.info('DELETE /api/landscapes/ ---> deleting Landscape');
+    var landscape = req.landscape;
 
     landscape.remove(function(err) {
         if (err) {

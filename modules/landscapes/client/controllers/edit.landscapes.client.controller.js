@@ -30,29 +30,32 @@
         vm.form = {};
 
 
-
+        //Cna this be rmeoved now ?
         $scope.$watchCollection('newImg', function () {
                 if (vm.newImg)
                     vm.imgSrc = vm.newImg;
         });
 
         vm.confirmDelete = function (msg, callback) {
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'confirmDeleteModal.html',
-                    controller: DeleteModalInstanceCtrl,
-                    size: 'sm',
-                    resolve: {
-                        msg: function () {
-                            return msg;
-                        }
-                    }
-        });
 
-                modalInstance.result
-                    .then(function (deleteIsConfirmed) {
-                        return callback(deleteIsConfirmed);
-                    });
-            };
+            var modalInstance = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'confirmDeleteModal.html',
+                controller: 'DeleteModalInstanceCtrl as vm',
+                size: 'sm',
+                resolve: {
+                    msg: function () {
+                        return msg;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (result) {
+                callback(result);
+            });
+        }
+
+
 
         vm.toggleUploadNewImage = function () {
                 vm.showUploadNewImage = !vm.showUploadNewImage;
@@ -67,9 +70,10 @@
         vm.deleteLandscape = function (name) {
                 vm.confirmDelete(name, function (deleteConfirmed) {
                     if (deleteConfirmed === true) {
-                        LandscapesService.delete($routeParams.id)
+                        LandscapesService.remove({landscapeId:vm.landscape._id})
+                            .$promise
                             .then(function (data) {
-                                $scope.go('/');
+                                $state.go('landscapes.list');
                             })
                             .catch(function (err) {
                                 err = err.data;
@@ -81,7 +85,7 @@
 
         vm.updateLandscape = function (form) {
                 vm.submitted = true;
-
+            
                 // validate cloudFormationTemplate here?
 
                 if (vm.landscape.cloudFormationTemplate === undefined || vm.templateSelected === false) {
@@ -98,8 +102,8 @@
                             infoLinkText:  vm.landscape.infoLinkText,
                             description:  vm.landscape.description
                         })
-                        .then(function () {
-                            $location.path('/landscapes/' + $routeParams.id)
+                        $promise.then(function () {
+                            $state.go('landscapes.view',{id:vm.landscape._id})
                         })
                         .catch(function (err) {
                             err = err.data;
@@ -177,10 +181,14 @@
     }
 })();
 
-var DeleteModalInstanceCtrl = function ($scope, $modalInstance, msg) {
-    $scope.msg = msg;
 
-    $scope.confirmDeleteButtonClick = function (deleteConfirmed) {
-        $modalInstance.close(deleteConfirmed);
+angular.module('landscapes')
+    .controller('DeleteModalInstanceCtrl', function($scope, $uibModalInstance, msg) {
+
+    var vm = this;
+    vm.msg = msg;
+    vm.close = function(result) {
+        $uibModalInstance.close(result); // close, but give 500ms for bootstrap to animate
     };
-};
+
+});
