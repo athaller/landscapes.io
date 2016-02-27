@@ -19,9 +19,9 @@ acl = new acl(new acl.memoryBackend());
 
 
 var isAdmin = function (roles){
-  var adminRoles = _.find(roles,function(role){return role.name == 'admin'});
+  var adminRoles = _.find(roles,function(role){return role.name === 'admin';});
   if(adminRoles){
-    return true
+    return true;
   }else{
     return false;
   }
@@ -31,8 +31,8 @@ var isRoleinPermission = function (roles,level){
   var fullAccessRole = _.find(roles, function(role) {
       var permissions = role.permissions;
       for(var i=0;i < permissions.length;i++){
-        if(permissions[i].value == level){
-          return permissions[i].value == level;
+        if(permissions[i].value === level){
+          return permissions[i].value === level;
         }
       }
   });
@@ -48,10 +48,10 @@ var isGroupinPermission = function(groups, level, landscapeId){
   for(var i = 0;i <groups.length;i++){
     var permissions = groups[i].permissions;
     for(var j =0;j < permissions.length;j++){
-      if(permissions[j].value == level){
+      if(permissions[j].value === level){
         var landscapes = groups[i].landscapes;
         for(var k= 0; k < landscapes.length; k++){
-          if(landscapes[k].id == landscapeId.id){
+          if(landscapes[k].id === landscapeId.id){
             return true;
           }
         }
@@ -71,7 +71,7 @@ var isGroupinPermission = function(groups, level, landscapeId){
 exports.isAdminAllowed = function (req, res, next) {
   if(!req.user || !req.user.roles ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   var roles = req.user.roles;
   //console.log(JSON.stringify(roles, null, 4));
   
@@ -94,15 +94,15 @@ exports.isLoggedIn = function(req,res,next){
   }else{
     return next();
   }
-}
+};
 
 
 exports.isReadAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   /* Approve admin default role */
-  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null ) {
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] !== null ) {
     if (isAdmin(req.user.roles)) {
       return next();
     }
@@ -124,9 +124,9 @@ exports.isReadAllowed = function (req, res, next) {
 exports.isCreateAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   /* Approve admin default role */
-  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] !== null) {
     if (isAdmin(req.user.roles)) {
       return next();
     }
@@ -147,9 +147,9 @@ exports.isCreateAllowed = function (req, res, next) {
 exports.isUpdateAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   /* Approve admin default role */
-  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] !== null) {
     if (isAdmin(req.user.roles)) {
       return next();
     }
@@ -170,9 +170,9 @@ exports.isUpdateAllowed = function (req, res, next) {
 exports.isDeleteAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   /* Approve admin default role */
-  if(req.user.roles && req.user.roles.length && req.user.roles[0] != null) {
+  if(req.user.roles && req.user.roles.length && req.user.roles[0] !== null) {
     if (isAdmin(req.user.roles)) {
       return next();
     }
@@ -196,10 +196,10 @@ exports.isDeleteAllowed = function (req, res, next) {
 exports.isDeployAllowed = function (req, res, next) {
   if(!req.user ) {
     return res.status(403).json({message: 'User is not authorized'});
-  };
+  }
   /* Approve admin default role */
   if(req.user.roles) {
-    if (isAdmin(req.user.roles && req.user.roles.length && req.user.roles[0] != null)) {
+    if (isAdmin(req.user.roles && req.user.roles.length && req.user.roles[0] !== null)) {
       return next();
     }
     //check Roles with Full Access

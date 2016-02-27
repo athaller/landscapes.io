@@ -125,20 +125,22 @@ angular.module('landscapes')
                             console.log("UserService.update: " + newUsers[i]);
                             UserService.addGroup({id:newUsers[i]._id,roleId:null,groupId:vm.group._id})
                                 .$promise
-                                .then(function (data){
-                                    vm.resetGroups();
-                                });
+                                .then(vm.resetGroups);
+                                // .then(function (data){
+                                //     vm.resetGroups();
+                                // });
 
                         }
 
                         //  Users from role
-                        for(var i = 0; i < deletedUsers.length; i++) {
+                        for(var j = 0; j < deletedUsers.length; j++) {
                             console.log("UserService.update: " + deletedUsers[i]);
-                            UserService.deleteGroup({id:deletedUsers[i]._id,roleId:null,groupId:vm.group._id})
+                            UserService.deleteGroup({id:deletedUsers[j]._id,roleId:null,groupId:vm.group._id})
                                 .$promise
-                                .then(function (data){
-                                    vm.resetGroups();
-                                });
+                                .then(vm.resetGroups);
+                                // .then(function (data){
+                                //     vm.resetGroups();
+                                // });
                         }
                         vm.resetGroups();
                     })
@@ -165,7 +167,7 @@ angular.module('landscapes')
                 })
                 .catch(function(err) {
                     err = err.data || err;
-                    console.log(err)
+                    console.log(err);
                 });
         };
     });

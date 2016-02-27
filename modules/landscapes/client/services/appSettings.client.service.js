@@ -17,7 +17,7 @@
 angular.module('landscapes')
     .factory('AppSettingsService', function AppSettingsService($location, $rootScope, AppSettings) {
         return {
-            create: function(appSettings, callback) {
+            create: function(group, callback) {
                 var cb = callback || angular.noop;
                 return AppSettings.save(group,
                     function(data) {
@@ -67,7 +67,7 @@ angular.module('landscapes')
                     }
                 ).$promise;
             }
-        }
+        };
     });
 
 angular.module('landscapes')

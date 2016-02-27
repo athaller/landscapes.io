@@ -155,7 +155,7 @@ exports.update = function(req, res) {
     landscape.infoLinkText = req.infoLinkText;
     landscape.description = req.description;
     landscape.createdAt = new Date();
-    landscape.createdBy = user;
+    landscape.createdBy = req.user;
 
     landscape.img.data = fs.readFileSync(req.imageUri);
     landscape.img.contentType = mime.lookup(req.imageUri);

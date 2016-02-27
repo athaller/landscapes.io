@@ -76,7 +76,7 @@ angular.module('landscapes')
                     }
                 );
             }
-        }
+        };
 
         vm.deleteGlobalTag = function(globalTag){
             console.log('starting deleteGlobalTag:', globalTag._id);
@@ -95,7 +95,7 @@ angular.module('landscapes')
                         .catch(function (err) {
                             err = err.data || err;
                             console.log('GlobalTagService.delete Error:', err);
-                            vm.errorMessage = err
+                            vm.errorMessage = err;
                         });
                 }
             });

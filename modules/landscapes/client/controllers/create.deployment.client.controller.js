@@ -39,7 +39,7 @@
                 // set default values
                 for(var i=0; i<vm.globalTags.length; i++) {
                     if(vm.globalTags[i].defaultValue) {
-                        vm.deployment.tags[vm.globalTags[i].key] = vm.globalTags[i].defaultValue
+                        vm.deployment.tags[vm.globalTags[i].key] = vm.globalTags[i].defaultValue;
                     }
                 }
             });
@@ -50,7 +50,7 @@
 
         vm.keys = Object.keys(vm.template.Parameters);
 
-        console.log('PARAMETERS...')
+        console.log('PARAMETERS...');
          for (var i = 0; i < vm.keys.length; i++){
              console.log (vm.keys[i] + ': ' + JSON.stringify(vm.template.Parameters[vm.keys[i]]));
              vm.deployment[vm.keys[i]] = '';
@@ -71,7 +71,7 @@
 
         vm.changeAccount = function() {
             for(var i = 0; i < vm.accounts.length; i++) {
-                if(vm.accounts[i].id == vm.deployment.account) {
+                if(vm.accounts[i].id === vm.deployment.account) {
                     vm.deployment.location = vm.accounts[i].region;
                 }
             }

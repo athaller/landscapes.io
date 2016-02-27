@@ -51,5 +51,5 @@
                 vm.appSettings = data;
             });
 
-    };
+    }
 })();

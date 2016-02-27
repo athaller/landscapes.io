@@ -29,6 +29,6 @@ ValidationService.$inject = ['$resource'];
                 // call AWS CloudFormation ValidateTemplate
                 return true;
             }
-        }
+        };
     }
 })();

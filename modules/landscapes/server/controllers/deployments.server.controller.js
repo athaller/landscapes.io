@@ -85,10 +85,10 @@ exports.create = function(req, res) {
                     winston.debug('## ## newDeployment.tags: ' + JSON.stringify(newDeployment.tags));
                     newDeployment.cloudFormationParameters = []; //
                     var keys = Object.keys(data.cloudFormationParameters);
-                    for (var i = 0; i < keys.length; i++) {
+                    for (var j = 0; j < keys.length; j++) {
                         var cloudFormationParameter = {
-                            ParameterKey: keys[i],
-                            ParameterValue: data.cloudFormationParameters[keys[i]]
+                            ParameterKey: keys[j],
+                            ParameterValue: data.cloudFormationParameters[keys[j]]
                         };
                         newDeployment.cloudFormationParameters.push(cloudFormationParameter);
                     }
