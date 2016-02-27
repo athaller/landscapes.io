@@ -12,10 +12,13 @@
   "undef": true, // Require all non-global variables be declared before they are used.
   "unused": false, // Warn unused variables.
   "strict": true, // Require `use strict` pragma in every file.
+  "jquery": true,
+  "loopfunc": true,
   "globals": { // Globals variables.
     "angular": true,
     "io": true,
-    "ApplicationConfiguration": true
+    "ApplicationConfiguration": true,
+    "_": true
   },
   "predef": [ // Extra globals.
     "inject",

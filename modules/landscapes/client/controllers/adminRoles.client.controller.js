@@ -39,12 +39,13 @@ angular.module('landscapes')
                 if(newValue !== oldValue) {
 
                     var updateThisUser = _.difference(newValue, oldValue);
+                    var index = null;
                     if(updateThisUser[0] !== undefined) {
                         // add User to Role
                         vm.addUsers.push(updateThisUser[0]);
                         vm.addUsers = _.uniq(vm.addUsers);
 
-                        var index = _.indexOf(vm.removeUsers, updateThisUser[0]);
+                        index = _.indexOf(vm.removeUsers, updateThisUser[0]);
                         if (index !== -1) {
                             vm.removeUsers.splice(index, 1);
                         }
@@ -54,7 +55,7 @@ angular.module('landscapes')
                         vm.removeUsers.push(updateThisUser[0]);
                         vm.removeUsers = _.uniq(vm.removeUsers);
 
-                        var index = _.indexOf(vm.addUsers, updateThisUser[0]);
+                        index = _.indexOf(vm.addUsers, updateThisUser[0]);
                         if (index !== -1) {
                             vm.addUsers.splice(index, 1);
                         }
@@ -63,7 +64,7 @@ angular.module('landscapes')
                     console.log('vm.addUsers: ' + vm.addUsers);
                     console.log('vm.removeUsers: ' + vm.removeUsers);
                 }
-            })
+            });
         }
 
         vm.resetRoles = function() {
@@ -162,19 +163,21 @@ angular.module('landscapes')
                             console.log("UserService.update: " + newUsers[i]);
                             UserService.addRole({id:newUsers[i]._id,roleId:vm.role._id})
                                 .$promise
-                                .then(function (data){
-                                    vm.resetRoles();
-                                });
+                                .then(vm.resetRoles);
+                                // .then(function (data){
+                                //     vm.resetRoles();
+                                // });
                         }
 
                         //  Users from role
-                        for(var i = 0; i < deletedUsers.length; i++) {
-                            console.log("UserService.update: " + deletedUsers[i]);
-                            UserService.deleteRole({id:deletedUsers[i]._id,roleId:vm.role._id})
+                        for(var j = 0; i < deletedUsers.length; j++) {
+                            console.log("UserService.update: " + deletedUsers[j]);
+                            UserService.deleteRole({id:deletedUsers[j]._id,roleId:vm.role._id})
                                 .$promise
-                                .then(function (data){
-                                    vm.resetRoles();
-                                });
+                                .then(vm.resetRoles);
+                                // .then(function (data){
+                                //     vm.resetRoles();
+                                // });
                         }
                     })
                     .catch(function (err) {
@@ -201,7 +204,7 @@ angular.module('landscapes')
                 })
                 .catch(function(err) {
                     err = err.data || err;
-                    console.log(err)
+                    console.log(err);
                 });
         };
     });

@@ -6,9 +6,9 @@ var openclient = require('openclient'),
     config = require(path.resolve('./config/config'));
 
 function Stacks() {
-    this.username ;
-    this.password ;
-};
+    this.username = null;
+    this.password = null;
+}
 
 Stacks.prototype.config = function(_username, _password){
     this.username = _username;
@@ -67,7 +67,7 @@ Stacks.prototype.describeStacks = function(params, callback){
         }
       }
     });
-  })
+  });
 };
 
 
@@ -103,7 +103,7 @@ Stacks.prototype.createStack = function(params, callback){
         callback(err);
       }
     });
-  })
+  });
 };
 
 module.exports = Stacks;

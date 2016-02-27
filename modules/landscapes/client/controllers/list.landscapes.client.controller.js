@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+/*jshint -W069 */
 (function () {
     'use strict';
 
@@ -18,9 +19,9 @@
         .module('landscapes')
         .controller('LandscapesListController', LandscapesListController);
 
-    LandscapesListController.$inject = ['$scope', '$state','LandscapesService','PermissionService','Authentication'];
+    LandscapesListController.$inject = ['$scope', '$rootScope', '$state','LandscapesService','PermissionService','Authentication'];
 
-    function LandscapesListController($scope, $state,LandscapesService,PermissionService,Authentication) {
+    function LandscapesListController($scope, $rootScope, $state,LandscapesService,PermissionService,Authentication) {
         var vm = this;
         vm.currentUser = Authentication.user;
         vm.hasPermission = PermissionService.hasPermission;

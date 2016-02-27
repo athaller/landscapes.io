@@ -28,7 +28,7 @@
         $scope.selected = $scope.menu[0];
 
         $scope.isSelect = function(pannel){
-            return($scope.selected ==pannel );
+            return($scope.selected === pannel );
         };
 
         $scope.buttonClick = function(text){
@@ -45,10 +45,7 @@
         vm.resourcesKeys = Object.keys(vm.template.Resources);
         vm.parametersKeys = Object.keys(vm.template.Parameters);
         vm.mappingsKeys = Object.keys(vm.template.Mappings);
-
-
-
-    };
+    }
 
 })();
 

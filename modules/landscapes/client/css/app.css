@@ -65,8 +65,8 @@ hr {
     .header,
     .marketing,
     .footer {
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
@@ -87,18 +87,18 @@ h2.panel-title {
     margin-top: 5px;
 }
 
-#titleRow .btn {
+.titleRow .btn {
     margin-bottom: 15px;
 }
 
-#titleRow h2 {
+.titleRow h2 {
     font-size: 28px;
     line-height: 36px;
     height: 36px;
     display: inline-block
 }
 
-#titleRow hr {
+.titleRow hr {
     margin-top: 0;
     margin-bottom: 20px;
 }

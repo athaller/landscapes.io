@@ -1,3 +1,4 @@
+/*jshint -W069 */
 (function () {
   'use strict';
 
@@ -29,7 +30,7 @@
 
     vm.resetSelectCloudFormationTemplatePanel = function (form){
       vm.form = form;
-      if(vm.landscape.description == JSON.parse(vm.landscape.cloudFormationTemplate).Description){
+      if(vm.landscape.description === JSON.parse(vm.landscape.cloudFormationTemplate).Description){
         vm.landscape.description = undefined;
       }
       vm.landscape.cloudFormationTemplate = undefined;
@@ -59,10 +60,10 @@
               vm.form.$dirty = true;
             })
             .error(function(err, status, headers){
-                  if(status == 400) {
+                  if(status === 400) {
                     vm.imageError = err.msg || err;
                     console.log(err);
-                  } else if(status == 500) {
+                  } else if(status === 500) {
                     vm.imageError = '500 (Internal Server Error)';
                     console.log(err);
                   }
@@ -115,7 +116,7 @@
         if (!obj) {
           vm.form.$valid = false;
           vm.form['template'].$setValidity('json', false);
-          console.log("form['template']: " + JSON.stringify(form['template']))
+          console.log("form['template']: " + JSON.stringify(form['template']));
         }
       }
 

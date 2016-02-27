@@ -27,7 +27,7 @@ angular.module('landscapes')
         vm.retrieveUser =  function(user) {
             vm.user = UserService.get({id:user._id});
 
-        }
+        };
 
         vm.resetUsers = function() {
             vm.addingUser = false;
@@ -47,13 +47,13 @@ angular.module('landscapes')
 
 
         vm.deleteUser = function(user) {
-            UserService.delete( {id:user._id} )
+            UserService.delete( {id:user._id} );
             $.promise.then(function() {
                     $scope.resetUsers();
                 })
                 .catch(function(err) {
                     err = err.data || err;
-                    console.log(err)
+                    console.log(err);
                 });
         };
 
@@ -90,7 +90,7 @@ angular.module('landscapes')
                     role: vm.user.role
                 })
                     .$promise.then( function() {
-                        vm.resetUsers()
+                        vm.resetUsers();
                     })
                     .catch( function(err) {
                         console.log('UserService.update Error: ' + JSON.stringify(err));
@@ -104,7 +104,7 @@ angular.module('landscapes')
                         angular.forEach(err.errors, function(error, field) {
                             vm.form[field].$setValidity('mongoose', false);
                             vm.errors[field] = error.message;
-                            console.log(error.message)
+                            console.log(error.message);
                         });
                     });
             } else if(vm.form.$valid && vm.editingUser) {
@@ -115,7 +115,7 @@ angular.module('landscapes')
                     role: vm.user.role
                 })
                     .$promise.then( function() {
-                        vm.resetUsers()
+                        vm.resetUsers();
                     })
                     .catch( function(err) {
                         console.log('UserService.update Error: ' + JSON.stringify(err));
@@ -127,7 +127,7 @@ angular.module('landscapes')
                         angular.forEach(err.errors, function(error, field) {
                             vm.form[field].$setValidity('mongoose', false);
                             vm.errors[field] = error.message;
-                            console.log(error.message)
+                            console.log(error.message);
                         });
                     });
             }

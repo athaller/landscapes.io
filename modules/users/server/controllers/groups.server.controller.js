@@ -17,7 +17,7 @@ var winston = require('winston'),
     mongoose = require('mongoose'),
     async = require('async'),
     Group = mongoose.model('Group'),
-    User = mongoose.model('User');;
+    User = mongoose.model('User');
 
 
 // GET /api/groups
@@ -65,7 +65,7 @@ exports.retrieveOne = function (req, res, next) {
     var groupId = req.params.id;
 
 
-    Group.findById(groupId, function (err, group) {
+    Group.findById(groupId, function (err, group, callback) {
         if (err) {
             winston.log('error', err);
             return next(err);

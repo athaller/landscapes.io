@@ -31,7 +31,7 @@
                 function (err, deployments) {
                     if (err) {
                         err = err.data || err;
-                        console.log(err)
+                        console.log(err);
                     } else {
                         vm.deployments = deployments;
                         if(isOpenIndex !== undefined) {
@@ -69,6 +69,6 @@
             vm.addNote = false;
             vm.loadDeployments(index);
         };
-    };
+    }
 
 })();

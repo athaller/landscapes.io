@@ -38,18 +38,18 @@ angular.module('landscapes')
                     })
                     .error(function(err) {
                         return cb(err);
-                    })
+                    });
             },
             update: function(id, deployment, callback) {
                 var cb = callback || angular.noop;
 
                 $http.put('/api/deployments/' + id, deployment)
-                    .success(function(data) {;
+                    .success(function(data) {
                         return cb(null, data);
                     })
                     .error(function(err) {
                         return cb(err);
-                    })
+                    });
             }
         };
     });

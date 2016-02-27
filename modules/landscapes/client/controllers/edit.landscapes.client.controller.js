@@ -5,9 +5,9 @@
         .module('landscapes')
         .controller('LandscapeEditController', LandscapeEditController);
 
-    LandscapeEditController.$inject = ['$scope', '$state','landscapesResolve', 'LandscapesService','PermissionService', 'Upload','ValidationService', 'Authentication','$uibModal'];
+    LandscapeEditController.$inject = ['$scope', '$state', '$routeParams', '$filter', 'landscapesResolve', 'LandscapesService','PermissionService', 'Upload','ValidationService', 'Authentication','$uibModal'];
 
-    function LandscapeEditController($scope, $state, landscape, LandscapesService, PermissionService, Upload, ValidationService, Authentication, $uibModal) {
+    function LandscapeEditController($scope, $routeParams, $filter, $state, landscape, LandscapesService, PermissionService, Upload, ValidationService, Authentication, $uibModal) {
 
         var vm = this;
         vm.currentUser = Authentication.user;
@@ -53,7 +53,7 @@
             modalInstance.result.then(function (result) {
                 callback(result);
             });
-        }
+        };
 
 
 
@@ -102,8 +102,8 @@
                             infoLinkText:  vm.landscape.infoLinkText,
                             description:  vm.landscape.description
                         })
-                        $promise.then(function () {
-                            $state.go('landscapes.view',{id:vm.landscape._id})
+                        .then(function () {
+                            $state.go('landscapes.view',{id:vm.landscape._id});
                         })
                         .catch(function (err) {
                             err = err.data;
@@ -167,28 +167,29 @@
                             vm.newImg = data.imageUri;
                         })
                         .error(function (err, status, headers) {
-                                if (status == 400) {
+                                if (status === 400) {
                                     vm.imageError = err.msg || err;
                                     console.log(err);
-                                } else if (status == 500) {
+                                } else if (status === 500) {
                                     vm.imageError = '500 (Internal Server Error)';
                                     console.log(err);
                                 }
                             }
                         );
                 }
-            }
+            };
     }
+
+    angular.module('landscapes')
+    .controller('DeleteModalInstanceCtrl', function($scope, $uibModalInstance, msg) {
+
+        var vm = this;
+        vm.msg = msg;
+        vm.close = function(result) {
+            $uibModalInstance.close(result); // close, but give 500ms for bootstrap to animate
+        };
+    });
 })();
 
 
-angular.module('landscapes')
-    .controller('DeleteModalInstanceCtrl', function($scope, $uibModalInstance, msg) {
 
-    var vm = this;
-    vm.msg = msg;
-    vm.close = function(result) {
-        $uibModalInstance.close(result); // close, but give 500ms for bootstrap to animate
-    };
-
-});

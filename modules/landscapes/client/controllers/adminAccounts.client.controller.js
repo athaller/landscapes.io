@@ -88,8 +88,8 @@ angular.module('landscapes')
 
             } else if (vm.editingAccount) {
 
-                console.log('editing account...')
-                console.log(vm.account)
+                console.log('editing account...');
+                console.log(vm.account);
 
                 CloudAccountService.update(vm.account._id, {
                     name: vm.account.name,
@@ -128,7 +128,7 @@ angular.module('landscapes')
                         })
                         .catch(function (err) {
                             err = err.data || err;
-                            console.log(err)
+                            console.log(err);
                         });
                 }
             });

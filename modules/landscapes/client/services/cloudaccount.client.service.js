@@ -67,7 +67,7 @@ angular.module('landscapes')
                     }
                 ).$promise;
             }
-        }
+        };
     });
 
 //why two?

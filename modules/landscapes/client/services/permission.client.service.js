@@ -25,12 +25,12 @@
             hasPermission :  function(user, permission, landscapeId) {
                 if(!user) {
                     return false;
-                };
+                }
                 
                 var result = false;
-                if(user.roles && user.roles.length > 0 && user.roles[0] != null) {
+                if(user.roles && user.roles.length > 0 && user.roles[0] !== null) {
                     var adminRoles = _.find(user.roles, function (role) {
-                        return role.name == 'admin'
+                        return role.name === 'admin';
                     });
                     if (adminRoles) {
                         return true;
@@ -59,7 +59,7 @@
                             }
                         });
 
-                    })
+                    });
                 }
                 return result;
 
@@ -67,6 +67,6 @@
 
             }
 
-    }
+        };
     }
 })();
