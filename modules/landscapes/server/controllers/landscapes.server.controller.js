@@ -144,21 +144,21 @@ exports.delete = function(req, res) {
 // PUT /api/landscapes/<id>
 
 exports.update = function(req, res) {
-    winston.info(' ---> updating Landscape');
+    winston.info('PUT /api/landscapes/ ---> updating Landscape');
     var landscape = req.landscape;
 
-    landscape.name = req.name;
-    landscape.version = req.version;
-    landscape.imageUri = req.imageUri;
-    landscape.cloudFormationTemplate = req.cloudFormationTemplate;
-    landscape.infoLink = req.infoLink;
-    landscape.infoLinkText = req.infoLinkText;
-    landscape.description = req.description;
+    landscape.name = req.body.name;
+    landscape.version = req.body.version;
+    landscape.imageUri = req.body.imageUri;
+    landscape.cloudFormationTemplate = req.body.cloudFormationTemplate;
+    landscape.infoLink = req.body.infoLink;
+    landscape.infoLinkText = req.body.infoLinkText;
+    landscape.description = req.body.description;
     landscape.createdAt = new Date();
     landscape.createdBy = req.user;
 
-    landscape.img.data = fs.readFileSync(req.imageUri);
-    landscape.img.contentType = mime.lookup(req.imageUri);
+    landscape.img.data = fs.readFileSync(req.body.imageUri);
+    landscape.img.contentType = mime.lookup(req.body.imageUri);
 
 
 

@@ -5,9 +5,9 @@
         .module('landscapes')
         .controller('LandscapeEditController', LandscapeEditController);
 
-    LandscapeEditController.$inject = ['$scope', '$state', '$routeParams', '$filter', 'landscapesResolve', 'LandscapesService','PermissionService', 'Upload','ValidationService', 'Authentication','$uibModal'];
+    LandscapeEditController.$inject = ['$scope', '$state', '$filter', 'landscapesResolve', 'LandscapesService','PermissionService', 'Upload','ValidationService', 'Authentication','$uibModal'];
 
-    function LandscapeEditController($scope, $routeParams, $filter, $state, landscape, LandscapesService, PermissionService, Upload, ValidationService, Authentication, $uibModal) {
+    function LandscapeEditController($scope, $state, $filter, landscape, LandscapesService, PermissionService, Upload, ValidationService, Authentication, $uibModal) {
 
         var vm = this;
         vm.currentUser = Authentication.user;
@@ -85,15 +85,17 @@
 
         vm.updateLandscape = function (form) {
                 vm.submitted = true;
+                vm.form = form;
             
                 // validate cloudFormationTemplate here?
 
-                if (vm.landscape.cloudFormationTemplate === undefined || vm.templateSelected === false) {
+               // if (vm.landscape.cloudFormationTemplate === undefined || vm.templateSelected === false) {
+               if (vm.landscape.cloudFormationTemplate === undefined) {
                     vm.form.$valid = false;
                 }
 
                 if ( vm.form.$valid) {
-                    LandscapesService.update($routeParams.id, {
+                    LandscapesService.update({landscapeId:vm.landscape._id}, {
                             name:  vm.landscape.name,
                             version:  vm.landscape.version,
                             imageUri:  vm.landscape.imageUri,
@@ -102,8 +104,9 @@
                             infoLinkText:  vm.landscape.infoLinkText,
                             description:  vm.landscape.description
                         })
+                        .$promise
                         .then(function () {
-                            $state.go('landscapes.view',{id:vm.landscape._id});
+                            $state.go('landscapes.view',{landscapeId:vm.landscape._id});
                         })
                         .catch(function (err) {
                             err = err.data;
