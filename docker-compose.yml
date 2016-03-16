@@ -1,13 +1,16 @@
 web:
-  build: .
+  image: landscapesio_web
   links:
    - db
   ports:
    - "3000:3000"
   environment: 
    NODE_ENV: development
-   MONGO_SEED: true
+  volumes:
+   - "/home/mean"
 db:
   image: mongo
   ports: 
    - "27017:27017"
+  volumes:
+   - "/data/db"
